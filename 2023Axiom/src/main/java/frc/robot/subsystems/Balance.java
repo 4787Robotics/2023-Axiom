@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Balance extends SubsystemBase{
     private static int currentRotationPitch = 0; //Current rotation [-1, 1] backward and forward. 1 means leaned 180 degrees forward, -1 180 degrees backward
     private static int currentRotationRoll = 0; //Current rotation [-1, 1] tilted to left and and right. 1 means leaned 180 degrees left, -1 180 degrees right
-    private static int correctionSpeed = 0; //Number to plug into arcadeDrive to keep robot balanced.
 
     @Override
     public void periodic() {
@@ -23,6 +22,9 @@ public class Balance extends SubsystemBase{
      * @return correctionSpeed
      */  
     public static int getCorrectionSpeed() {
+        int correctionSpeed;
+        updatePitch();
+        updateRoll();
         updateCorrectionSpeed();
         return correctionSpeed;
     }
@@ -45,10 +47,6 @@ public class Balance extends SubsystemBase{
     public static int getRoll() {
         updateRoll();
         return currentRotationRoll;
-    }
-
-    private static void updateCorrectionSpeed() {
-
     }
 
     private static void updatePitch() {
