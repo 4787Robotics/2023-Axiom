@@ -22,13 +22,16 @@ public class Balance extends SubsystemBase{
      * @return correctionSpeed
      */  
     public static int getCorrectionSpeed() {
-        int correctionSpeed;
+        int correctionSpeed = 0;
         updatePitch();
         updateRoll();
-        updateCorrectionSpeed();
+        /*
+            TO GO HERE- code for updating correction speed
+        */
         return correctionSpeed;
     }
 
+    
     /**
      * [-1, 1] gets current rotation, backward and forward. 1 means leaned 180 degrees forward, -1 180 degrees backward
      *
