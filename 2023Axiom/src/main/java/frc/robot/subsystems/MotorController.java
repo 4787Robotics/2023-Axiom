@@ -23,8 +23,8 @@ public class UMotorController extends SubsystemBase {
      // ewqeKeeps the motors in place and stops them frowm moving without input
     m_arm.setNeutralMode(NeutralMode.Brake);
     m_left_wheel.setNeutralMode(NeutralMode.Brake);
-    m_right_wheel.setNeutralMode(NeutralMode.Brak
-    m_clamp.setNeutralMode(NeutralMode.Brake);
+    m_right_wheel.setNeutralMode(NeutralMode.Brake);
+    m_clamp.setNeutralMode(NeutralMode.Brake
   
 
      // For encoder
@@ -32,11 +32,11 @@ public class UMotorController extends SubsystemBase {
     m_leftGrip.setSelectedSensorPosition(0);
 
     // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
-    m_leftGrip.configOpenloopRamp(0.4); 
-    m_rightGrip.configOpenloopRamp(0.4); // may need change in the future when robot is active
-  }
+  m_leftGrip.configOpenloopRamp(0.4); 
+  m_rightGrip.configOpenloopRamp(0.4); // may need change in the future when robot is active
+}
 
-  public void clamp() {
-    m_leftGrip.
-  }
+public void clamp() {
+  m_leftGrip.
+}
 }
