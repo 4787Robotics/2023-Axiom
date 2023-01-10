@@ -13,8 +13,21 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-    public static int motor_arm = 0; //may need to change the Constant for these three later
+    //Controller sticks wont respond inside these zones
+    public static final float rightStickDeadzone = 0.9f;
+    public static final float leftStickDeadzone = 0.9f;
+    public static final float rightTriggerDeadzone = 0.7f;
+    public static final float leftTriggerDeadzone = 0.7f;
+    //Motor IDs
+    public static final int rightMotor2ID = 0;
+    public static final int rightMotor1ID = 0;
+    public static final int leftMotor2ID = 0;
+    public static final int leftMotor1ID = 0;
+    //chloe's stuff
+    public static final boolean left_side_inverted = false;
+    public static final boolean right_side_inverted = false;
+    //may need to change the Constant for these three later
+    public static int motor_arm = 0; 
     public static int motor_leftGrip = 1;
     public static int motor_rightGrip = 2;
 }
