@@ -99,5 +99,20 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+    CXbox.XboxADown();
+    CXbox.XboxBDown();
+    CXbox.XboxXDown();
+    CXbox.XboxYDown();
+    CXbox.XboxLStickDown();
+    CXbox.XboxRStickDown();
+    CXbox.XboxLBumperDown();
+    CXbox.XboxRBumperDown();
+    CXbox.getLeftTriggerWithDeadzone();
+    CXbox.getRightTriggerWithDeadzone();
+    CXbox.getLeftStickXWithDeadzone();
+    CXbox.getLeftStickYWithDeadzone();
+    CXbox.getRightStickXWithDeadzone();
+    CXbox.getRightStickYWithDeadzone();
+  }
 }

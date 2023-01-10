@@ -51,6 +51,8 @@ public class DriveTrain extends SubsystemBase{
 
     resetEncoders();
   }
+    private void resetEncoders() {
+  }
     //Turning right/left and moving forward/backward 
     //Some of this may have to be changed when Fidel's user input class is implemented
     public void turnRight(double axis){
