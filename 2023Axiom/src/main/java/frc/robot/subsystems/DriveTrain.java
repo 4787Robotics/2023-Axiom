@@ -28,7 +28,7 @@ public class DriveTrain extends SubsystemBase{
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
     
 
-  public driveTrain(){
+  public DriveTrain(){
     
     m_left2.follow(m_left1);
     m_right1.follow(m_right2);
