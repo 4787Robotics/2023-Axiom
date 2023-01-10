@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.geometry.Pose2d;
 
-//Download library later
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
@@ -26,10 +26,18 @@ public class DriveTrain extends SubsystemBase{
   
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
+
+    
+  int window_size = 1;
+  SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
+  
+  private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
+  private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     
 
   public driveTrain(){
-    
+
+    //makes sure that the wheels on the side are going the same way
     m_left2.follow(m_left1);
     m_right1.follow(m_right2);
 
@@ -51,8 +59,13 @@ public class DriveTrain extends SubsystemBase{
 
     resetEncoders();
   }
+
+  public double getHeading(){
+    return gyro.getRotation2d().getDegrees();
+  }
     //Turning right/left and moving forward/backward 
-    //Some of this may have to be changed when Fidel's user input class is implemented
+    //Add if statements for Fidel's class. Turning + moving forward/backward should be 
+    //separate joysticks
     public void turnRight(double axis){
       System.out.println("Left Joystick Y axis = " + axis);
       drive.arcadeDrive(axis, 0);
