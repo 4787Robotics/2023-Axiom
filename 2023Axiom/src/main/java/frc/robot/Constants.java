@@ -22,7 +22,7 @@ public final class Constants {
     public static boolean left_side_inverted = true;
     public static boolean right_side_inverted = !left_side_inverted;
 
-    //All constants below will need to be changed later - Talk to electrical
+    //The constants below will need to be changed later - Talk to electrical
     public static int leftMotor1ID = 0;
     public static int leftMotor2ID = 0;
 
@@ -30,5 +30,15 @@ public final class Constants {
     public static int rightMotor2ID = 0;
 
     public static double kDistancePerEncoderCount = 0;
+
+    //Constants for CXbox and CJoystick
+    //Controller sticks wont respond inside these zones
+    public static final float rightStickDeadzone = 0.9f;
+    public static final float leftStickDeadzone = 0.9f;
+    public static final float rightTriggerDeadzone = 0.7f;
+    public static final float leftTriggerDeadzone = 0.7f;
+    //Joystick
+    public static final float joystickRotDeadzone = 0.9f;
+    public static final float joystickDeadzone = 0.9f;
 
 }

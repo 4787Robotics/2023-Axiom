@@ -1,6 +1,6 @@
 //Most of this is copied from TShirt cannon code, so not all of it works atm
 //Reminder to add values to constants after talking to electrical
- 
+
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
@@ -90,11 +90,11 @@ public class DriveTrain extends SubsystemBase{
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
     public void turnRight(double axis){
-      System.out.println("Left Joystick Y axis = " + axis);
+      System.out.println("Right Joystick Y axis = " + axis);
       drive.arcadeDrive(axis, 0);
     }
     public void turnLeft(double axis){
-      System.out.println("Left Joystick Y axis =" + axis);
+      System.out.println("Right Joystick Y axis =" + axis);
       drive.arcadeDrive(axis, 0);
     }
     public void moveBackward(double axis){
