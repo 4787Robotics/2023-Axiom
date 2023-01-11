@@ -1,8 +1,14 @@
+//Most of the Constants need to be changed
+//Do so when you acquire the numbers 
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -29,8 +35,6 @@ public final class Constants {
     public static int rightMotor1ID = 0;
     public static int rightMotor2ID = 0;
 
-    public static double kDistancePerEncoderCount = 0;
-
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
     public static final float rightStickDeadzone = 0.9f;
@@ -41,4 +45,30 @@ public final class Constants {
     public static final float joystickRotDeadzone = 0.9f;
     public static final float joystickDeadzone = 0.9f;
 
+    //Constants for Autonomous
+    public static final double ksVolts = 0;
+    public static final double kvVoltSecondsPerMeter = 0;
+    public static final double kaVoltSecondsSquaredPerMeter = 0;
+
+    public static final double kPDriveVel = 0;
+
+    //Differential Drive Kinematics
+    public static final double kTrackwidthMeters = 0;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+
+    // Max Trajectory Velocity/Acceleration
+    public static final double kMaxSpeedMetersPerSecond = 0;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0;
+
+    // Ramsete Parameters
+    public static final double kRamseteB = 0;
+    public static final double kRamseteZeta = 0;
+
+    public static final double kWheelDiameterMeters = 0;
+    public static final int kEncoderCPR = 0;
+
+    public static final double kGearRatio = 0;
+
+    public static final double kEncoderCountsPerFullWheelTurn = kGearRatio*kEncoderCPR;
+    public static final double kDistancePerEncoderCount = (kWheelDiameterMeters * Math.PI) / kEncoderCountsPerFullWheelTurn;
 }
