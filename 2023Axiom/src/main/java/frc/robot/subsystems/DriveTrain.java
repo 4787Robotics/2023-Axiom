@@ -1,4 +1,6 @@
 //Most of this is copied from TShirt cannon code, so not all of it works atm
+//Reminder to add values to constants after talking to electrical
+ 
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
@@ -12,6 +14,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends SubsystemBase{
     DifferentialDrive drive;
@@ -27,15 +31,10 @@ public class DriveTrain extends SubsystemBase{
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
 
-    
-  int window_size = 1;
-  SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
+    private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
   
-  private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
-  private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
-    
-
-  public driveTrain(){
+  public DriveTrain(){
 
     //makes sure that the wheels on the side are going the same way
     m_left2.follow(m_left1);
@@ -63,6 +62,30 @@ public class DriveTrain extends SubsystemBase{
   public double getHeading(){
     return gyro.getRotation2d().getDegrees();
   }
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    double leftEncoderVelocity = Constants.kDistancePerEncoderCount*(m_left1.getSelectedSensorVelocity()*10); 
+    double rightEncoderVelocity = Constants.kDistancePerEncoderCount*(m_right1.getSelectedSensorVelocity()*10); 
+
+    return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
+  }
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    m_left1.setVoltage(leftVolts);
+    m_right1.setVoltage(rightVolts);
+    drive.feed();
+  }
+  public void resetOdometry(Pose2d pose) {
+    //double[] initialXandY = {pose.getX(), pose.getY()};
+    //SmartDashboard.putNumberArray("Initial Pose", initialXandY);
+    resetEncoders();
+    m_odometry.resetPosition(pose, gyro.getRotation2d());
+  }
+  public static void resetEncoders() {
+    m_right1.setSelectedSensorPosition(0);
+    m_left1.setSelectedSensorPosition(0);
+  }
     //Turning right/left and moving forward/backward 
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
@@ -83,5 +106,18 @@ public class DriveTrain extends SubsystemBase{
       drive.arcadeDrive(0, axis);
     }
 
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+      double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getSelectedSensorPosition();
+      double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getSelectedSensorPosition();
+      
+      m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
+    }
+  
+    @Override
+    public void simulationPeriodic() {
+      // This method will be called once per scheduler run during simulation
+    }
   
 }

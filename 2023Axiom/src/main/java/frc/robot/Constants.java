@@ -17,4 +17,18 @@ public final class Constants {
     public static int motor_arm = 0; //may need to change the Constant for these three later
     public static int motor_leftGrip = 1;
     public static int motor_rightGrip = 2;
+
+    
+    public static boolean left_side_inverted = true;
+    public static boolean right_side_inverted = !left_side_inverted;
+
+    //All constants below will need to be changed later - Talk to electrical
+    public static int leftMotor1ID = 0;
+    public static int leftMotor2ID = 0;
+
+    public static int rightMotor1ID = 0;
+    public static int rightMotor2ID = 0;
+
+    public static double kDistancePerEncoderCount = 0;
+
 }
