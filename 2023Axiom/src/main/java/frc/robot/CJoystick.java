@@ -11,52 +11,88 @@ public class CJoystick {
 
     }
     public static boolean joystickButton1Down(){
-        System.out.println("button 1 = "+joystick.getRawButton(1));
-        return joystick.getRawButton(1);
+        if(joystick.getRawButton(1)){
+            System.out.println("button 1 = "+joystick.getRawButton(1));
+            return joystick.getRawButton(1);
+        }
+        return false;
     }
     public static boolean joystickButton2Down(){
-        System.out.println("button 2 = "+joystick.getRawButton(2));
-        return joystick.getRawButton(2);
+        if(joystick.getRawButton(2)){
+            System.out.println("button 2 = "+joystick.getRawButton(2));
+            return joystick.getRawButton(2);
+        }
+        return false;
     }
     public static boolean joystickButton3Down(){
-        System.out.println("button 3 = "+joystick.getRawButton(3));
-        return joystick.getRawButton(3);
+        if(joystick.getRawButton(3)){
+            System.out.println("button 3 = "+joystick.getRawButton(3));
+            return joystick.getRawButton(3);
+        }
+        return false;
     }
     public static boolean joystickButton4Down(){
-        System.out.println("button 4 = "+joystick.getRawButton(4));
-        return joystick.getRawButton(4);
+        if(joystick.getRawButton(4)){
+            System.out.println("button 4 = "+joystick.getRawButton(4));
+            return joystick.getRawButton(4);
+        }
+        return false;
     }
     public static boolean joystickButton5Down(){
-        System.out.println("button 5 = "+joystick.getRawButton(5));
-        return joystick.getRawButton(5);
+        if(joystick.getRawButton(5)){
+            System.out.println("button 5 = "+joystick.getRawButton(5));
+            return joystick.getRawButton(5);
+        }
+        return false;
     }
     public static boolean joystickButton6Down(){
-        System.out.println("button 6 = "+joystick.getRawButton(6));
-        return joystick.getRawButton(6);
+        if(joystick.getRawButton(6)){
+            System.out.println("button 6 = "+joystick.getRawButton(6));
+            return joystick.getRawButton(6);
+        }
+        return false;
     }
     public static boolean joystickButton7Down(){
-        System.out.println("button 7 = "+joystick.getRawButton(7));
-        return joystick.getRawButton(7);
+        if(joystick.getRawButton(7)){
+            System.out.println("button 7 = "+joystick.getRawButton(7));
+            return joystick.getRawButton(7);
+        }
+        return false;
     }
     public static boolean joystickButton8Down(){
-        System.out.println("button 8 = "+joystick.getRawButton(8));
-        return joystick.getRawButton(8);
+        if(joystick.getRawButton(8)){
+            System.out.println("button 8 = "+joystick.getRawButton(8));
+            return joystick.getRawButton(8);
+        }
+        return false;
     }
     public static boolean joystickButton9Down(){
-        System.out.println("button 9 = "+joystick.getRawButton(9));
-        return joystick.getRawButton(9);
+        if(joystick.getRawButton(9)){
+            System.out.println("button 9 = "+joystick.getRawButton(9));
+            return joystick.getRawButton(9);
+        }
+        return false;
     }
     public static boolean joystickButton10Down(){
-        System.out.println("button 10 = "+joystick.getRawButton(10));
-        return joystick.getRawButton(10);
+        if(joystick.getRawButton(10)){
+            System.out.println("button 10 = "+joystick.getRawButton(10));
+            return joystick.getRawButton(10);
+        }
+        return false;
     }
     public static boolean joystickButton11Down(){
-        System.out.println("button 11 = "+joystick.getRawButton(11));
-        return joystick.getRawButton(11);
+        if(joystick.getRawButton(11)){
+            System.out.println("button 11 = "+joystick.getRawButton(11));
+            return joystick.getRawButton(11);
+        }
+        return false;
     }
     public static boolean joystickButton12Down(){
-        System.out.println("button 12 = "+joystick.getRawButton(12));
-        return joystick.getRawButton(12);
+        if(joystick.getRawButton(12)){
+            System.out.println("button 12 = "+joystick.getRawButton(12));
+            return joystick.getRawButton(12);
+        }
+        return false;
     }
     public static double getJoystickXWithDeadzone(){
         if(joystick.getX() > Constants.joystickDeadzone || joystick.getX() < -Constants.joystickDeadzone){
