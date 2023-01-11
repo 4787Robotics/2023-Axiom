@@ -24,7 +24,7 @@ public class UMotorController extends SubsystemBase {
     m_arm.setNeutralMode(NeutralMode.Brake);
     m_left_wheel.setNeutralMode(NeutralMode.Brake);
     m_right_wheel.setNeutralMode(NeutralMode.Brake);
-    m_clamp.setNeutralMode(NeutralMode.Brake
+    m_clamp.setNeutralMode(NeutralMode.Brake);
   
 
      // For encoder
