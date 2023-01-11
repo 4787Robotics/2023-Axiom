@@ -16,7 +16,7 @@ public class CXbox {
             System.out.println(xboxcontroller.getPOV());
             return xboxcontroller.getPOV();
         }
-        return 0;
+        return -1;
     }
 //ABXY buttons
     public static boolean XboxADown(){
