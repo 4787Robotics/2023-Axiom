@@ -3,23 +3,27 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class UMotorController extends SubsystemBase {
+
+public class WMotorController extends SubsystemBase {
   // Big Arm Motor
-  private m_arm = new WPI_TalonFX(Constants.motor_arm);
+  private CANSparkMax m_arm = new CANSparkMax(Constants.MOTOR_ARM, MotorType.kBrushless);
   // Lower Arm clamp motor
-  private m_clamp = new WPI_TalonFX(Constants.MOTOR_CLAMP);
+  private WPI_TalonFX m_clamp = new WPI_TalonFX(Constants.MOTOR_CLAMP);
 
   // Controls wheels that suck em up
-  private m_left_wheel = new WPI_TalonFX(Constants.MOTOR_LEFT_WHEEL);
-  private m_right_wheel = new WPI_TalonFX(Constants.MOTOR_RIGHT_WHEEL);
+  private WPI_TalonFX m_left_wheel = new WPI_TalonFX(Constants.MOTOR_LEFT_WHEEL);
+  private WPI_TalonFX m_right_wheel = new WPI_TalonFX(Constants.MOTOR_RIGHT_WHEEL);
 
-  public UMotorController(double[] voltages) {
+  public WMotorController(double[] voltages) {
+    if (voltages.length != 4) {
+      System.out.println("Need 4 arguments");
+      return;
+    }
     // Makes left motor go the opposite of the right motor
-    m_left.setInverted(TalonFXInvertType.Clockewise); 
+    m_left_wheel.setInverted(TalonFXInvertType.Clockwise); 
      // ewqeKeeps the motors in place and stops them frowm moving without input
     m_arm.setNeutralMode(NeutralMode.Brake);
     m_left_wheel.setNeutralMode(NeutralMode.Brake);
@@ -28,15 +32,15 @@ public class UMotorController extends SubsystemBase {
   
 
      // For encoder
-    m_rightGrip.setSelectedSensorPosition(0);
-    m_leftGrip.setSelectedSensorPosition(0);
+    m_left_wheel.setSelectedSensorPosition(0);
+    m_right_wheel.setSelectedSensorPosition(0);
 
     // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
-  m_leftGrip.configOpenloopRamp(0.4); 
-  m_rightGrip.configOpenloopRamp(0.4); // may need change in the future when robot is active
+    m_left_wheel.configOpenloopRamp(0.4); 
+    m_right_wheel.configOpenloopRamp(0.4); // may need change in the future when robot is active
 }
 
-public void clamp() {
-  m_leftGrip.
-}
+  public void clamp() {
+    
+  }
 }
