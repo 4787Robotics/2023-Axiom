@@ -18,6 +18,9 @@ public final class Constants {
     public static final float leftStickDeadzone = 0.9f;
     public static final float rightTriggerDeadzone = 0.7f;
     public static final float leftTriggerDeadzone = 0.7f;
+    //Joystick
+    public static final float joystickRotDeadzone = 0.9f;
+    public static final float joystickDeadzone = 0.9f;
     //Motor IDs
     public static final int rightMotor2ID = 0;
     public static final int rightMotor1ID = 0;
