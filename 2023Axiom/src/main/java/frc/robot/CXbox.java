@@ -11,7 +11,7 @@ public class CXbox {
 
     }
 //Dpad buttons
-    public static double XboxDpad(){
+    public static double getXboxDpad(){
         if(xboxcontroller.getPOV() != -1){
             System.out.println(xboxcontroller.getPOV());
             return xboxcontroller.getPOV();

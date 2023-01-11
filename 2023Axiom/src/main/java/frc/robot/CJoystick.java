@@ -11,7 +11,7 @@ public class CJoystick {
 
     }
 //Joystick POV(the weird knob thing at the top)
-    public static double JoystickPOV(){
+    public static double getJoystickPOV(){
     if(joystick.getPOV() != -1){
         System.out.println("Joystick POV = "+joystick.getPOV());
         return joystick.getPOV();
