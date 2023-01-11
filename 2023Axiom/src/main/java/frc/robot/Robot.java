@@ -119,5 +119,18 @@ public class Robot extends TimedRobot {
     CJoystick.getJoystickXWithDeadzone();
     CJoystick.getJoystickYWithDeadzone();
     CJoystick.getJoystickRotationWithDeadzone();
+    CJoystick.getJoystickThrottle();
+    CJoystick.joystickButton1Down();
+    CJoystick.joystickButton2Down();
+    CJoystick.joystickButton3Down();
+    CJoystick.joystickButton4Down();
+    CJoystick.joystickButton5Down();
+    CJoystick.joystickButton6Down();
+    CJoystick.joystickButton7Down();
+    CJoystick.joystickButton8Down();
+    CJoystick.joystickButton9Down();
+    CJoystick.joystickButton10Down();
+    CJoystick.joystickButton11Down();
+    CJoystick.joystickButton12Down();
   }
 }
