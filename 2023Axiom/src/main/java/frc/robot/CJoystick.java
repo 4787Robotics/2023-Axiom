@@ -10,6 +10,15 @@ public class CJoystick {
     CJoystick() {
 
     }
+//Joystick POV(the weird knob thing at the top)
+    public static double JoystickPOV(){
+    if(joystick.getPOV() != -1){
+        System.out.println("Joystick POV = "+joystick.getPOV());
+        return joystick.getPOV();
+    }
+    return 0;
+}
+// Buttons 1-12
     public static boolean joystickButton1Down(){
         if(joystick.getRawButton(1)){
             System.out.println("button 1 = "+joystick.getRawButton(1));
@@ -94,6 +103,8 @@ public class CJoystick {
         }
         return false;
     }
+//Joystick axes
+    //Joystick X Axis
     public static double getJoystickXWithDeadzone(){
         if(joystick.getX() > Constants.joystickDeadzone || joystick.getX() < -Constants.joystickDeadzone){
             System.out.println("Joystick X = "+joystick.getX());
@@ -101,6 +112,7 @@ public class CJoystick {
         }
         return 0;
     }
+    //Joystick Y Axis
     public static double getJoystickYWithDeadzone(){
         if(joystick.getY() > Constants.joystickDeadzone || joystick.getY() < -Constants.joystickDeadzone){
             System.out.println("Joystick Y = "+joystick.getY());
@@ -108,6 +120,7 @@ public class CJoystick {
         }
         return 0;
     }
+    //Joystick Rotation
     public static double getJoystickRotationWithDeadzone(){
         if(joystick.getTwist() > Constants.joystickRotDeadzone || joystick.getTwist() < -Constants.joystickRotDeadzone){
             System.out.println("Joystick rotation = "+joystick.getTwist());
@@ -115,12 +128,13 @@ public class CJoystick {
         }
         return 0;
     }
+    //Joystick Throttle
     public static double getJoystickThrottle(){
-            if(joystick.getThrottle()>0){
-                System.out.println(joystick.getThrottle());
+            if(joystick.getThrottle() != 1){
+                System.out.println("Throttle = "+joystick.getThrottle());
                 return joystick.getThrottle();
             }
-        return 0;
+        return 1;
     }
 
 }
