@@ -14,7 +14,8 @@ package frc.robot;
  */
 public final class Constants {
 
-    public static int motor_arm = 0; //may need to change the Constant for these three later
-    public static int motor_leftGrip = 1;
-    public static int motor_rightGrip = 2;
+    public static final int MOTOR_ARM = 0; //may need to change the Constant for these three later
+    public static final int MOTOR_LEFT_WHEEL = 1;
+    public static final int MOTOR_RIGHT_WHEEL = 2;
+    public static final int MOTOR_CLAMP = 3;
 }
