@@ -9,6 +9,7 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
 import frc.robot.CJoystick;
@@ -20,13 +21,14 @@ import javax.lang.model.util.ElementScanner6;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMax;
 
 public class DriveCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain m_subsystem;
   XboxController controller;
-  private WPI_TalonFX m_left1, m_right2;
-  private WPI_TalonFX m_left2, m_right1;
+  private Spark m_left1, m_right2;
+  private Spark m_left2, m_right1;
   DifferentialDrive drive;
   /**
    * Creates a new ExampleCommand.
