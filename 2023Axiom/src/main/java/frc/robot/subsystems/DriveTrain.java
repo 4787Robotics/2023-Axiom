@@ -58,10 +58,14 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
 
     drive = new DifferentialDrive(m_left1, m_right1);
 
-    m_left1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    m_left2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    m_right1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    m_right2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    //For the block of errors below:
+    //Documentation for Spark Maxes
+    //https://codedocs.revrobotics.com/java/index.html
+    
+    m_left1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
+    m_left2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
+    m_right1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
+    m_right2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
 
     m_left1.setMeasurementPeriod(measurement_period);
     m_left1.configVelocityMeasurementWindow(window_size);

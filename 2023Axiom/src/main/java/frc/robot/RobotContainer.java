@@ -43,8 +43,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    
+
     //I'LL FIGURE THIS OUT AT SOME POINT
-    return ();
+    return m_autonomous();
   }
 }
