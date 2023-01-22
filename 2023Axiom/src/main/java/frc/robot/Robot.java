@@ -99,5 +99,43 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+     //*
+    CXbox.getXboxDpad();
+    CXbox.XboxADown();
+    CXbox.XboxBDown();
+    CXbox.XboxXDown();
+    CXbox.XboxYDown();
+    CXbox.XboxLStickDown();
+    CXbox.XboxRStickDown();
+    CXbox.XboxLBumperDown();
+    CXbox.XboxRBumperDown();
+    CXbox.getLeftTriggerWithDeadzone();
+    CXbox.getRightTriggerWithDeadzone();
+    CXbox.getLeftStickXWithDeadzone();
+    CXbox.getLeftStickYWithDeadzone();
+    CXbox.getRightStickXWithDeadzone();
+    CXbox.getRightStickYWithDeadzone();
+    //*/
+
+    /*
+    CJoystick.getJoystickPOV();
+    CJoystick.getJoystickXWithDeadzone();
+    CJoystick.getJoystickYWithDeadzone();
+    CJoystick.getJoystickRotationWithDeadzone();
+    CJoystick.getJoystickThrottle();
+    CJoystick.joystickButton1Down();
+    CJoystick.joystickButton2Down();
+    CJoystick.joystickButton3Down();
+    CJoystick.joystickButton4Down();
+    CJoystick.joystickButton5Down();
+    CJoystick.joystickButton6Down();
+    CJoystick.joystickButton7Down();
+    CJoystick.joystickButton8Down();
+    CJoystick.joystickButton9Down();
+    CJoystick.joystickButton10Down();
+    CJoystick.joystickButton11Down();
+    CJoystick.joystickButton12Down();
+    */
+  }
 }
