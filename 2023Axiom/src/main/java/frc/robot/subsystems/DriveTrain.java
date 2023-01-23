@@ -1,6 +1,10 @@
 //Most of this is copied from TShirt cannon code, so not all of it works atm
 //Reminder to add values to constants after talking to electrical
 //Currently in the process of switching Motors from Falcons to Spark Maxes :(
+// Jan. 23 - I commented out all the errors lol
+// Tanmay said we should test the teleop driving stuff
+//And the encoders arent that important yet
+//FIX IT LATER
 
 package frc.robot.subsystems;
 
@@ -61,7 +65,10 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     //For the block of errors below:
     //Documentation for Spark Maxes
     //https://codedocs.revrobotics.com/java/index.html
-    
+    //Honestly just going to comment it out bc we don't
+    //Need it rn, just need to test if
+    //The Driving stuff works
+    /*
     m_left1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_left2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_right1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
@@ -77,6 +84,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     m_right2.configVelocityMeasurementWindow(window_size);
 
     resetEncoders();
+    */
   }
 
   public double getHeading(){
@@ -85,27 +93,32 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
+  /*
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     double leftEncoderVelocity = Constants.kDistancePerEncoderCount*(m_left1.getVelocity()*10); 
     double rightEncoderVelocity = Constants.kDistancePerEncoderCount*(m_right1.getVelocity()*10); 
 
     return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
   }
+  */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
     m_right1.setVoltage(rightVolts);
     drive.feed();
   }
+  /*
   public void resetOdometry(Pose2d pose) {
     //double[] initialXandY = {pose.getX(), pose.getY()};
     //SmartDashboard.putNumberArray("Initial Pose", initialXandY);
     resetEncoders();
     m_odometry.resetPosition(pose, gyro.getRotation2d());
   }
+  
   public static void resetEncoders() {
     m_right1.getPosition(0);
     m_left1.setPosition(0);
   }
+  */
     //Turning right/left and moving forward/backward 
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
@@ -125,7 +138,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
       System.out.println("Left Joystick X axis = " + axis);
       drive.arcadeDrive(0, axis);
     }
-
+/*
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
@@ -134,7 +147,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
       
       m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
     }
-  
+  */
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation

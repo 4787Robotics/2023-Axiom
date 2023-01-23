@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.AutonomousCommand;
+//import frc.robot.commands.AutonomousCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -41,10 +41,13 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+
+   /*
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
 
     //I'LL FIGURE THIS OUT AT SOME POINT
     return m_autonomous();
   }
+  */
 }
