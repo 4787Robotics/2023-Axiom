@@ -11,22 +11,23 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+//import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+//import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
+//import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+//import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.geometry.Pose2d;
 
-//*
+/*
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+*/
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
-//*/
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -123,19 +124,19 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
     public void turnRight(double axis){
-      System.out.println("Right Joystick Y axis = " + axis);
+      //System.out.println("Right Joystick Y axis = " + axis);
       drive.arcadeDrive(axis, 0);
     }
     public void turnLeft(double axis){
-      System.out.println("Right Joystick Y axis =" + axis);
+      //System.out.println("Right Joystick Y axis =" + axis);
       drive.arcadeDrive(axis, 0);
     }
     public void moveBackward(double axis){
-      System.out.println("Left Joystick X axis = " + axis);
+      //System.out.println("Left Joystick X axis = " + axis);
       drive.arcadeDrive(0, axis);
     }
     public void moveForward(double axis){
-      System.out.println("Left Joystick X axis = " + axis);
+      //System.out.println("Left Joystick X axis = " + axis);
       drive.arcadeDrive(0, axis);
     }
 /*

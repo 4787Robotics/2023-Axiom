@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,6 +18,10 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final static DriveTrain m_subsystem = new DriveTrain();
+  static XboxController inputController = new XboxController(0);
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem, inputController);
+  
   // The robot's subsystems and commands are defined here...
   /*
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -49,5 +55,10 @@ public class RobotContainer {
     //I'LL FIGURE THIS OUT AT SOME POINT
     return m_autonomous();
   }
+
   */
+  public static Command getTeleopCommand(){
+   
+    return m_teleopCommand;
+  }
 }
