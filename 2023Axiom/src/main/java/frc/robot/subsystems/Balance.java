@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.*;
 public class Balance extends SubsystemBase{
     private double currentRotationPitch = 0; //Current rotation [-180, 180] backward and forward. 1 means leaned 180 degrees forward, -1 180 degrees backward
     private double currentRotationRoll = 0; //Current rotation [-180, 180] tilted to left and and right. 1 means leaned 180 degrees left, -1 180 degrees right
+    private double currentRotationYaw = 0;
     private double currentHeading = 0;
     private double headingAdjust = 0;
     private boolean headingReady = false;
@@ -25,9 +26,9 @@ public class Balance extends SubsystemBase{
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Yaw", gyro.getYaw()); //Positive is right, 0 is true north **USUALLY**. There isnt any real rhyme or reason to when it is or isnt, so dont fully trust this
-        SmartDashboard.putNumber("Roll", gyro.getRoll()); //Positive is tilted right
-        SmartDashboard.putNumber("Pitch", gyro.getPitch()); //Positive is forward
+        SmartDashboard.putNumber("Yaw", getYaw()); //Positive is right, 0 is true north **USUALLY**. There isnt any real rhyme or reason to when it is or isnt, so dont fully trust this
+        SmartDashboard.putNumber("Roll", getRoll()); //Positive is tilted right
+        SmartDashboard.putNumber("Pitch", getPitch()); //Positive is forward
         SmartDashboard.putNumber("Heading Adjust", headingAdjust);
 
         updateHeading();
@@ -40,18 +41,14 @@ public class Balance extends SubsystemBase{
     }
 
     /**
-     * [-1, 1] a number that should be plugged into arcadeDrive to get the right speed to move the robot to keep it balanced
+     * [-180, 180] gets current rotation, left and right, sometimes in relation to true north. 
+     * Unstable- do not use. Use getHeading instead
      *
-     * @return correctionSpeed
+     * @return currentRotationYaw
      */  
-    public double getCorrectionSpeed() {
-        double correctionSpeed = 0;
-        updatePitch();
-        updateRoll();
-        /*
-            TO GO HERE- code for updating correction speed
-        */
-        return correctionSpeed;
+    public double getYaw() {
+        updateYaw();
+        return currentRotationYaw;
     }
 
     /**
@@ -75,6 +72,16 @@ public class Balance extends SubsystemBase{
     }
 
     /**
+     * [-180, 180] gets current rotation, tilted to left and and right.
+     *
+     * @return currentRotationRoll
+     */  
+    public double getHeading() {
+        updateHeading();
+        return currentHeading;
+    }
+
+    /**
      * Gets the AHRS type gyro being used by this object.
      *
      * @return gyro
@@ -83,16 +90,20 @@ public class Balance extends SubsystemBase{
         return gyro;
     }
 
+    private void updateYaw() {
+        currentRotationYaw = gyro.getYaw();
+    }
+
     private void updatePitch() {
-        currentRotationPitch = SmartDashboard.getNumber("Pitch", 0.0);
+        currentRotationPitch = gyro.getPitch();
     }
 
     private void updateRoll() {
-        currentRotationRoll = SmartDashboard.getNumber("Roll", 0.0);
+        currentRotationRoll = gyro.getRoll();
     }
 
     private void updateHeading() {
-        currentHeading = SmartDashboard.getNumber("Yaw", 300) + headingAdjust;
+        currentHeading = getYaw() + headingAdjust;
     }
 
     /**
