@@ -11,9 +11,9 @@ public class MotorController extends SubsystemBase {
   private WPI_TalonFX m_arm, m_leftGrip, m_rightGrip;
   // Creates and initializes motor controllers.
   public MotorController() {
-    m_arm = new WPI_TalonFX(Constants.motor_arm);
-    m_leftGrip = new WPI_TalonFX(Constants.motor_leftGrip);
-    m_rightGrip = new WPI_TalonFX(Constants.motor_rightGrip);
+    m_arm = new WPI_TalonFX(Constants.MOTOR_ARM);
+    m_leftGrip = new WPI_TalonFX(Constants.MOTOR_LEFT_GRIP);
+    m_rightGrip = new WPI_TalonFX(Constants.MOTOR_RIGHT_GRIP);
 
     m_leftGrip.setInverted(TalonFXInvertType.Clockwise); // Makes left motor go the opposite of the right motor
     

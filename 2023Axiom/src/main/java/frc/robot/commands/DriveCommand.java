@@ -51,14 +51,14 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(CXbox.getRightStickXWithDeadzone() > Constants.rightStickDeadzone) {
+    if(CXbox.getRightStickXWithDeadzone() > Constants.RIGHT_STICK_DEAD_ZONE) {
       m_subsystem.turnRight(controller.getRightX());
-    } else if (CXbox.getRightStickXWithDeadzone() < -Constants.rightStickDeadzone) {
+    } else if (CXbox.getRightStickXWithDeadzone() < -Constants.RIGHT_STICK_DEAD_ZONE) {
       m_subsystem.turnLeft(controller.getRightX());
     }
-    if(CXbox.getLeftStickYWithDeadzone() < -Constants.leftStickDeadzone) {
+    if(CXbox.getLeftStickYWithDeadzone() < -Constants.LEFT_STICK_DEAD_ZONE) {
       m_subsystem.moveForward(controller.getLeftY());
-    } else if (CXbox.getRightStickYWithDeadzone() > Constants.rightStickDeadzone) {
+    } else if (CXbox.getRightStickYWithDeadzone() > Constants.LEFT_TRIGGER_DEAD_ZONE) {
       m_subsystem.moveBackward(controller.getLeftY());
     }
     else {

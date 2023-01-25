@@ -29,10 +29,10 @@ import edu.wpi.first.wpilibj.SPI;
 public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
-    private static CANSparkMax m_left1 = new CANSparkMax(Constants.leftMotor1ID, MotorType.kBrushless);
-    private CANSparkMax m_left2 = new CANSparkMax(Constants.leftMotor2ID, MotorType.kBrushless);
-    private static CANSparkMax m_right1 = new CANSparkMax(Constants.rightMotor1ID, MotorType.kBrushless);
-    private CANSparkMax m_right2 = new CANSparkMax(Constants.rightMotor2ID, MotorType.kBrushless);
+    private static CANSparkMax m_left1 = new CANSparkMax(Constants.LEFT_MOTOR_1_ID, MotorType.kBrushless);
+    private CANSparkMax m_left2 = new CANSparkMax(Constants.LEFT_MOTOR_2_ID, MotorType.kBrushless);
+    private static CANSparkMax m_right1 = new CANSparkMax(Constants.RIGHT_MOTOR_1_ID, MotorType.kBrushless);
+    private CANSparkMax m_right2 = new CANSparkMax(Constants.RIGHT_MOTOR_2_ID, MotorType.kBrushless);
   
 /*
     private static WPI_TalonFX m_left1 = new WPI_TalonFX(Constants.leftMotor1ID);
@@ -41,14 +41,14 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     private WPI_TalonFX m_right2 = new WPI_TalonFX(Constants.rightMotor2ID);
     */
   
-    boolean left_side_inverted = Constants.left_side_inverted;
-    boolean right_side_inverted = Constants.right_side_inverted;
-  
+    boolean left_side_inverted = Constants.LEFT_SIDE_INVERTED;
+    /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
 
     private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+    */
   
   public DriveTrain(){
 
@@ -61,7 +61,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     //For the block of errors below:
     //Documentation for Spark Maxes
     //https://codedocs.revrobotics.com/java/index.html
-    
+    /*
     m_left1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_left2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_right1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
@@ -77,8 +77,9 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     m_right2.configVelocityMeasurementWindow(window_size);
 
     resetEncoders();
+    */
   }
-
+  /*
   public double getHeading(){
     return gyro.getRotation2d().getDegrees();
   }
@@ -106,6 +107,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     m_right1.getPosition(0);
     m_left1.setPosition(0);
   }
+  */
     //Turning right/left and moving forward/backward 
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
@@ -129,10 +131,12 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
+      /*
       double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
       double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
       
       m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
+      */
     }
   
     @Override

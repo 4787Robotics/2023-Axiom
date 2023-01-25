@@ -52,13 +52,14 @@ public void initialize() {}
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
+  /*
     final DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), 
-        Constants.kDriveKinematics,10); 
+        new SimpleMotorFeedforward(Constants.KS_VOLTS, Constants.KV_VOLT_SECONDS_PER_METER, Constants.KA_VOLT_SECONDS_SQUARED_PER_METER), 
+        Constants.K_DRIVE_KINEMATICS,10); 
   
       TrajectoryConfig config = 
-        new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, Constants.kMaxAccelerationMetersPerSecondSquared)
-        .setKinematics(Constants.kDriveKinematics)
+        new TrajectoryConfig(Constants.K_MAX_SPEED_METERS_PER_SECOND, Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+        .setKinematics(Constants.K_DRIVE_KINEMATICS)
         .addConstraint(autoVoltageConstraint);
   
       Trajectory exampleTrajectory = 
@@ -70,14 +71,14 @@ public void execute() {
       RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
         driveTrain::getPose,
-        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts,
-                                    Constants.kvVoltSecondsPerMeter,
-                                    Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
+        new RamseteController(Constants.K_RAMSETE_B, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                                    Constants.KV_VOLT_SECONDS_PER_METER,
+                                    Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+        Constants.K_DRIVE_KINEMATICS,
         driveTrain::getWheelSpeeds,
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+        new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
         // RamseteCommand passes volts to the callback
         driveTrain::tankDriveVolts,
         driveTrain
@@ -87,6 +88,7 @@ public void execute() {
 
     //wpiLIB has it as a return function because they're not using a void function to call the autonomous command
     ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0,0));
+    */
 }
 private void feed() {
 }

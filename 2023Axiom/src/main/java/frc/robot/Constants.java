@@ -26,7 +26,7 @@ public final class Constants {
 
     
     public static boolean LEFT_SIDE_INVERTED = true;
-    public static boolean RIGHT_SIDE_INVERTED = !left_side_inverted;
+    public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
 
     //The constants below will need to be changed later - Talk to electrical
     public static int LEFT_MOTOR_1_ID = 4;
@@ -39,7 +39,7 @@ public final class Constants {
     //Controller sticks wont respond inside these zones
     public static final float RIGHT_STICK_DEAD_ZONE = 0.9f;
     public static final float LEFT_STICK_DEAD_ZONE = 0.9f;
-    public static final float RIGHT_TRIGGER_DEAD_ZONEe = 0.7f;
+    public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.7f;
     public static final float LEFT_TRIGGER_DEAD_ZONE = 0.7f;
     //Joystick
     public static final float joystickRotDeadzone = 0.9f;
@@ -54,7 +54,7 @@ public final class Constants {
 
     //Differential Drive Kinematics
     public static final double K_TRACK_WIDTH_METERS = 0;
-    public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new DifferentialDriveKinematics(kTrackwidthMeters);
+    public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new DifferentialDriveKinematics(K_TRACK_WIDTH_METERS);
 
     // Max Trajectory Velocity/Acceleration
     public static final double K_MAX_SPEED_METERS_PER_SECOND = 0;
@@ -65,11 +65,10 @@ public final class Constants {
     public static final double K_RAMSETE_A = 0;
 
     
-    K_WHEEL_DIAMETER_METERS
     public static final double K_WHEEL_DIAMETER_METERS = 0;
     public static final int K_ENCODER_CPR = 0;
 
-    public static final double K_GEAR_RATION = 0;
-    public static final double K_ENCODER_COUNTS_PER_FULL_WHEEL_TURN = kGearRatio*kEncoderCPR;
-    public static final double K_DISTANCE_PER_ENCODER_COUNT = (kWheelDiameterMeters * Math.PI) / kEncoderCountsPerFullWheelTurn;
+    public static final double K_GEAR_RATIO = 0;
+    public static final double K_ENCODER_COUNTS_PER_FULL_WHEEL_TURN = K_GEAR_RATIO*K_ENCODER_CPR;
+    public static final double K_DISTANCE_PER_ENCODER_COUNT = (K_WHEEL_DIAMETER_METERS * Math.PI) / K_ENCODER_COUNTS_PER_FULL_WHEEL_TURN;
 }
