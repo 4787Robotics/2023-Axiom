@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.SPI;
  * project.
  */
 public class Robot extends TimedRobot {
+  private Command m_autonomousCommand;
   private Command m_teleopCommand;
 
   private RobotContainer m_robotContainer;
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_teleopCommand = m_robotContainer.getTeleopCommand();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }
@@ -60,7 +62,9 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  /*
   @Override
+  
   public void autonomousInit() {
     /*
     System.out.println("AUTO INIT");
@@ -74,7 +78,7 @@ public class Robot extends TimedRobot {
     }
     */
   }
-
+*/
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
@@ -86,6 +90,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_teleopCommand = RobotContainer.getTeleopCommand();
     if (m_teleopCommand != null) {
       m_teleopCommand.cancel();
     }
@@ -113,7 +118,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {
-     //*
+    /*
     CXbox.getXboxDpad();
     CXbox.XboxADown();
     CXbox.XboxBDown();
@@ -129,7 +134,7 @@ public class Robot extends TimedRobot {
     CXbox.getLeftStickYWithDeadzone();
     CXbox.getRightStickXWithDeadzone();
     CXbox.getRightStickYWithDeadzone();
-    //*/
+    */
 
     /*
     CJoystick.getJoystickPOV();

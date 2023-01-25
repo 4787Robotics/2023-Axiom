@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.DriveTrain;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -23,6 +24,10 @@ import frc.robot.subsystems.DriveTrain;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final static DriveTrain m_subsystem = new DriveTrain();
+  static XboxController inputController = new XboxController(0);
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem, inputController);
+  
   // The robot's subsystems and commands are defined here...
   
   private final DriveTrain m_exampleSubsystem = new DriveTrain();
@@ -51,10 +56,18 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getTeleopCommand() {
+
+   /*
+  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
 
     //I'LL FIGURE THIS OUT AT SOME POINT
+    return m_teleopCommand;
+  }
+
+  */
+  public static Command getTeleopCommand(){
+   
     return m_teleopCommand;
   }
 

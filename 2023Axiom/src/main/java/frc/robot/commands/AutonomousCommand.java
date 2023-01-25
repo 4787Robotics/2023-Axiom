@@ -1,3 +1,6 @@
+//Commenting out autonomous to test Teleop
+
+/*
 package frc.robot.commands;
 
 import frc.robot.subsystems.DriveTrain;
@@ -39,6 +42,10 @@ public class AutonomousCommand extends CommandBase{
    *
    * @param subsystem The subsystem used by this command.
    */
+
+  
+
+/*
   public AutonomousCommand(DriveTrain subsystem) {
     driveTrain = subsystem;
     addRequirements(subsystem);
@@ -102,4 +109,6 @@ public void end(boolean interrupted) {}
 public boolean isFinished() {
   return false;
 }
+
 }
+*/
