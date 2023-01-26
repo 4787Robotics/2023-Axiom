@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxPIDController;
 
 
 public class WMotorController extends SubsystemBase {
@@ -43,9 +44,9 @@ public class WMotorController extends SubsystemBase {
     m_right_wheel.configOpenloopRamp(0.4); // may need change in the future when robot is active
 }
 
-  public void clamp() {
+  // public void ArmPlace(double ) {
      //Unused for now
-  }
+  //}
 }
 
 /**Changes needed but can't be done rn:
