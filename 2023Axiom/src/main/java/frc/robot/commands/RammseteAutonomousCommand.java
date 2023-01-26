@@ -32,7 +32,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
-public class AutonomousCommand extends CommandBase{
+public class RammseteAutonomousCommand extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final DriveTrain driveTrain;
     /**
@@ -41,7 +41,7 @@ public class AutonomousCommand extends CommandBase{
    * @param subsystem The subsystem used by this command.
    */
 
-  public AutonomousCommand(DriveTrain subsystem) {
+  public RammseteAutonomousCommand(DriveTrain subsystem) {
     driveTrain = subsystem;
     addRequirements(subsystem);
     }
@@ -69,27 +69,27 @@ public class AutonomousCommand extends CommandBase{
           List.of(new Translation2d(0,1)),
           new Pose2d(0, 0, new Rotation2d(0)), 
           config);
-    
-        RamseteCommand ramseteCommand = new RamseteCommand(
-          exampleTrajectory,
-          driveTrain::getPose,
-          new RamseteController(Constants.K_RAMSETE_B, Constants.K_RAMSETE_A),
-          new SimpleMotorFeedforward(Constants.KS_VOLTS,
-                                      Constants.KV_VOLT_SECONDS_PER_METER,
-                                      Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
-          Constants.K_DRIVE_KINEMATICS,
-          driveTrain::getWheelSpeeds,
-          new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
-          new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
-          // RamseteCommand passes volts to the callback
-          driveTrain::tankDriveVolts,
-          driveTrain
-        );
+      // COMMENTED OUT BC NON FUNCTIONAL:
+      //   RamseteCommand ramseteCommand = new RamseteCommand(
+      //     exampleTrajectory,
+      //     driveTrain::getPose,
+      //     new RamseteController(Constants.K_RAMSETE_B, Constants.K_RAMSETE_A),
+      //     new SimpleMotorFeedforward(Constants.KS_VOLTS,
+      //                                 Constants.KV_VOLT_SECONDS_PER_METER,
+      //                                 Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+      //     Constants.K_DRIVE_KINEMATICS,
+      //     driveTrain::getWheelSpeeds,
+      //     new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+      //     new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+      //     // RamseteCommand passes volts to the callback
+      //     driveTrain::tankDriveVolts,
+      //     driveTrain
+      //   );
         
-      driveTrain.resetOdometry(exampleTrajectory.getInitialPose());
+      // driveTrain.resetOdometry(exampleTrajectory.getInitialPose());
 
       //wpiLIB has it as a return function because they're not using a void function to call the autonomous command
-      ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0,0));
+      // ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0,0));
       
   }
 

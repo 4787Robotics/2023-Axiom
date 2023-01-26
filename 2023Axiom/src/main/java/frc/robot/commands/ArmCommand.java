@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
 import frc.robot.CJoystick;
 import frc.robot.Constants;
+import frc.robot.subsystems.MotorController;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +33,7 @@ public class ArmCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(MotorController subsystem) {
+  public ArmCommand(MotorController subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -48,9 +49,9 @@ public class ArmCommand extends CommandBase {
     if (CXbox.XboxADown() && CXbox.XboxBDown() || CXbox.XboxADown() && CXbox.XboxYDown() || CXbox.XboxBDown() && CXbox.XboxYDown()){
         System.out.println("Two or more buttons are pressed"); //IDK what to put here, this is a stopper
     } else if(CXbox.XboxADown()) {
-        m_subsystem.turnRight(controller.getRightX());
+        //m_subsystem.turnRight(controller.getRightX());
       } else if (CXbox.getRightStickXWithDeadzone() < -Constants.RIGHT_STICK_DEAD_ZONE) {
-        m_subsystem.turnLeft(controller.getRightX());
+        //m_subsystem.turnLeft(controller.getRightX());
       }
   }
 
