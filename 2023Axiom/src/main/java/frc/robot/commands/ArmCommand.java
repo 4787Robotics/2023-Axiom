@@ -22,27 +22,21 @@ import javax.lang.model.util.ElementScanner6;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
+/** An example command that uses an example subsystem. */
+public class ArmCommand extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final MotorController m_subsystem;
 
-public class DriveCommand extends CommandBase {
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DriveTrain m_subsystem;
-  XboxController controller;
-  private Spark m_left1, m_right2;
-  private Spark m_left2, m_right1;
-  DifferentialDrive drive;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveCommand(DriveTrain subsystem, XboxController inputController) {
-        controller = inputController;
-        m_subsystem = subsystem;
-        
+  public ExampleCommand(MotorController subsystem) {
+    m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
-
 
   // Called when the command is initially scheduled.
   @Override
@@ -51,25 +45,14 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(CXbox.getRightStickXWithDeadzone() > Constants.RIGHT_STICK_DEAD_ZONE) {
-      m_subsystem.turnRight(controller.getRightX());
-    } else if (CXbox.getRightStickXWithDeadzone() < -Constants.RIGHT_STICK_DEAD_ZONE) {
-      m_subsystem.turnLeft(controller.getRightX());
-    }
-    
-    if(CXbox.getLeftStickYWithDeadzone() < -Constants.LEFT_STICK_DEAD_ZONE) {
-      m_subsystem.moveForward(controller.getLeftY());
-    } else if (CXbox.getRightStickYWithDeadzone() > Constants.LEFT_TRIGGER_DEAD_ZONE) {
-      m_subsystem.moveBackward(controller.getLeftY());
-    }
-    else {
-      feed();
-    }                                                                                                                                 
+    if (CXbox.XboxADown() && CXbox.XboxBDown() || CXbox.XboxADown() && CXbox.XboxYDown() || CXbox.XboxBDown() && CXbox.XboxYDown()){
+        System.out.println("Two or more buttons are pressed"); //IDK what to put here, this is a stopper
+    } else if(CXbox.XboxADown()) {
+        m_subsystem.turnRight(controller.getRightX());
+      } else if (CXbox.getRightStickXWithDeadzone() < -Constants.RIGHT_STICK_DEAD_ZONE) {
+        m_subsystem.turnLeft(controller.getRightX());
+      }
   }
-
-  private void feed() {
-  }
-
 
   // Called once the command ends or is interrupted.
   @Override

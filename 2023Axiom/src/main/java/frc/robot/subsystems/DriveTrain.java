@@ -59,7 +59,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
 
     //makes sure that the wheels on the side are going the same way
     m_left2.follow(m_left1);
-    m_right1.follow(m_right2);
+    m_right2.follow(m_right1);
 
     drive = new DifferentialDrive(m_left1, m_right1);
 
