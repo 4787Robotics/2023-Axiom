@@ -143,14 +143,12 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
-      /*
       double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
       double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
       
       m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
-      */
-    }
-  */
+      
+    }*/
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation

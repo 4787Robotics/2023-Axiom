@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.AutonomousCommand;
+//import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
 
@@ -30,10 +30,10 @@ public class RobotContainer {
   
   // The robot's subsystems and commands are defined here...
   
-  private final DriveTrain m_exampleSubsystem = new DriveTrain();
-  private final XboxController inputController = new XboxController(0);
+  // private final DriveTrain m_exampleSubsystem = new DriveTrain();
+  // private final XboxController inputController = new XboxController(0);
 
-  private final DriveCommand m_teleopCommand = new DriveCommand(m_exampleSubsystem, inputController);
+  // private final DriveCommand m_teleopCommand = new DriveCommand(m_exampleSubsystem, inputController);
 
   private final Balance m_balance = new Balance();
 
