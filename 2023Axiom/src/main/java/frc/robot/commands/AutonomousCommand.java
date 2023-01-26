@@ -59,7 +59,7 @@ public void initialize() {}
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-  /*
+  
     final DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(Constants.KS_VOLTS, Constants.KV_VOLT_SECONDS_PER_METER, Constants.KA_VOLT_SECONDS_SQUARED_PER_METER), 
         Constants.K_DRIVE_KINEMATICS,10); 
@@ -95,8 +95,9 @@ public void execute() {
 
     //wpiLIB has it as a return function because they're not using a void function to call the autonomous command
     ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0,0));
-    */
+    
 }
+
 private void feed() {
 }
 

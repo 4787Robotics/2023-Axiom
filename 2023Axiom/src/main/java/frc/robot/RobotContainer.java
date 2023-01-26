@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.AutonomousCommand;
+// import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
 
@@ -24,16 +24,12 @@ import frc.robot.subsystems.DriveTrain;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final static DriveTrain m_subsystem = new DriveTrain();
-  static XboxController inputController = new XboxController(0);
-  private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem, inputController);
-  
   // The robot's subsystems and commands are defined here...
   
-  private final DriveTrain m_exampleSubsystem = new DriveTrain();
-  private final XboxController inputController = new XboxController(0);
+  private final static DriveTrain m_exampleSubsystem = new DriveTrain();
+  private final static XboxController inputController = new XboxController(0);
 
-  private final DriveCommand m_teleopCommand = new DriveCommand(m_exampleSubsystem, inputController);
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_exampleSubsystem, inputController);
 
   private final Balance m_balance = new Balance();
 
@@ -67,7 +63,6 @@ public class RobotContainer {
 
   */
   public static Command getTeleopCommand(){
-   
     return m_teleopCommand;
   }
 

@@ -139,7 +139,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
       //System.out.println("Left Joystick X axis = " + axis);
       drive.arcadeDrive(0, axis);
     }
-/*
+    
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
@@ -150,7 +150,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
       m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
       */
     }
-  */
+  
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation
