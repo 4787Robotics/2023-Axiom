@@ -6,13 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.DriveTrain;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.Balance;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,13 +25,15 @@ import frc.robot.subsystems.Balance;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  
+  private final static DriveTrain m_exampleSubsystem = new DriveTrain();
+  private final static XboxController inputController = new XboxController(0);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_exampleSubsystem, inputController);
 
   private final Balance m_balance = new Balance();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /* The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -47,9 +52,18 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+
+   /*
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+
+    //I'LL FIGURE THIS OUT AT SOME POINT
+    return m_teleopCommand;
+  }
+
+  */
+  public static Command getTeleopCommand(){
+    return m_teleopCommand;
   }
 
   public Balance getBalance() {
