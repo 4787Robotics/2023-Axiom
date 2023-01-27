@@ -27,16 +27,9 @@ public class RobotContainer {
   private final static DriveTrain m_subsystem = new DriveTrain();
   static XboxController inputController = new XboxController(0);
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem, inputController);
+  private final Balance m_balance = new Balance();
   
   // The robot's subsystems and commands are defined here...
-  
-  // private final DriveTrain m_exampleSubsystem = new DriveTrain();
-  // private final XboxController inputController = new XboxController(0);
-
-  // private final DriveCommand m_teleopCommand = new DriveCommand(m_exampleSubsystem, inputController);
-
-  private final Balance m_balance = new Balance();
-
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -57,7 +50,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
-   /*
+
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
 
@@ -65,7 +58,6 @@ public class RobotContainer {
     return m_teleopCommand;
   }
 
-  */
   public static Command getTeleopCommand(){
    
     return m_teleopCommand;

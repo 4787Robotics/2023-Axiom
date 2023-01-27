@@ -26,9 +26,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 */
-import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
+// import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
-import com.kauailabs.navx.frc.AHRS;
+// import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
@@ -59,7 +59,7 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
 
     //makes sure that the wheels on the side are going the same way
     m_left2.follow(m_left1);
-    m_right1.follow(m_right2);
+    m_right2.follow(m_right1);
 
     drive = new DifferentialDrive(m_left1, m_right1);
 
