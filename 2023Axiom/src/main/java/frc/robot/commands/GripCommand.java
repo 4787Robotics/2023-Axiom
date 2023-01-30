@@ -24,7 +24,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 /** An example command that uses an example subsystem. */
-public class ArmCommand extends CommandBase {
+public class GripCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
 
@@ -33,7 +33,7 @@ public class ArmCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmCommand(MotorController subsystem) {
+  public GripCommand(MotorController subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -47,15 +47,16 @@ public class ArmCommand extends CommandBase {
   @Override
   private char level;
   public void execute() {
-    if (CXbox.XboxADown() && CXbox.XboxBDown() || CXbox.XboxADown() && CXbox.XboxYDown() || CXbox.XboxBDown() && CXbox.XboxYDown()){
-        System.out.println("Two or more buttons are pressed");
-    } else if(CXbox.XboxADown()) {
-        m_subsystem.turnRight(controller.getRightX()); //Lowest Point, Grounded
-      } else if (CXbox.XboxBDown() && ) {
-        m_subsystem.turnLeft(controller.getRightX()); //Mid Point, from below
-      } else if (CXbox.XboxYDown()) {
-
-      }
+    if (CXbox.getLeftTriggerWithDeadzone() > 0 && CXbox.getRightTriggerWithDeadzone() > 0){
+      System.out.println("Two or more buttons are pressed");
+      m_subsystem.intake(0); //Don't move
+    } else if(CXbox.getRightTriggerWithDeadzone() > 0) {
+      m_subsystem.intake(0.5); //Pull in
+    } else if (CXbox.XboxBDown() && ) {
+      m_subsystem.intake(-0.5); //Pull out
+    } else{
+      m_subsystem.intake(0); //Don't move
+    }
   }
 
   // Called once the command ends or is interrupted.

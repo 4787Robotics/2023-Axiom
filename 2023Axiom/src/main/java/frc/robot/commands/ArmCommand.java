@@ -48,15 +48,15 @@ public class ArmCommand extends CommandBase {
   private char level;
   public void execute() {
     if (CXbox.XboxADown() && CXbox.XboxBDown() || CXbox.XboxADown() && CXbox.XboxYDown() || CXbox.XboxBDown() && CXbox.XboxYDown()){
-        System.out.println("Two or more buttons are pressed");
+      System.out.println("Two or more buttons are pressed");
     } else if(CXbox.XboxADown()) {
-        m_subsystem.turnRight(controller.getRightX()); //Lowest Point, Grounded
-      } else if (CXbox.XboxBDown() && ) {
-        m_subsystem.turnLeft(controller.getRightX()); //Mid Point, from below
-      } else if (CXbox.XboxYDown()) {
-
-      }
-  }
+      m_subsystem.//Lowest Point, Grounded
+    } else if (CXbox.XboxBDown()) {
+      //Mid Point, from below
+    } else if (CXbox.XboxYDown()) {
+      //Highmid point?
+    }
+  } //I have no idea what to put here for PID values and such
 
   // Called once the command ends or is interrupted.
   @Override
