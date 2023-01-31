@@ -26,18 +26,23 @@ import edu.wpi.first.math.geometry.Pose2d;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 */
-// import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
-// import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
-public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
+public class DriveTrain extends SubsystemBase{
+    public CANSparkMax m_left1, m_left2, m_right1, m_right2;
+    private DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
-    private static CANSparkMax m_left1 = new CANSparkMax(Constants.LEFT_MOTOR_1_ID, MotorType.kBrushless);
-    private CANSparkMax m_left2 = new CANSparkMax(Constants.LEFT_MOTOR_2_ID, MotorType.kBrushless);
-    private static CANSparkMax m_right1 = new CANSparkMax(Constants.RIGHT_MOTOR_1_ID, MotorType.kBrushless);
-    private CANSparkMax m_right2 = new CANSparkMax(Constants.RIGHT_MOTOR_2_ID, MotorType.kBrushless);
+    
+  
+  
+  public DriveTrain(){
+    m_left1 = new CANSparkMax(Constants.LEFT_MOTOR_1_ID, MotorType.kBrushless);
+    m_left2 = new CANSparkMax(Constants.LEFT_MOTOR_2_ID, MotorType.kBrushless);
+    m_right1 = new CANSparkMax(Constants.RIGHT_MOTOR_1_ID, MotorType.kBrushless);
+    m_right2 = new CANSparkMax(Constants.RIGHT_MOTOR_2_ID, MotorType.kBrushless);
   
 /*
     private static WPI_TalonFX m_left1 = new WPI_TalonFX(Constants.leftMotor1ID);
@@ -47,6 +52,9 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     */
   
     boolean left_side_inverted = Constants.LEFT_SIDE_INVERTED;
+    m_left1.setInverted(left_side_inverted);
+    m_left2.setInverted(left_side_inverted);
+    
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
@@ -54,12 +62,9 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
-  
-  public DriveTrain(){
-
     //makes sure that the wheels on the side are going the same way
     m_left2.follow(m_left1);
-    m_right2.follow(m_right1);
+    m_right1.follow(m_right2);
 
     drive = new DifferentialDrive(m_left1, m_right1);
 
