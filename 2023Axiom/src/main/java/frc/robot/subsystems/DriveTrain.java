@@ -26,12 +26,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 */
-import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
+// import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
-import com.kauailabs.navx.frc.AHRS;
+// import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
-public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
+public class DriveTrain extends SubsystemBase{   
+    public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
     private static CANSparkMax m_left1 = new CANSparkMax(Constants.LEFT_MOTOR_1_ID, MotorType.kBrushless);
@@ -50,7 +51,6 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
-
     private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
@@ -74,7 +74,6 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     m_left2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_right1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_right2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
-
     m_left1.setMeasurementPeriod(measurement_period);
     m_left1.configVelocityMeasurementWindow(window_size);
     m_left2.setMeasurementPeriod(measurement_period);
@@ -83,7 +82,6 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     m_right1.configVelocityMeasurementWindow(window_size);
     m_right2.setMeasurementPeriod(measurement_period);
     m_right2.configVelocityMeasurementWindow(window_size);
-
     resetEncoders();
     */
   }
@@ -98,13 +96,14 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     double leftEncoderVelocity = Constants.kDistancePerEncoderCount*(m_left1.getVelocity()*10); 
     double rightEncoderVelocity = Constants.kDistancePerEncoderCount*(m_right1.getVelocity()*10); 
-
     return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
   }
   */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
     m_right1.setVoltage(rightVolts);
+    m_left2.setVoltage(leftVolts);
+    m_right2.setVoltage(rightVolts);
     drive.feed();
   }
   /*
@@ -123,34 +122,16 @@ public class DriveTrain extends SubsystemBase{    DifferentialDrive drive;
     //Turning right/left and moving forward/backward 
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
-    public void turnRight(double axis){
-      //System.out.println("Right Joystick Y axis = " + axis);
-      drive.arcadeDrive(axis, 0);
-    }
-    public void turnLeft(double axis){
-      //System.out.println("Right Joystick Y axis =" + axis);
-      drive.arcadeDrive(axis, 0);
-    }
-    public void moveBackward(double axis){
-      //System.out.println("Left Joystick X axis = " + axis);
-      drive.arcadeDrive(0, axis);
-    }
-    public void moveForward(double axis){
-      //System.out.println("Left Joystick X axis = " + axis);
-      drive.arcadeDrive(0, axis);
-    }
-    
+/*
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
-      /*
       double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
       double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
       
       m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
-      */
-    }
-  
+      
+    }*/
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation

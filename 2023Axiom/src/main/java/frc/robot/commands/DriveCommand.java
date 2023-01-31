@@ -19,9 +19,9 @@ import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
+// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+// import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+//import com.revrobotics.CANSparkMax;
 
 public class DriveCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -51,20 +51,20 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(CXbox.getRightStickXWithDeadzone() > Constants.RIGHT_STICK_DEAD_ZONE) {
-      m_subsystem.turnRight(controller.getRightX());
-    } else if (CXbox.getRightStickXWithDeadzone() < -Constants.RIGHT_STICK_DEAD_ZONE) {
-      m_subsystem.turnLeft(controller.getRightX());
-    }
+    // if(CXbox.getRightStickXWithDeadzone() > Constants.RIGHT_STICK_DEAD_ZONE) {
+    //   m_subsystem.turnRight(controller.getRightX());
+    // } else if (CXbox.getRightStickXWithDeadzone() < -Constants.RIGHT_STICK_DEAD_ZONE) {
+    //   m_subsystem.turnLeft(controller.getRightX());
+    // }
     
-    if(CXbox.getLeftStickYWithDeadzone() < -Constants.LEFT_STICK_DEAD_ZONE) {
-      m_subsystem.moveForward(controller.getLeftY());
-    } else if (CXbox.getRightStickYWithDeadzone() > Constants.LEFT_TRIGGER_DEAD_ZONE) {
-      m_subsystem.moveBackward(controller.getLeftY());
-    }
-    else {
-      feed();
-    }                                                                                                                                 
+    // if(CXbox.getLeftStickYWithDeadzone() < -Constants.LEFT_STICK_DEAD_ZONE) {
+    //   m_subsystem.moveForward(controller.getLeftY());
+    // } else if (CXbox.getRightStickYWithDeadzone() > Constants.LEFT_TRIGGER_DEAD_ZONE) {
+    //   m_subsystem.moveBackward(controller.getLeftY());
+    // }
+    // else {
+    //   feed();
+    // }                                                                                                                                 
   }
 
   private void feed() {
