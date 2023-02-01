@@ -27,4 +27,4 @@
 //     m_leftGrip.configOpenloopRamp(0.4); // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
 //     m_rightGrip.configOpenloopRamp(0.4); // may need change in the future when robot is active
 //   }
-// }
+//}
