@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends SubsystemBase{
     public CANSparkMax m_left1, m_left2, m_right1, m_right2;
-    private DifferentialDrive drive;
+    public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
     
@@ -50,10 +50,6 @@ public class DriveTrain extends SubsystemBase{
     private static WPI_TalonFX m_right1 = new WPI_TalonFX(Constants.rightMotor1ID);
     private WPI_TalonFX m_right2 = new WPI_TalonFX(Constants.rightMotor2ID);
     */
-  
-    boolean left_side_inverted = Constants.LEFT_SIDE_INVERTED;
-    m_left1.setInverted(left_side_inverted);
-    m_left2.setInverted(left_side_inverted);
     
     /*
     int window_size = 1;
@@ -64,7 +60,7 @@ public class DriveTrain extends SubsystemBase{
     */
     //makes sure that the wheels on the side are going the same way
     m_left2.follow(m_left1);
-    m_right1.follow(m_right2);
+    m_right2.follow(m_right1);
 
     drive = new DifferentialDrive(m_left1, m_right1);
 
@@ -109,7 +105,9 @@ public class DriveTrain extends SubsystemBase{
   */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
-    m_right1.setVoltage(rightVolts);
+    m_right1.setVoltage(leftVolts);
+    m_left2.setVoltage(leftVolts);
+    m_right2.setVoltage(leftVolts);
     drive.feed();
   }
   /*
@@ -128,32 +126,19 @@ public class DriveTrain extends SubsystemBase{
     //Turning right/left and moving forward/backward 
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
-    public void turnRight(double axis){
-      //System.out.println("Right Joystick Y axis = " + axis);
-      drive.arcadeDrive(axis, 0);
+    public void driveRobot(double throttle, double turn){
+      drive.arcadeDrive(throttle, turn);
     }
-    public void turnLeft(double axis){
-      //System.out.println("Right Joystick Y axis =" + axis);
-      drive.arcadeDrive(axis, 0);
-    }
-    public void moveBackward(double axis){
-      //System.out.println("Left Joystick X axis = " + axis);
-      drive.arcadeDrive(0, axis);
-    }
-    public void moveForward(double axis){
-      //System.out.println("Left Joystick X axis = " + axis);
-      drive.arcadeDrive(0, axis);
-    }
-/*
+
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
-      double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
-      double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
+      // double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
+      // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
       
-      m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
+      // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
       
-    }*/
+    }
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation
