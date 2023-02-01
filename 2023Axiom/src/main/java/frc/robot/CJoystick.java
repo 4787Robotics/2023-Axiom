@@ -16,7 +16,7 @@ public class CJoystick {
         System.out.println("Joystick POV = "+joystick.getPOV());
         return joystick.getPOV();
     }
-    return 0;
+    return -1;
 }
 // Buttons 1-12
     public static boolean joystickButton1Down(){

@@ -72,7 +72,7 @@ public class CXbox {
     }
 // left trigger value
     public static double getLeftTriggerWithDeadzone(){
-        if (xboxcontroller.getLeftTriggerAxis() > Constants.leftTriggerDeadzone) {
+        if (xboxcontroller.getLeftTriggerAxis() > Constants.LEFT_TRIGGER_DEAD_ZONE) {
             System.out.println("left trigger = "+xboxcontroller.getLeftTriggerAxis());
             return xboxcontroller.getLeftTriggerAxis();           
         }
@@ -80,7 +80,7 @@ public class CXbox {
     }
 // right trigger value
     public static double getRightTriggerWithDeadzone(){
-        if (xboxcontroller.getRightTriggerAxis() > Constants.rightTriggerDeadzone) {
+        if (xboxcontroller.getRightTriggerAxis() > Constants.RIGHT_TRIGGER_DEAD_ZONE) {
             System.out.println("right trigger = "+xboxcontroller.getRightTriggerAxis());
             return xboxcontroller.getRightTriggerAxis();
         }
@@ -88,7 +88,7 @@ public class CXbox {
     }
 // left stick X value
     public static double getLeftStickXWithDeadzone(){
-        if (xboxcontroller.getLeftX() > Constants.leftStickDeadzone || xboxcontroller.getLeftX() < -Constants.leftStickDeadzone) {
+        if (xboxcontroller.getLeftX() > Constants.LEFT_TRIGGER_DEAD_ZONE || xboxcontroller.getLeftX() < -Constants.LEFT_TRIGGER_DEAD_ZONE) {
             System.out.println("left x = "+xboxcontroller.getLeftX());
             return xboxcontroller.getLeftX();
         }
@@ -96,16 +96,15 @@ public class CXbox {
     }
 // right stick X value
     public static double getRightStickXWithDeadzone() {
-        if (xboxcontroller.getRightX() > Constants.rightStickDeadzone || xboxcontroller.getRightX() < -Constants.rightStickDeadzone) {
+        if (xboxcontroller.getRightX() > Constants.RIGHT_TRIGGER_DEAD_ZONE || xboxcontroller.getRightX() < -Constants.RIGHT_TRIGGER_DEAD_ZONE) {
             System.out.println("right x = "+xboxcontroller.getRightX());
             return xboxcontroller.getRightX();
         }
         return 0;
-
     }
 // left stick Y value
     public static double getLeftStickYWithDeadzone(){
-        if (xboxcontroller.getLeftY() > Constants.leftStickDeadzone || xboxcontroller.getLeftY() < -Constants.leftStickDeadzone) {
+        if (xboxcontroller.getLeftY() > Constants.LEFT_TRIGGER_DEAD_ZONE || xboxcontroller.getLeftY() < -Constants.LEFT_TRIGGER_DEAD_ZONE) {
             System.out.println("left y = "+xboxcontroller.getLeftY());
             return xboxcontroller.getLeftY();
         }
@@ -113,7 +112,7 @@ public class CXbox {
     }
 //right stick Y value
     public static double getRightStickYWithDeadzone(){
-        if (xboxcontroller.getRightY() > Constants.rightStickDeadzone || xboxcontroller.getRightY() < Constants.rightStickDeadzone * -1) {
+        if (xboxcontroller.getRightY() > Constants.RIGHT_TRIGGER_DEAD_ZONE || xboxcontroller.getRightY() < Constants.RIGHT_TRIGGER_DEAD_ZONE * -1) {
             System.out.println("right y = "+xboxcontroller.getRightY());
             return xboxcontroller.getRightY();
         }

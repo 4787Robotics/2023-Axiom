@@ -7,6 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Balance;
+//import frc.robot.subsystems.Scorekeeper;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_teleopCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -28,6 +34,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_teleopCommand = m_robotContainer.getTeleopCommand();
+
+    Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }
 
   /**
@@ -55,18 +64,24 @@ public class Robot extends TimedRobot {
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
+  
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    System.out.println("AUTO INIT");
+    m_robotContainer.getBalance().setHeadingAdjust();
+
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-  }
-
+    
+  } 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
@@ -74,9 +89,11 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    m_teleopCommand = RobotContainer.getTeleopCommand();
+    if (m_teleopCommand != null) {
+      m_teleopCommand.cancel();
     }
+    m_teleopCommand.schedule();
   }
 
   /** This function is called periodically during operator control. */
@@ -118,7 +135,7 @@ public class Robot extends TimedRobot {
     CXbox.getRightStickYWithDeadzone();
     */
 
-    //*
+    /*
     CJoystick.getJoystickPOV();
     CJoystick.getJoystickXWithDeadzone();
     CJoystick.getJoystickYWithDeadzone();
@@ -136,7 +153,7 @@ public class Robot extends TimedRobot {
     CJoystick.joystickButton10Down();
     CJoystick.joystickButton11Down();
     CJoystick.joystickButton12Down();
-    //*/
+    */
+    //Scorekeeper.updateDashboard();
   }
-  
 }

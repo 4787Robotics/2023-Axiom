@@ -1,19 +1,70 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "window": {
-        "visible": false
+      "SPARK MAX [1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [4]": {
+        "header": {
+          "open": true
+        }
+      },
+      "navX-Sensor[0]": {
+        "header": {
+          "open": true
+        }
       }
     }
   },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Balance": "Subsystem",
       "/LiveWindow/ExampleSubsystem": "Subsystem",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/Shuffleboard/New Tab/navX-Sensor[4]": "Gyro"
+    },
+    "windows": {
+      "/LiveWindow/ExampleSubsystem": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
-  "NetworkTables View": {
-    "visible": false
+  "NetworkTables": {
+    "FMSInfo": {
+      "open": true
+    },
+    "LiveWindow": {
+      "open": true
+    },
+<<<<<<< HEAD
+    "Retained Values": {
+      "open": false
+    },
+    "transitory": {
+      "FMSInfo": {
+        "open": true
+      }
+=======
+    "Transitory Values": {
+      "open": false
+>>>>>>> main
+    }
   }
 }
