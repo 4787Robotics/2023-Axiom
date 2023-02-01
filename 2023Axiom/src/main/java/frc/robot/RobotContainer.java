@@ -26,7 +26,7 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
   private final static DriveTrain m_subsystem = new DriveTrain();
   static XboxController inputController = new XboxController(0);
-  private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem, inputController);
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem);
   private final Balance m_balance = new Balance();
   
   // The robot's subsystems and commands are defined here...
