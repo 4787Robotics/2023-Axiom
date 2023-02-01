@@ -25,16 +25,13 @@ import frc.robot.subsystems.DriveTrain;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  
-  private final static DriveTrain m_driveTrain = new DriveTrain();
-  private final static XboxController inputController = new XboxController(0);
-
-  private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain, inputController);
+  private final static DriveTrain m_subsystem = new DriveTrain();
+  static XboxController inputController = new XboxController(0);
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem);
   private final static RammseteAutonomousCommand m_autoCommand = new RammseteAutonomousCommand(m_driveTrain);
-
   private final Balance m_balance = new Balance();
-
+  
+  // The robot's subsystems and commands are defined here...
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -60,6 +57,7 @@ public class RobotContainer {
   }
 
   public static Command getTeleopCommand(){
+   
     return m_teleopCommand;
   }
 

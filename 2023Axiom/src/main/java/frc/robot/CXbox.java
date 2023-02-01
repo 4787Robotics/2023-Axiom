@@ -101,7 +101,6 @@ public class CXbox {
             return xboxcontroller.getRightX();
         }
         return 0;
-
     }
 // left stick Y value
     public static double getLeftStickYWithDeadzone(){

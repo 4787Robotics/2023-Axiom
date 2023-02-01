@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -25,51 +26,38 @@ import javax.lang.model.util.ElementScanner6;
 
 public class DriveCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DriveTrain m_subsystem;
-  XboxController controller;
-  private Spark m_left1, m_right2;
-  private Spark m_left2, m_right1;
-  DifferentialDrive drive;
+  private final DriveTrain driveTrain;
+  // XboxController controller = new XboxController(0);
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveCommand(DriveTrain subsystem, XboxController inputController) {
-        controller = inputController;
-        m_subsystem = subsystem;
+  public DriveCommand(DriveTrain m_DriveTrain) {
+    driveTrain = m_DriveTrain;
         
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(m_DriveTrain);
   }
 
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    // driveTrain.tankDriveVolts(0.7, 0.7);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if(CXbox.getRightStickXWithDeadzone() > Constants.RIGHT_STICK_DEAD_ZONE) {
-    //   m_subsystem.turnRight(controller.getRightX());
-    // } else if (CXbox.getRightStickXWithDeadzone() < -Constants.RIGHT_STICK_DEAD_ZONE) {
-    //   m_subsystem.turnLeft(controller.getRightX());
-    // }
-    
-    // if(CXbox.getLeftStickYWithDeadzone() < -Constants.LEFT_STICK_DEAD_ZONE) {
-    //   m_subsystem.moveForward(controller.getLeftY());
-    // } else if (CXbox.getRightStickYWithDeadzone() > Constants.LEFT_TRIGGER_DEAD_ZONE) {
-    //   m_subsystem.moveBackward(controller.getLeftY());
+    driveTrain.drive.arcadeDrive(CXbox.getLeftStickYWithDeadzone(), CXbox.getRightStickXWithDeadzone());
+    // if(controller.getLeftY()>0.7f || controller.getLeftY()<-0.7f || controller.getRightX() > 0.7f || controller.getRightX() < -0.7f){
+    //   driveTrain.drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
     // }
     // else {
-    //   feed();
-    // }                                                                                                                                 
+    //   driveTrain.drive.arcadeDrive(0, 0);
+    // }                                                                                                                       
   }
-
-  private void feed() {
-  }
-
 
   // Called once the command ends or is interrupted.
   @Override
