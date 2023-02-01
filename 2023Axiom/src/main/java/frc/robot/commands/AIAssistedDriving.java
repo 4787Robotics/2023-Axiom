@@ -5,12 +5,14 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.LimeLight;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class AIAssistedDriving extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final LimeLight m_subsystem;
+  private final LimeLight limeLight;
+  private long startTime;
 
   /**
    * Creates a new ExampleCommand.
@@ -18,20 +20,53 @@ public class AIAssistedDriving extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public AIAssistedDriving(LimeLight subsystem) {
-    m_subsystem = subsystem;
+    limeLight = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
 
+  private void restartTimer() {
+    startTime = System.currentTimeMillis();
+  }
+
+  private double getElapsedSeconds() {
+    long elapsedTime = System.currentTimeMillis() - startTime;
+    long elapsedSeconds = elapsedTime / 1000;
+    return (double) elapsedSeconds;
+  }
+
+  public boolean checkForAprilTag(int iD) {
+    limeLight.setTargetedAprilTagId(iD);
+    return limeLight.hasTarget();
+  }
+
+  public double[] checkForAllAprilTags() {
+    double tags[] = {0,0,0,0};
+    for (int i = 0; i < 4; i++) {
+      restartTimer();
+      while (getElapsedSeconds() < 0.01) {
+        if (checkForAprilTag(i + 1)) {
+          tags[i] = 1;
+          break;
+        }
+      }
+    }
+    
+    return tags;
+  }
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    //SmartDashboard.putNumberArray("tags found", checkForAllAprilTags());
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.calculateDistance();
-    m_subsystem.updateDashboard();
+    //Dashboard shit
+    limeLight.updateDashboard();
+    SmartDashboard.putNumberArray("tags found", checkForAllAprilTags());
   }
 
   // Called once the command ends or is interrupted.
