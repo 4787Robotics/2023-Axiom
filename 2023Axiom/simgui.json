@@ -53,6 +53,7 @@
     "LiveWindow": {
       "open": true
     },
+<<<<<<< HEAD
     "Retained Values": {
       "open": false
     },
@@ -60,6 +61,10 @@
       "FMSInfo": {
         "open": true
       }
+=======
+    "Transitory Values": {
+      "open": false
+>>>>>>> main
     }
   }
 }
