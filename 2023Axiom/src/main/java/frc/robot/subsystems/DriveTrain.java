@@ -44,13 +44,10 @@ public class DriveTrain extends SubsystemBase{
     m_right1 = new CANSparkMax(Constants.RIGHT_MOTOR_1_ID, MotorType.kBrushless);
     m_right2 = new CANSparkMax(Constants.RIGHT_MOTOR_2_ID, MotorType.kBrushless);
   
-/*
-    private static WPI_TalonFX m_left1 = new WPI_TalonFX(Constants.leftMotor1ID);
-    private WPI_TalonFX m_left2 = new WPI_TalonFX(Constants.leftMotor2ID);
-    private static WPI_TalonFX m_right1 = new WPI_TalonFX(Constants.rightMotor1ID);
-    private WPI_TalonFX m_right2 = new WPI_TalonFX(Constants.rightMotor2ID);
-    */
-    
+    m_left1.setSmartCurrentLimit(35);    
+    m_left2.setSmartCurrentLimit(35);
+    m_right1.setSmartCurrentLimit(35);
+    m_right2.setSmartCurrentLimit(35);
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;

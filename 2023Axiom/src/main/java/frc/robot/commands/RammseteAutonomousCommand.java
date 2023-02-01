@@ -13,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 
 
