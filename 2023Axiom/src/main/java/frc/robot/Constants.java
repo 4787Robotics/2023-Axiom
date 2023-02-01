@@ -12,4 +12,14 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    //Limelight
+    // distance from the target to the floor
+    public static double GoalHeight = 14.25; //inches
+
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    public static double LimelightMountAngle = 0; //degrees
+
+    // distance from the center of the Limelight lens to the floor
+    public static double LimelightLensHeight = 7.25; //inches
+}
