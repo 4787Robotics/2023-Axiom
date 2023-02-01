@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final LimeLight m_exampleSubsystem = new LimeLight();
+  private final LimeLight limeLight = new LimeLight();
 
-  private final AIAssistedDriving m_autoCommand = new AIAssistedDriving(m_exampleSubsystem);
+  private final AIAssistedDriving aIAssistedDriving = new AIAssistedDriving(limeLight);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -43,6 +43,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return aIAssistedDriving;
   }
 }
