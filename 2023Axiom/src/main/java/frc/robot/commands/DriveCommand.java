@@ -20,14 +20,9 @@ import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
 
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-// import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-//import com.revrobotics.CANSparkMax;
-
 public class DriveCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain driveTrain;
-  // XboxController controller = new XboxController(0);
   /**
    * Creates a new ExampleCommand.
    *
@@ -50,13 +45,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive.arcadeDrive(CXbox.getLeftStickYWithDeadzone(), CXbox.getRightStickXWithDeadzone());
-    // if(controller.getLeftY()>0.7f || controller.getLeftY()<-0.7f || controller.getRightX() > 0.7f || controller.getRightX() < -0.7f){
-    //   driveTrain.drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
-    // }
-    // else {
-    //   driveTrain.drive.arcadeDrive(0, 0);
-    // }                                                                                                                       
+    driveTrain.drive.arcadeDrive(CXbox.getLeftStickYWithDeadzone(), CXbox.getRightStickXWithDeadzone());                                                                                                                       
   }
 
   // Called once the command ends or is interrupted.

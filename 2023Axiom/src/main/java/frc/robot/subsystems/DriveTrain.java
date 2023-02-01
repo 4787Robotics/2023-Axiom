@@ -27,7 +27,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 */
 
-import com.kauailabs.navx.frc.AHRS;
+// import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends SubsystemBase{
@@ -44,17 +44,13 @@ public class DriveTrain extends SubsystemBase{
     m_right1 = new CANSparkMax(Constants.RIGHT_MOTOR_1_ID, MotorType.kBrushless);
     m_right2 = new CANSparkMax(Constants.RIGHT_MOTOR_2_ID, MotorType.kBrushless);
   
-/*
-    private static WPI_TalonFX m_left1 = new WPI_TalonFX(Constants.leftMotor1ID);
-    private WPI_TalonFX m_left2 = new WPI_TalonFX(Constants.leftMotor2ID);
-    private static WPI_TalonFX m_right1 = new WPI_TalonFX(Constants.rightMotor1ID);
-    private WPI_TalonFX m_right2 = new WPI_TalonFX(Constants.rightMotor2ID);
-    */
-    
+    m_left1.setSmartCurrentLimit(35);    
+    m_left2.setSmartCurrentLimit(35);
+    m_right1.setSmartCurrentLimit(35);
+    m_right2.setSmartCurrentLimit(35);
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
-
     private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
@@ -75,7 +71,6 @@ public class DriveTrain extends SubsystemBase{
     m_left2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_right1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
     m_right2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
-
     m_left1.setMeasurementPeriod(measurement_period);
     m_left1.configVelocityMeasurementWindow(window_size);
     m_left2.setMeasurementPeriod(measurement_period);
@@ -84,7 +79,6 @@ public class DriveTrain extends SubsystemBase{
     m_right1.configVelocityMeasurementWindow(window_size);
     m_right2.setMeasurementPeriod(measurement_period);
     m_right2.configVelocityMeasurementWindow(window_size);
-
     resetEncoders();
     */
   }
@@ -99,7 +93,6 @@ public class DriveTrain extends SubsystemBase{
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     double leftEncoderVelocity = Constants.kDistancePerEncoderCount*(m_left1.getVelocity()*10); 
     double rightEncoderVelocity = Constants.kDistancePerEncoderCount*(m_right1.getVelocity()*10); 
-
     return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
   }
   */
