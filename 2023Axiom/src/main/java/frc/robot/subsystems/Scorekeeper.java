@@ -8,6 +8,7 @@ import frc.robot.CXbox;
 public class Scorekeeper {
     public static void updateDashboard() {
     //Joystick
+        /*
         //movable stuff
             SmartDashboard.putNumber("Joystick POV val", CJoystick.getJoystickPOV() );
             SmartDashboard.putNumber("Joystick Rot val", CJoystick.getJoystickRotationWithDeadzone() );
@@ -28,7 +29,7 @@ public class Scorekeeper {
             SmartDashboard.putBoolean("B10", CJoystick.joystickButton10Down() );
             SmartDashboard.putBoolean("B11", CJoystick.joystickButton11Down() );
             SmartDashboard.putBoolean("B12", CJoystick.joystickButton12Down() );
-
+        //*/
     //Xbox Controller
         //Movable Stuff
             SmartDashboard.putNumber("LSX", CXbox.getLeftStickXWithDeadzone() );
