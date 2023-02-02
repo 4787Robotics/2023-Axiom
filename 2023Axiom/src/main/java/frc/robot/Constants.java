@@ -42,8 +42,8 @@ public final class Constants {
     public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.7f;
     public static final float LEFT_TRIGGER_DEAD_ZONE = 0.7f;
     //Joystick
-    public static final float joystickRotDeadzone = 0.9f;
-    public static final float joystickDeadzone = 0.9f;
+    public static final float joystickRotDeadzone = 0.5f;
+    public static final float joystickDeadzone = 0.1f;
 
     //Constants for Autonomous
     public static final double KS_VOLTS = 0;
