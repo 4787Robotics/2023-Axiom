@@ -35,8 +35,8 @@ public class GripCommand extends CommandBase {
    */
   public GripCommand(MotorController subsystem) {
     m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    // Use addRequirements() here to declare subsystem dependencies, if any.
+    //addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -52,7 +52,7 @@ public class GripCommand extends CommandBase {
       m_subsystem.intake(0); //Don't move
     } else if(CXbox.getRightTriggerWithDeadzone() > 0) {
       m_subsystem.intake(0.5); //Pull in
-    } else if (CXbox.XboxBDown() && ) {
+    } else if (CXbox.getLeftTriggerWithDeadzone() > 0) {
       m_subsystem.intake(-0.5); //Pull out
     } else{
       m_subsystem.intake(0); //Don't move

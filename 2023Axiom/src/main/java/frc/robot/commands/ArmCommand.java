@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
 import frc.robot.CJoystick;
 import frc.robot.Constants;
+import frc.robot.subsystems.MotorController;
 
 import java.util.concurrent.TimeUnit;
 
@@ -45,12 +46,11 @@ public class ArmCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  private char level;
   public void execute() {
     if (CXbox.XboxADown() && CXbox.XboxBDown() || CXbox.XboxADown() && CXbox.XboxYDown() || CXbox.XboxBDown() && CXbox.XboxYDown()){
       System.out.println("Two or more buttons are pressed");
     } else if(CXbox.XboxADown()) {
-      m_subsystem.//Lowest Point, Grounded
+      .//Lowest Point, Grounded
     } else if (CXbox.XboxBDown()) {
       //Mid Point, from below
     } else if (CXbox.XboxYDown()) {
