@@ -17,11 +17,11 @@ public class CJoystick {
         return joystick.getPOV();
     }
     return -1;
-}
+    }
 // Buttons 1-12
     public static boolean joystickButton1Down(){
+        QOL.toggle(joystick.getRawButtonPressed(1), joystick.getRawButton(1));
         if(joystick.getRawButton(1)){
-            
             return joystick.getRawButton(1);
         }
         return false;
@@ -136,5 +136,4 @@ public class CJoystick {
             }
         return 1;
     }
-
 }
