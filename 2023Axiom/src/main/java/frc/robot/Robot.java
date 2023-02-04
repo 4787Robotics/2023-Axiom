@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
     CXbox.getLeftStickYWithDeadzone();
     CXbox.getRightStickXWithDeadzone();
     CXbox.getRightStickYWithDeadzone();
-    */
+    //*/
 
     /*
     CJoystick.getJoystickPOV();
@@ -154,7 +154,7 @@ public class Robot extends TimedRobot {
     CJoystick.joystickButton10Down();
     CJoystick.joystickButton11Down();
     CJoystick.joystickButton12Down();
-    */
+    //*/
     Scorekeeper.updateDashboard();
   }
 }
