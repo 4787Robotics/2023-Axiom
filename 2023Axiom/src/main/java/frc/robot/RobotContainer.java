@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.RammseteAutonomousCommand;
 // import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -28,8 +29,8 @@ public class RobotContainer {
   private final static DriveTrain m_driveTrain = new DriveTrain();
   static XboxController inputController = new XboxController(0);
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
-  private final static RammseteAutonomousCommand m_autoCommand = new RammseteAutonomousCommand(m_driveTrain);
-  private final Balance m_balance = new Balance();
+  private final static Balance m_balance = new Balance();
+  private final static NavXAutonomousCommand m_autoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   
   // The robot's subsystems and commands are defined here...
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -56,12 +57,15 @@ public class RobotContainer {
     return m_autoCommand;
   }
 
-  public static Command getTeleopCommand(){
-   
+  public Command getTeleopCommand(){
     return m_teleopCommand;
   }
 
   public Balance getBalance() {
     return m_balance;
+  }
+  
+  public DriveTrain getDriveTrain() {
+    return m_driveTrain;
   }
 }
