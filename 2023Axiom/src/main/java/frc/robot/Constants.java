@@ -19,6 +19,15 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    //Limelight
+    // distance from the target to the floor
+    public static double GoalHeight = 14.25; //inches
+
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    public static double LimelightMountAngle = 0; //degrees
+
+    // distance from the center of the Limelight lens to the floor
+    public static double LimelightLensHeight = 7.25; //inches
 
     public static int MOTOR_ARM = 0; //may need to change the Constant for these three later
     public static int MOTOR_LEFT_GRIP = 1;
