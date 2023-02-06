@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AIAssistedDriving;
+import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.RammseteAutonomousCommand;
 // import frc.robot.commands.AutonomousCommand;
@@ -32,6 +34,11 @@ public class RobotContainer {
   private final Balance m_balance = new Balance();
   
   // The robot's subsystems and commands are defined here...
+  private final LimeLight limeLight = new LimeLight();
+
+  private final AIAssistedDriving aIAssistedDriving = new AIAssistedDriving(limeLight);
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
