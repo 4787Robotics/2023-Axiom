@@ -15,8 +15,8 @@ public class MotorController extends SubsystemBase {
   private CANSparkMax LeftHand;
   private CANSparkMax RightHand;
   private CANSparkMax Arm;
-  private RelativeEncoder armEncoder; {
-  //private PIDController PID;
+  private RelativeEncoder armEncoder; 
+  private PIDController PID; {
 
       // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM, MotorType.kBrushless);
@@ -55,17 +55,17 @@ public class MotorController extends SubsystemBase {
         i++;
     }
 }
-
+ */
   public PIDController getPID() {
     return PID;
   }
 
-  private double beginPID(double currentMeasurement, double goalPoint) {
+  private double BeginPID(double currentMeasurement, double goalPoint) {
       return PID.calculate(currentMeasurement, goalPoint);
-  } */
-} @
-
-/**Changes needed but can't be done rn:
+  }
+}
+/*
+Changes needed but can't be done rn:
  * 
  * Figure out the motors for the clamp and wheels.
  * Install the new libraries for each new type of motor.

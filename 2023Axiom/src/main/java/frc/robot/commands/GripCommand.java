@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,8 +11,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
-import frc.robot.CJoystick;
 import frc.robot.Constants;
+import frc.robot.subsystems.MotorController;
 
 import java.util.concurrent.TimeUnit;
 
@@ -45,17 +44,16 @@ public class GripCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  private char level;
   public void execute() {
     if (CXbox.getLeftTriggerWithDeadzone() > 0 && CXbox.getRightTriggerWithDeadzone() > 0){
       System.out.println("Two or more buttons are pressed");
-      m_subsystem.intake(0); //Don't move
+      m_subsystem.Intake(0); //Don't move
     } else if(CXbox.getRightTriggerWithDeadzone() > 0) {
-      m_subsystem.intake(0.5); //Pull in
+      m_subsystem.Intake(0.5); //Pull in
     } else if (CXbox.getLeftTriggerWithDeadzone() > 0) {
-      m_subsystem.intake(-0.5); //Pull out
+      m_subsystem.Intake(-0.5); //Pull out
     } else{
-      m_subsystem.intake(0); //Don't move
+      m_subsystem.Intake(0); //Don't move
     }
   }
 

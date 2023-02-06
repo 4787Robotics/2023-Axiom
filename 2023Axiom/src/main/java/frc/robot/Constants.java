@@ -17,4 +17,9 @@ public final class Constants {
     public static final int MOTOR_ARM = 0; //may need to change the Constant for these three later
     public static final int MOTOR_LEFT_HAND = 1;
     public static final int MOTOR_RIGHT_HAND = 2;
+
+    public static final float RIGHT_STICK_DEAD_ZONE = 0.9f;
+    public static final float LEFT_STICK_DEAD_ZONE = 0.9f;
+    public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.7f;
+    public static final float LEFT_TRIGGER_DEAD_ZONE = 0.7f;
 }

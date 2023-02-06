@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,7 +11,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
-import frc.robot.CJoystick;
 import frc.robot.Constants;
 import frc.robot.subsystems.MotorController;
 
@@ -50,7 +48,7 @@ public class ArmCommand extends CommandBase {
     if (CXbox.XboxADown() && CXbox.XboxBDown() || CXbox.XboxADown() && CXbox.XboxYDown() || CXbox.XboxBDown() && CXbox.XboxYDown()){
       System.out.println("Two or more buttons are pressed");
     } else if(CXbox.XboxADown()) {
-      .//Lowest Point, Grounded
+      //Lowest Point, Grounded
     } else if (CXbox.XboxBDown()) {
       //Mid Point, from below
     } else if (CXbox.XboxYDown()) {
