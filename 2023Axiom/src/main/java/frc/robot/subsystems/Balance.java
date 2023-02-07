@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.*;
 
 public class Balance extends SubsystemBase{
@@ -13,14 +14,18 @@ public class Balance extends SubsystemBase{
     private double currentRotationRoll = 0; //Current rotation [-180, 180] tilted to left and and right. 1 means leaned 180 degrees left, -1 180 degrees right
     private double currentRotationYaw = 0;
     private double currentHeading = 0;
+    
     private double headingAdjust = 0;
     private boolean headingReady = false;
-    private int i = 0;
+
+    private int i = 0; //For testing, unnecessary otherwise
 
     private AHRS gyro;
+    private PIDController PID;
 
     public Balance() {
         gyro = new AHRS(SPI.Port.kMXP);
+        PID = new PIDController(1, 1, 1); //CHANGE THESE VALUES BEFORE YOU MAKE IT GO
     }
 
     @Override
@@ -33,6 +38,16 @@ public class Balance extends SubsystemBase{
 
         updateHeading();
         SmartDashboard.putNumber("Heading", currentHeading);
+
+        if (headingReady) {
+            if (i==10) {
+                System.out.println(beginPID(currentHeading, 30));
+                i=0;
+            }
+            else {
+                i++;
+            }
+        }
     }
 
     @Override
@@ -88,6 +103,19 @@ public class Balance extends SubsystemBase{
      */  
     public AHRS getGyro() {
         return gyro;
+    }
+
+    /**
+     * Gets the PID controller being used by this object.
+     *
+     * @return PID
+     */ 
+    public PIDController getPID() {
+        return PID;
+    }
+
+    private double beginPID(double currentMeasurement, double goalPoint) {
+        return PID.calculate(currentMeasurement, goalPoint);
     }
 
     private void updateYaw() {
