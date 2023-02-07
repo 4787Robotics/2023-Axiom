@@ -10,7 +10,6 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
 import frc.robot.CJoystick;
