@@ -5,19 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.CXbox;
+import frc.robot.subsystems.Balance;
+import edu.wpi.first.math.MathUtil;
 
-public class NavXAutonomousCommand extends CommandBase {
-  DriveTrain driveTrain;
-  Balance balance;
-  int i = 0;
+public class TurnAngle extends CommandBase {
+  /** Creates a new TurnAngle. */
+  private DriveTrain driveTrain;
+  private Balance balance;
+  private double turnTo;
 
-  /** Creates a new NavXAutonomousCommand. */
-  public NavXAutonomousCommand(DriveTrain m_driveTrain, Balance m_balance) {
+  public TurnAngle(DriveTrain m_driveTrain, Balance m_balance, double TurnTo) {
     driveTrain = m_driveTrain;
     balance = m_balance;
+    turnTo = TurnTo;
+        
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveTrain, m_balance);
   }
 
@@ -28,11 +31,7 @@ public class NavXAutonomousCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (i == 0) {
-      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, 30);
-      turnAngle.schedule();
-      i++;
-    }
+    driveTrain.driveRobot(0, MathUtil.clamp(balance.calculatePID(balance.getHeading(), balance.getHeading() + turnTo), -0.7, 0.7));
   }
 
   // Called once the command ends or is interrupted.

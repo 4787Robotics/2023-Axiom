@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
-import com.revrobotics.CANSparkMax;
-//import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-//import com.revrobotics.RelativeEncoder;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
 //import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -31,7 +31,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends SubsystemBase{
-    public CANSparkMax m_left1, m_left2, m_right1, m_right2;
+    public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
     public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
@@ -39,15 +39,15 @@ public class DriveTrain extends SubsystemBase{
   
   
   public DriveTrain(){
-    m_left1 = new CANSparkMax(Constants.LEFT_MOTOR_1_ID, MotorType.kBrushless);
-    m_left2 = new CANSparkMax(Constants.LEFT_MOTOR_2_ID, MotorType.kBrushless);
-    m_right1 = new CANSparkMax(Constants.RIGHT_MOTOR_1_ID, MotorType.kBrushless);
-    m_right2 = new CANSparkMax(Constants.RIGHT_MOTOR_2_ID, MotorType.kBrushless);
+    m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID); //Front left
+    m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID); //Back left
+    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left
+    m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
   
-    m_left1.setSmartCurrentLimit(35);    
-    m_left2.setSmartCurrentLimit(35);
-    m_right1.setSmartCurrentLimit(35);
-    m_right2.setSmartCurrentLimit(35);
+    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
+    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
+    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
+    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
@@ -55,6 +55,14 @@ public class DriveTrain extends SubsystemBase{
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
     //makes sure that the wheels on the side are going the same way
+    m_left1.setInverted(TalonFXInvertType.Clockwise);
+    m_left2.setInverted(TalonFXInvertType.Clockwise);
+
+    m_left2.setNeutralMode(NeutralMode.Brake);
+    m_left1.setNeutralMode(NeutralMode.Coast);
+    m_right2.setNeutralMode(NeutralMode.Brake);
+    m_right1.setNeutralMode(NeutralMode.Coast);
+
     m_left2.follow(m_left1);
     m_right2.follow(m_right1);
 

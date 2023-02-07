@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.*;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.Robot;
 
 public class Balance extends SubsystemBase{
     private double currentRotationPitch = 0; //Current rotation [-180, 180] backward and forward. 1 means leaned 180 degrees forward, -1 180 degrees backward
@@ -25,7 +27,7 @@ public class Balance extends SubsystemBase{
 
     public Balance() {
         gyro = new AHRS(SPI.Port.kMXP);
-        PID = new PIDController(1, 1, 1); //CHANGE THESE VALUES BEFORE YOU MAKE IT GO
+        PID = new PIDController(0.1, 0, 0); //CHANGE THESE VALUES BEFORE YOU MAKE IT GO
     }
 
     @Override
@@ -38,16 +40,6 @@ public class Balance extends SubsystemBase{
 
         updateHeading();
         SmartDashboard.putNumber("Heading", currentHeading);
-
-        if (headingReady) {
-            if (i==10) {
-                System.out.println(beginPID(currentHeading, 30));
-                i=0;
-            }
-            else {
-                i++;
-            }
-        }
     }
 
     @Override
@@ -114,7 +106,7 @@ public class Balance extends SubsystemBase{
         return PID;
     }
 
-    private double beginPID(double currentMeasurement, double goalPoint) {
+    public double calculatePID(double currentMeasurement, double goalPoint) {
         return PID.calculate(currentMeasurement, goalPoint);
     }
 

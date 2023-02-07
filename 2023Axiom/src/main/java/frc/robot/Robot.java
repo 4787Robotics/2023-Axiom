@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_robotContainer.getBalance().setHeadingAdjust();
 
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_teleopCommand = RobotContainer.getTeleopCommand();
+    m_teleopCommand = m_robotContainer.getTeleopCommand();
     if (m_teleopCommand != null) {
       m_teleopCommand.cancel();
     }
