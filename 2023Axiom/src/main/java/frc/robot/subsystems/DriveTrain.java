@@ -39,10 +39,10 @@ public class DriveTrain extends SubsystemBase{
   
   
   public DriveTrain(){
-    m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID);
-    m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID);
-    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID);
-    m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID);
+    m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID); //Front left
+    m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID); //Back left
+    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left
+    m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
   
     m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
     m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
@@ -55,6 +55,14 @@ public class DriveTrain extends SubsystemBase{
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
     //makes sure that the wheels on the side are going the same way
+    m_left1.setInverted(TalonFXInvertType.Clockwise);
+    m_left2.setInverted(TalonFXInvertType.Clockwise);
+
+    m_left2.setNeutralMode(NeutralMode.Brake);
+    m_left1.setNeutralMode(NeutralMode.Coast);
+    m_right2.setNeutralMode(NeutralMode.Brake);
+    m_right1.setNeutralMode(NeutralMode.Coast);
+
     m_left2.follow(m_left1);
     m_right2.follow(m_right1);
 
