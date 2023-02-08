@@ -31,23 +31,19 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain extends SubsystemBase{
-    public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
-    public DifferentialDrive drive;
-    //I have no idea if the motor type is brushed or brushless
-    //Subject to change
-    
-  
+  public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
+  public DifferentialDrive drive;
   
   public DriveTrain(){
-    m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID);
-    m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID);
-    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID);
-    m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID);
+    m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID); //Front left
+    m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID); //Back left
+    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left
+    m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
   
-    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
-    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
-    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
-    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
+    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
+    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
+    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
+    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
@@ -55,6 +51,14 @@ public class DriveTrain extends SubsystemBase{
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
     //makes sure that the wheels on the side are going the same way
+    m_left1.setInverted(TalonFXInvertType.Clockwise);
+    m_left2.setInverted(TalonFXInvertType.Clockwise);
+
+    m_left2.setNeutralMode(NeutralMode.Brake);
+    m_left1.setNeutralMode(NeutralMode.Coast);
+    m_right2.setNeutralMode(NeutralMode.Brake);
+    m_right1.setNeutralMode(NeutralMode.Coast);
+
     m_left2.follow(m_left1);
     m_right2.follow(m_right1);
 
@@ -116,25 +120,24 @@ public class DriveTrain extends SubsystemBase{
     m_left1.setPosition(0);
   }
   */
-    //Turning right/left and moving forward/backward 
-    //Add if statements for Fidel's class. Turning + moving forward/backward should be 
-    //separate joysticks
-    public void driveRobot(double throttle, double turn){
-      drive.arcadeDrive(throttle, turn);
-    }
+  //Turning right/left and moving forward/backward 
+  //Add if statements for Fidel's class. Turning + moving forward/backward should be 
+  //separate joysticks
+  public void driveRobot(double throttle, double turn){
+    drive.arcadeDrive(throttle, turn);
+  }
 
-    @Override
-    public void periodic() {
-      // This method will be called once per scheduler run
-      // double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
-      // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
-      
-      // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
-      
-    }
-    @Override
-    public void simulationPeriodic() {
-      // This method will be called once per scheduler run during simulation
-    }
-  
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    // double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
+    // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
+    
+    // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
+    
+  }
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
+  }
 }
