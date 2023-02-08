@@ -36,9 +36,9 @@ public class MotorController extends SubsystemBase {
 
 
     // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
-  Arm.setOpenLoopRampRate(0.4); //no idea if this one works
+  Arm.setOpenLoopRampRate(0.4); 
   LeftHand.setOpenLoopRampRate(0.1); 
-  RightHand.setOpenLoopRampRate(0.1);} // may need change in the future when robot is active
+  RightHand.setOpenLoopRampRate(0.1); }// may need change in the future when robot is active
 
   public void Intake(double Direction){
     LeftHand.set(Direction);
@@ -60,8 +60,13 @@ public class MotorController extends SubsystemBase {
     return PID;
   }
 
-  private double BeginPID(double currentMeasurement, double goalPoint) {
-      return PID.calculate(currentMeasurement, goalPoint);
+  public double ArmPID(double currentMeasurement, double goalPoint) {
+    if (goalPoint == -7.5){
+        Arm.set(goalPoint);
+        return goalPoint;
+    } else {
+    return PID.calculate(currentMeasurement, goalPoint);
+    }
   }
 }
 /*

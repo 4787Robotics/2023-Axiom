@@ -45,14 +45,29 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (CXbox.XboxADown() && CXbox.XboxBDown() || CXbox.XboxADown() && CXbox.XboxYDown() || CXbox.XboxBDown() && CXbox.XboxYDown()){
+    int Pushed = 0;
+    if (CXbox.XboxBDown() == true){
+      Pushed++;
+    }
+    if (CXbox.XboxADown() == true){
+      Pushed++;
+    }
+    if (CXbox.XboxYDown() == true){
+      Pushed++;
+    }
+    if (CXbox.XboxXDown() == true){
+      Pushed++;
+    }
+    if (Pushed >= 2){
       System.out.println("Two or more buttons are pressed");
     } else if(CXbox.XboxADown()) {
-      //Lowest Point, Grounded
+      m_subsystem.ArmPID(1,0);//Lowest Point, Grounded
     } else if (CXbox.XboxBDown()) {
-      //Mid Point, from below
+      m_subsystem.ArmPID(1,66.2113);//Mid Point, from below
     } else if (CXbox.XboxYDown()) {
-      //Highmid point?
+      m_subsystem.ArmPID(1,83.725);//Highmid point?
+    } else if (CXbox.XboxXDown()) {
+      m_subsystem.ArmPID(1, -7.5);//Highmid point?
     }
   } //I have no idea what to put here for PID values and such
 
