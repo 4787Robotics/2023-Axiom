@@ -9,17 +9,23 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.Balance;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 //import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.geometry.Pose2d;
 
 /*
@@ -29,31 +35,53 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 // import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 
 public class DriveTrain extends SubsystemBase{
     public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
     public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
-    
+    private static final Timer timer = new Timer();
   
+    private double previous_time;
+  
+    private double totalLeftWheelDistanceMeters;
+    private double totalRightWheelDistanceMeters;
+
+    public DifferentialDriveOdometry m_odometry;
+    public AHRS gyro;
   
   public DriveTrain(){
+    timer.start();
+
     m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID); //Front left
     m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID); //Back left
     m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left
     m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
   
+    m_left1.enableVoltageCompensation(true);
+    m_left2.enableVoltageCompensation(true);
+    m_right1.enableVoltageCompensation(true);
+    m_right2.enableVoltageCompensation(true);
+
     m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
     m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
     m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
     m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
+    
+    m_left1.configOpenloopRamp(0.2); // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
+    m_left2.configOpenloopRamp(0.2); // (helps keep robot from rocking around violently every time driver stops)
+    m_right1.configOpenloopRamp(0.2);
+    m_right2.configOpenloopRamp(0.2);
+
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
-    private final static AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
+    AHRS gyro = Balance.getGyro();
+    m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters);
+    
     //makes sure that the wheels on the side are going the same way
     m_left1.setInverted(TalonFXInvertType.Clockwise);
     m_left2.setInverted(TalonFXInvertType.Clockwise);
@@ -90,20 +118,23 @@ public class DriveTrain extends SubsystemBase{
     resetEncoders();
     */
   }
-  /*
-  public double getHeading(){
-    return gyro.getRotation2d().getDegrees();
-  }
+  
+  // public double getHeading(){
+  //   return gyro.getRotation2d().getDegrees();
+  // }
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
-  /*
+  
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    double leftEncoderVelocity = Constants.kDistancePerEncoderCount*(m_left1.getVelocity()*10); 
-    double rightEncoderVelocity = Constants.kDistancePerEncoderCount*(m_right1.getVelocity()*10); 
-    return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(
+      gyro.getVelocityX(), 
+      gyro.getVelocityY(), 
+      gyro.getVelocityZ()
+    );
+    return Constants.K_DRIVE_KINEMATICS.toWheelSpeeds(chassisSpeeds);
   }
-  */
+  
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
     m_right1.setVoltage(leftVolts);
@@ -111,14 +142,18 @@ public class DriveTrain extends SubsystemBase{
     m_right2.setVoltage(leftVolts);
     drive.feed();
   }
-  /*
-  public void resetOdometry(Pose2d pose) {
-    //double[] initialXandY = {pose.getX(), pose.getY()};
-    //SmartDashboard.putNumberArray("Initial Pose", initialXandY);
-    resetEncoders();
-    m_odometry.resetPosition(pose, gyro.getRotation2d());
-  }
   
+  private void setWheelPositionZero() {
+    totalLeftWheelDistanceMeters = 0;
+    totalRightWheelDistanceMeters = 0;
+  } 
+
+  
+  public void resetOdometry(Pose2d pose) {
+    setWheelPositionZero();
+    m_odometry.resetPosition(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters, pose);
+  }
+  /*
   public static void resetEncoders() {
     m_right1.getPosition(0);
     m_left1.setPosition(0);
@@ -130,7 +165,21 @@ public class DriveTrain extends SubsystemBase{
     public void driveRobot(double throttle, double turn){
       drive.arcadeDrive(throttle, turn);
     }
-
+    private void trackLeftAndRightDistance(DifferentialDriveWheelSpeeds wheelSpeeds) {
+      double leftVelocity = wheelSpeeds.leftMetersPerSecond;
+  
+      double rightVelocity = wheelSpeeds.rightMetersPerSecond;
+  
+      double current_time = Timer.getFPGATimestamp();
+  
+      double timeElapsedBetweenLoops = current_time - previous_time;
+  
+      double leftWheelDistanceMeters = leftVelocity*timeElapsedBetweenLoops;
+      double rightWheelDistanceMeters = rightVelocity*timeElapsedBetweenLoops;
+  
+      totalLeftWheelDistanceMeters += leftWheelDistanceMeters;
+      totalRightWheelDistanceMeters += rightWheelDistanceMeters;
+    }
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
@@ -138,11 +187,24 @@ public class DriveTrain extends SubsystemBase{
       // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
       
       // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
-      
+      SmartDashboard.putNumber("Left Output",m_left1.get());
+      SmartDashboard.putNumber("Right Output",m_right1.get());
+      SmartDashboard.putNumber("Left Position",totalLeftWheelDistanceMeters);
+      SmartDashboard.putNumber("Right Position",totalRightWheelDistanceMeters);
     }
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation
     }
-  
+    public void autonomousDrive(double speed, double turnSpeed) {
+      drive.arcadeDrive(speed,turnSpeed,false);
+    }
+    /**
+     * Sets the speeds for each side of tank drive individually (for easier usage with encoders).
+     * @param leftSpeed [-1.0..1.0]
+     * @param rightSpeed [-1.0..1.0]
+     */
+    public void autonomousTank(double leftSpeed, double rightSpeed) {
+      drive.tankDrive(leftSpeed,rightSpeed);
+    }
 }
