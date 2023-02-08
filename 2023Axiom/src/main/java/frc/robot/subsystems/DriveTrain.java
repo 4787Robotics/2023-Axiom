@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 
 public class DriveTrain extends SubsystemBase{
+<<<<<<< HEAD
     public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
     public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
@@ -51,6 +52,10 @@ public class DriveTrain extends SubsystemBase{
 
     public DifferentialDriveOdometry m_odometry;
     public AHRS gyro;
+=======
+  public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
+  public DifferentialDrive drive;
+>>>>>>> main
   
   public DriveTrain(){
     timer.start();
@@ -60,6 +65,7 @@ public class DriveTrain extends SubsystemBase{
     m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left
     m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
   
+<<<<<<< HEAD
     m_left1.enableVoltageCompensation(true);
     m_left2.enableVoltageCompensation(true);
     m_right1.enableVoltageCompensation(true);
@@ -75,6 +81,12 @@ public class DriveTrain extends SubsystemBase{
     m_right1.configOpenloopRamp(0.2);
     m_right2.configOpenloopRamp(0.2);
 
+=======
+    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
+    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
+    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
+    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
+>>>>>>> main
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
@@ -159,6 +171,7 @@ public class DriveTrain extends SubsystemBase{
     m_left1.setPosition(0);
   }
   */
+<<<<<<< HEAD
     //Turning right/left and moving forward/backward 
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
@@ -207,4 +220,26 @@ public class DriveTrain extends SubsystemBase{
     public void autonomousTank(double leftSpeed, double rightSpeed) {
       drive.tankDrive(leftSpeed,rightSpeed);
     }
+=======
+  //Turning right/left and moving forward/backward 
+  //Add if statements for Fidel's class. Turning + moving forward/backward should be 
+  //separate joysticks
+  public void driveRobot(double throttle, double turn){
+    drive.arcadeDrive(throttle, turn);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    // double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
+    // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
+    
+    // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
+    
+  }
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
+  }
+>>>>>>> main
 }
