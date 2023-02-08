@@ -55,7 +55,7 @@ public class DriveTrain extends SubsystemBase{
 =======
   public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
   public DifferentialDrive drive;
->>>>>>> main
+>>>>>>> 909017d3149d7c83a2af499c7e8160ab823b36d3
   
   public DriveTrain(){
     timer.start();
@@ -86,7 +86,7 @@ public class DriveTrain extends SubsystemBase{
     m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
     m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
     m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
->>>>>>> main
+>>>>>>> 909017d3149d7c83a2af499c7e8160ab823b36d3
     /*
     int window_size = 1;
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
@@ -241,5 +241,5 @@ public class DriveTrain extends SubsystemBase{
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
->>>>>>> main
+>>>>>>> 909017d3149d7c83a2af499c7e8160ab823b36d3
 }
