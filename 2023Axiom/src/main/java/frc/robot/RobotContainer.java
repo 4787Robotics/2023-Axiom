@@ -28,7 +28,7 @@ import frc.robot.subsystems.DriveTrain;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final static DriveTrain m_driveTrain = new DriveTrain();
+  public static DriveTrain m_driveTrain = new DriveTrain();
   static XboxController inputController = new XboxController(0);
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
   private final static Balance m_balance = new Balance();

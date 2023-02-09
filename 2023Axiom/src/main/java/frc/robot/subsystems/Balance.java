@@ -22,7 +22,7 @@ public class Balance extends SubsystemBase{
 
     private int i = 0; //For testing, unnecessary otherwise
 
-    private AHRS gyro;
+    private static AHRS gyro;
     private PIDController PID;
 
     public Balance() {
@@ -93,7 +93,7 @@ public class Balance extends SubsystemBase{
      *
      * @return gyro
      */  
-    public AHRS getGyro() {
+    public static AHRS getGyro() {
         return gyro;
     }
 
