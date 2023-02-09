@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
@@ -38,8 +40,10 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 
 public class DriveTrain extends SubsystemBase{
-<<<<<<< HEAD
-    public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
+    public static WPI_TalonFX m_left1;
+    public WPI_TalonFX m_left2;
+    public static WPI_TalonFX m_right1;
+    public WPI_TalonFX m_right2;
     public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
@@ -52,10 +56,6 @@ public class DriveTrain extends SubsystemBase{
 
     public DifferentialDriveOdometry m_odometry;
     public AHRS gyro;
-=======
-  public WPI_TalonFX m_left1, m_left2, m_right1, m_right2;
-  public DifferentialDrive drive;
->>>>>>> 909017d3149d7c83a2af499c7e8160ab823b36d3
   
   public DriveTrain(){
     timer.start();
@@ -65,7 +65,6 @@ public class DriveTrain extends SubsystemBase{
     m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left
     m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
   
-<<<<<<< HEAD
     m_left1.enableVoltageCompensation(true);
     m_left2.enableVoltageCompensation(true);
     m_right1.enableVoltageCompensation(true);
@@ -81,19 +80,13 @@ public class DriveTrain extends SubsystemBase{
     m_right1.configOpenloopRamp(0.2);
     m_right2.configOpenloopRamp(0.2);
 
-=======
-    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
-    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
-    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
-    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 38, 0.5));
->>>>>>> 909017d3149d7c83a2af499c7e8160ab823b36d3
-    /*
-    int window_size = 1;
+   
+    
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
-    */
+    Integer window_size = 100;
+
     AHRS gyro = Balance.getGyro();
     m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters);
-    
     //makes sure that the wheels on the side are going the same way
     m_left1.setInverted(TalonFXInvertType.Clockwise);
     m_left2.setInverted(TalonFXInvertType.Clockwise);
@@ -114,26 +107,26 @@ public class DriveTrain extends SubsystemBase{
     //Honestly just going to comment it out bc we don't
     //Need it rn, just need to test if
     //The Driving stuff works
-    /*
-    m_left1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
-    m_left2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
-    m_right1.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
-    m_right2.setFeedbackDevice(FeedbackDevice.IntegratedSensor);
-    m_left1.setMeasurementPeriod(measurement_period);
+    
+    m_left1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_left2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_right1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_right2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_left1.configVelocityMeasurementPeriod(measurement_period);
     m_left1.configVelocityMeasurementWindow(window_size);
-    m_left2.setMeasurementPeriod(measurement_period);
+    m_left2.configVelocityMeasurementPeriod(measurement_period);
     m_left2.configVelocityMeasurementWindow(window_size);
-    m_right1.setMeasurementPeriod(measurement_period);
+    m_right1.configVelocityMeasurementPeriod(measurement_period);
     m_right1.configVelocityMeasurementWindow(window_size);
-    m_right2.setMeasurementPeriod(measurement_period);
+    m_right2.configVelocityMeasurementPeriod(measurement_period);
     m_right2.configVelocityMeasurementWindow(window_size);
     resetEncoders();
-    */
+    
   }
   
-  // public double getHeading(){
-  //   return gyro.getRotation2d().getDegrees();
-  // }
+  public double getHeading(){
+    return gyro.getRotation2d().getDegrees();
+  }
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
@@ -165,13 +158,17 @@ public class DriveTrain extends SubsystemBase{
     setWheelPositionZero();
     m_odometry.resetPosition(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters, pose);
   }
-  /*
+  
   public static void resetEncoders() {
-    m_right1.getPosition(0);
-    m_left1.setPosition(0);
+    m_left1.configClearPositionOnLimitF(true, 0);
+    m_left1.configClearPositionOnLimitR(true, 0);
+    m_left1.configClearPositionOnQuadIdx(true, 0);
+
+    m_right1.configClearPositionOnLimitF(true, 0);
+    m_right1.configClearPositionOnLimitR(true, 0);
+    m_right1.configClearPositionOnQuadIdx(true, 0);
   }
-  */
-<<<<<<< HEAD
+  
     //Turning right/left and moving forward/backward 
     //Add if statements for Fidel's class. Turning + moving forward/backward should be 
     //separate joysticks
@@ -217,29 +214,4 @@ public class DriveTrain extends SubsystemBase{
      * @param leftSpeed [-1.0..1.0]
      * @param rightSpeed [-1.0..1.0]
      */
-    public void autonomousTank(double leftSpeed, double rightSpeed) {
-      drive.tankDrive(leftSpeed,rightSpeed);
-    }
-=======
-  //Turning right/left and moving forward/backward 
-  //Add if statements for Fidel's class. Turning + moving forward/backward should be 
-  //separate joysticks
-  public void driveRobot(double throttle, double turn){
-    drive.arcadeDrive(throttle, turn);
   }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    // double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
-    // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
-    
-    // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
-    
-  }
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
->>>>>>> 909017d3149d7c83a2af499c7e8160ab823b36d3
-}
