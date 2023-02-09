@@ -17,6 +17,7 @@ import frc.robot.subsystems.MotorController;
 import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
+import javax.swing.text.Position;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -59,15 +60,17 @@ public class ArmCommand extends CommandBase {
       Pushed++;
     }
     if (Pushed >= 2){
-      System.out.println("Two or more buttons are pressed");
+      System.out.println("Two or more buttons are pressed"); //I may want to change letter buttons to user prefrence
     } else if(CXbox.XboxADown()) {
       m_subsystem.ArmPID(1,0);//Lowest Point, Grounded
     } else if (CXbox.XboxBDown()) {
       m_subsystem.ArmPID(1,66.2113);//Mid Point, from below
     } else if (CXbox.XboxYDown()) {
       m_subsystem.ArmPID(1,83.725);//Highmid point?
-    } else if (CXbox.XboxXDown()) {
-      m_subsystem.ArmPID(1, -7.5);//Highmid point?
+    } else if (CXbox.getXboxDpad() == 0) {
+      m_subsystem.ArmMove(.1);
+    } else if (CXbox.getXboxDpad() == 180) {
+      m_subsystem.ArmMove(-.1);
     }
   } //I have no idea what to put here for PID values and such
 

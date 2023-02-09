@@ -17,7 +17,6 @@ public class MotorController extends SubsystemBase {
   private CANSparkMax Arm;
   private RelativeEncoder armEncoder; 
   private PIDController PID; {
-
       // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM, MotorType.kBrushless);
   armEncoder = Arm.getEncoder(); //for PID
@@ -28,8 +27,8 @@ public class MotorController extends SubsystemBase {
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_HAND, MotorType.kBrushless);
 
   // Makes left motor go the opposite of the right motor
-  LeftHand.setInverted(true); 
-   // ewqeKeeps the motors in place and stops them frowm moving without input
+  //LeftHand.setInverted(true); 
+// ewqeKeeps the motors in place and stops them frowm moving without input
   Arm.setIdleMode(IdleMode.kBrake);
   LeftHand.setIdleMode(IdleMode.kBrake);
   RightHand.setIdleMode(IdleMode.kBrake);
@@ -39,7 +38,7 @@ public class MotorController extends SubsystemBase {
   Arm.setOpenLoopRampRate(0.4); 
   LeftHand.setOpenLoopRampRate(0.1); 
   RightHand.setOpenLoopRampRate(0.1); }// may need change in the future when robot is active
-
+  
   public void Intake(double Direction){
     LeftHand.set(Direction);
     RightHand.set(Direction * -1);
@@ -56,26 +55,13 @@ public class MotorController extends SubsystemBase {
     }
 }
  */
-  public PIDController getPID() {
+  public PIDController getArmPID() {
     return PID;
   }
-
   public double ArmPID(double currentMeasurement, double goalPoint) {
-    if (goalPoint == -7.5){
-        Arm.set(goalPoint);
-        return goalPoint;
-    } else {
     return PID.calculate(currentMeasurement, goalPoint);
-    }
+  }
+  public void ArmMove(double Movement){
+    Arm.set(Movement);
   }
 }
-/*
-Changes needed but can't be done rn:
- * 
- * Figure out the motors for the clamp and wheels.
- * Install the new libraries for each new type of motor.
- * Use the motor types for the braking, Accel, etc.
- *
- * Add a following version of m_arm when for each new arm motor.
- * 
-*/

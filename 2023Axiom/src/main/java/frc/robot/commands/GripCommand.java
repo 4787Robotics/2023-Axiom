@@ -46,12 +46,12 @@ public class GripCommand extends CommandBase {
   @Override
   public void execute() {
     if (CXbox.getLeftTriggerWithDeadzone() > 0 && CXbox.getRightTriggerWithDeadzone() > 0){
-      System.out.println("Two or more buttons are pressed");
+      System.out.println("Implosion upcoming");
       m_subsystem.Intake(0); //Don't move
     } else if(CXbox.getRightTriggerWithDeadzone() > 0) {
-      m_subsystem.Intake(0.5); //Pull in
+      m_subsystem.Intake(0.1); //Pull in
     } else if (CXbox.getLeftTriggerWithDeadzone() > 0) {
-      m_subsystem.Intake(-0.5); //Pull out
+      m_subsystem.Intake(-0.1); //Pull out
     } else{
       m_subsystem.Intake(0); //Don't move
     }
