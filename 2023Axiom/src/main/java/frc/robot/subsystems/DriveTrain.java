@@ -11,6 +11,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import java.lang.Math.*;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -51,8 +52,10 @@ public class DriveTrain extends SubsystemBase{
     private static DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     */
     //makes sure that the wheels on the side are going the same way
-    m_left1.setInverted(TalonFXInvertType.Clockwise);
-    m_left2.setInverted(TalonFXInvertType.Clockwise);
+    m_left1.setInverted(TalonFXInvertType.CounterClockwise);
+    m_left2.setInverted(TalonFXInvertType.CounterClockwise);
+    m_right1.setInverted(TalonFXInvertType.Clockwise);
+    m_right2.setInverted(TalonFXInvertType.Clockwise);
 
     m_left2.setNeutralMode(NeutralMode.Brake);
     m_left1.setNeutralMode(NeutralMode.Coast);
@@ -123,8 +126,13 @@ public class DriveTrain extends SubsystemBase{
   //Turning right/left and moving forward/backward 
   //Add if statements for Fidel's class. Turning + moving forward/backward should be 
   //separate joysticks
-  public void driveRobot(double throttle, double turn){
-    drive.arcadeDrive(throttle, turn);
+  public void driveRobot(boolean squareInputs, double throttle, double turn){
+    if (squareInputs) {
+      drive.arcadeDrive(throttle * Math.abs(throttle), turn * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
+    }
+    else {
+      drive.arcadeDrive(throttle, turn);
+    }
   }
 
   @Override

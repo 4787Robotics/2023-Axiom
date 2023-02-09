@@ -38,21 +38,21 @@ public final class Constants {
     public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
 
     //The constants below will need to be changed later - Talk to electrical
-    public static int LEFT_MOTOR_1_ID = 4; //Front Left
-    public static int LEFT_MOTOR_2_ID = 3; //Back Left
+    public static int LEFT_MOTOR_1_ID = 2; //Front Left
+    public static int LEFT_MOTOR_2_ID = 1; //Back Left
 
-    public static int RIGHT_MOTOR_1_ID = 1; //Front right
-    public static int RIGHT_MOTOR_2_ID = 2; //Back right
+    public static int RIGHT_MOTOR_1_ID = 3; //Front right
+    public static int RIGHT_MOTOR_2_ID = 4; //Back right
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
-    public static final float RIGHT_STICK_DEAD_ZONE = 0.9f;
-    public static final float LEFT_STICK_DEAD_ZONE = 0.9f;
-    public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.7f;
-    public static final float LEFT_TRIGGER_DEAD_ZONE = 0.7f;
+    public static final float RIGHT_STICK_DEAD_ZONE = 0.1f;
+    public static final float LEFT_STICK_DEAD_ZONE = 0.1f;
+    public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.1f;
+    public static final float LEFT_TRIGGER_DEAD_ZONE = 0.1f;
     //Joystick
-    public static final float joystickRotDeadzone = 0.9f;
-    public static final float joystickDeadzone = 0.9f;
+    public static final float joystickRotDeadzone = 0.1f;
+    public static final float joystickDeadzone = 0.1f;
 
     //Constants for Autonomous
     public static final double KS_VOLTS = 0;
