@@ -163,10 +163,15 @@ public class DriveTrain extends SubsystemBase{
   }
   
   public static void resetEncoders() {
-    m_right1.getPosition(0);
-    m_left1.setPosition(0);
+    m_left1.configClearPositionOnLimitF(true, 0);
+    m_left1.configClearPositionOnLimitR(true, 0);
+    m_left1.configClearPositionOnQuadIdx(true, 0);
+
+    m_right1.configClearPositionOnLimitF(true, 0);
+    m_right1.configClearPositionOnLimitR(true, 0);
+    m_right1.configClearPositionOnQuadIdx(true, 0);
   }
-  */
+  
   //Turning right/left and moving forward/backward 
   //Add if statements for Fidel's class. Turning + moving forward/backward should be 
   //separate joysticks
@@ -178,58 +183,47 @@ public class DriveTrain extends SubsystemBase{
       drive.arcadeDrive(throttle, turn);
     }
   }
-    m_left1.configClearPositionOnLimitF(true, 0);
-    m_left1.configClearPositionOnLimitR(true, 0);
-    m_left1.configClearPositionOnQuadIdx(true, 0);
+  
+  //Turning right/left and moving forward/backward 
+  //Add if statements for Fidel's class. Turning + moving forward/backward should be 
+  //separate joysticks
+  private void trackLeftAndRightDistance(DifferentialDriveWheelSpeeds wheelSpeeds) {
+    double leftVelocity = wheelSpeeds.leftMetersPerSecond;
 
-    m_right1.configClearPositionOnLimitF(true, 0);
-    m_right1.configClearPositionOnLimitR(true, 0);
-    m_right1.configClearPositionOnQuadIdx(true, 0);
+    double rightVelocity = wheelSpeeds.rightMetersPerSecond;
+
+    double current_time = Timer.getFPGATimestamp();
+
+    double timeElapsedBetweenLoops = current_time - previous_time;
+
+    double leftWheelDistanceMeters = leftVelocity*timeElapsedBetweenLoops;
+    double rightWheelDistanceMeters = rightVelocity*timeElapsedBetweenLoops;
+
+    totalLeftWheelDistanceMeters += leftWheelDistanceMeters;
+    totalRightWheelDistanceMeters += rightWheelDistanceMeters;
   }
-  
-    //Turning right/left and moving forward/backward 
-    //Add if statements for Fidel's class. Turning + moving forward/backward should be 
-    //separate joysticks
-    public void driveRobot(double throttle, double turn){
-      drive.arcadeDrive(throttle, turn);
-    }
-    private void trackLeftAndRightDistance(DifferentialDriveWheelSpeeds wheelSpeeds) {
-      double leftVelocity = wheelSpeeds.leftMetersPerSecond;
-  
-      double rightVelocity = wheelSpeeds.rightMetersPerSecond;
-  
-      double current_time = Timer.getFPGATimestamp();
-  
-      double timeElapsedBetweenLoops = current_time - previous_time;
-  
-      double leftWheelDistanceMeters = leftVelocity*timeElapsedBetweenLoops;
-      double rightWheelDistanceMeters = rightVelocity*timeElapsedBetweenLoops;
-  
-      totalLeftWheelDistanceMeters += leftWheelDistanceMeters;
-      totalRightWheelDistanceMeters += rightWheelDistanceMeters;
-    }
-    @Override
-    public void periodic() {
-      // This method will be called once per scheduler run
-      // double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
-      // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
-      
-      // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
-      SmartDashboard.putNumber("Left Output",m_left1.get());
-      SmartDashboard.putNumber("Right Output",m_right1.get());
-      SmartDashboard.putNumber("Left Position",totalLeftWheelDistanceMeters);
-      SmartDashboard.putNumber("Right Position",totalRightWheelDistanceMeters);
-    }
-    @Override
-    public void simulationPeriodic() {
-      // This method will be called once per scheduler run during simulation
-    }
-    public void autonomousDrive(double speed, double turnSpeed) {
-      drive.arcadeDrive(speed,turnSpeed,false);
-    }
-    /**
-     * Sets the speeds for each side of tank drive individually (for easier usage with encoders).
-     * @param leftSpeed [-1.0..1.0]
-     * @param rightSpeed [-1.0..1.0]
-     */
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    // double leftEncoderPosition = Constants.kDistancePerEncoderCount*m_left1.getPosition();
+    // double rightEncoderPosition = Constants.kDistancePerEncoderCount*m_right1.getPosition();
+    
+    // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
+    SmartDashboard.putNumber("Left Output",m_left1.get());
+    SmartDashboard.putNumber("Right Output",m_right1.get());
+    SmartDashboard.putNumber("Left Position",totalLeftWheelDistanceMeters);
+    SmartDashboard.putNumber("Right Position",totalRightWheelDistanceMeters);
   }
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
+  }
+  public void autonomousDrive(double speed, double turnSpeed) {
+    drive.arcadeDrive(speed,turnSpeed,false);
+  }
+  /**
+   * Sets the speeds for each side of tank drive individually (for easier usage with encoders).
+   * @param leftSpeed [-1.0..1.0]
+   * @param rightSpeed [-1.0..1.0]
+   */
+}

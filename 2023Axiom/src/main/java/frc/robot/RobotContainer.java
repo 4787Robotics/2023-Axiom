@@ -33,6 +33,7 @@ public class RobotContainer {
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
   private final static Balance m_balance = new Balance();
   private final static NavXAutonomousCommand m_autoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
+  private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
   
   // The robot's subsystems and commands are defined here...
   private final LimeLight limeLight = new LimeLight();
@@ -62,6 +63,11 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //I'LL FIGURE THIS OUT AT SOME POINT
     return m_autoCommand;
+  }
+
+  public Command getPathCommand() {
+    //I'LL FIGURE THIS OUT AT SOME POINT
+    return m_pathCommand;
   }
 
   public Command getTeleopCommand(){
