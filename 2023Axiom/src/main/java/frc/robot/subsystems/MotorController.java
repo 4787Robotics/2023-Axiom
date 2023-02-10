@@ -27,7 +27,7 @@ public class MotorController extends SubsystemBase {
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_HAND, MotorType.kBrushless);
 
   // Makes left motor go the opposite of the right motor
-  //LeftHand.setInverted(true); 
+  LeftHand.setInverted(true); 
 // ewqeKeeps the motors in place and stops them frowm moving without input
   Arm.setIdleMode(IdleMode.kBrake);
   LeftHand.setIdleMode(IdleMode.kBrake);
@@ -37,24 +37,20 @@ public class MotorController extends SubsystemBase {
     // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
   Arm.setOpenLoopRampRate(0.4); 
   LeftHand.setOpenLoopRampRate(0.1); 
-  RightHand.setOpenLoopRampRate(0.1); }// may need change in the future when robot is active
+  RightHand.setOpenLoopRampRate(0.1); 
+
+  Arm.set(.5); //changes top speed. stay between -1 and 1 for safety
+  LeftHand.set(.5);
+  RightHand.set(.5);
+
+  }// may need change in the future when robot is active
   
   public void Intake(double Direction){
-    LeftHand.set(Direction);
-    RightHand.set(Direction * -1);
+    //add inverts if going backward
+    LeftHand.setVoltage(Direction);
+    RightHand.setVoltage(Direction);
   }
-/*
-  if (headingReady) {
-    int i;
-    if (i==10) {
-        System.out.println(beginPID(currentHeading, 30));
-        i=0;
-    }
-    else {
-        i++;
-    }
-}
- */
+
   public PIDController getArmPID() {
     return PID;
   }

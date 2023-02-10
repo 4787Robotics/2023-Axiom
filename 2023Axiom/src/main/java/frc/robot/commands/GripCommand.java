@@ -52,7 +52,7 @@ public class GripCommand extends CommandBase {
       m_subsystem.Intake(0.1); //Pull in
     } else if (CXbox.getLeftTriggerWithDeadzone() > 0) {
       m_subsystem.Intake(-0.1); //Pull out
-    } else{
+    } else {
       m_subsystem.Intake(0); //Don't move
     }
   }
