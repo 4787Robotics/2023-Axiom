@@ -104,7 +104,8 @@ public class LimeLight extends SubsystemBase {
       double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0); 
 
       distance = (Constants.GoalHeight - Constants.LimelightLensHeight)/Math.tan(angleToGoalRadians);   
-    } 
+    }
+
     return distance; //returns calculated distance in inches from limelight to reflective tape target or -1 if no valid targets are seen by Limelight camera (i.e., tv=0)
   }
 
