@@ -8,7 +8,7 @@ public class QOL {
     int increment;
     int check = 0;
     Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
-    QOL() {
+    public QOL() {
         
     }
     public boolean togglejs(int button){

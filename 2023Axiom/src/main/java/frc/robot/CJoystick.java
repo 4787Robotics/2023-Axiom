@@ -19,11 +19,11 @@ public class CJoystick {
     }
 //Joystick POV(the weird knob thing at the top)
     public double getJoystickPOV(){
-    if(joystick.getPOV() != -1){
-       
-        return joystick.getPOV();
-    }
-    return -1;
+        if(joystick.getPOV() != -1){
+        
+            return joystick.getPOV();
+        }
+        return -1;
     }
 // Buttons 1-12
     public boolean joystickButton1Down(){
