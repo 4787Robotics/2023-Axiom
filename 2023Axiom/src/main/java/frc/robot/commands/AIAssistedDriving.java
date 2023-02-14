@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.LimeLight;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -14,6 +16,11 @@ public class AIAssistedDriving extends CommandBase {
   private final LimeLight limeLight;
   private long startTime;
 
+  private double[] tagsFound;
+  private final double[] initialTags = {0,0,0,0};
+  private boolean isCheckingForAllAprilTags;
+  private boolean isFindingClosestAprilTag;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -21,6 +28,9 @@ public class AIAssistedDriving extends CommandBase {
    */
   public AIAssistedDriving(LimeLight subsystem) {
     limeLight = subsystem;
+    isCheckingForAllAprilTags = false;
+    isFindingClosestAprilTag = false;
+    tagsFound = initialTags;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -55,18 +65,46 @@ public class AIAssistedDriving extends CommandBase {
     return tags;
   }
 
+  public double findClosestAprilTagId() {
+    isFindingClosestAprilTag = true;
+    limeLight.setPipeline(Constants.ALL_APRILTAG_IDS_PIPELINE);
+    restartTimer();
+    while (getElapsedSeconds() < 0.01) {
+      isFindingClosestAprilTag = false;
+      if (limeLight.getTagID() != 0) {
+        return limeLight.getTagID();
+      }
+    }
+
+    isFindingClosestAprilTag = false;
+    return 0;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //SmartDashboard.putNumberArray("tags found", checkForAllAprilTags());
+    double closestId = findClosestAprilTagId();
+
+    while (isFindingClosestAprilTag) {}
+
+    /*
+    - decide which target to choose
+    - find distance to apriltag
+    - turn parallel to target
+    - move in x direction towards parallel of the target
+    - turn 90 degrees such that the robot is facing the target
+    - move set distance to place at certain height
+    - place game piece
+    - change to teleop
+     */
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Dashboard shit
-    limeLight.updateDashboard();
-    SmartDashboard.putNumberArray("tags found", checkForAllAprilTags());
+
   }
 
   // Called once the command ends or is interrupted.
