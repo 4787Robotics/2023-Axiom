@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    //ports
+    public static int JOYSTICK_PORT = 0;
+    public static int XCONTROLLER_PORT= 1;
 
     public static int MOTOR_ARM = 0; //may need to change the Constant for these three later
     public static int MOTOR_LEFT_GRIP = 1;
