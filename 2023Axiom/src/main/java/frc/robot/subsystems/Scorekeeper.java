@@ -6,52 +6,66 @@ import frc.robot.CJoystick;
 //import frc.robot.CXbox;
 
 public class Scorekeeper {
+    static CJoystick Joystick = new CJoystick();
+
     public static void updateDashboard() {
+    
     //Joystick
-        //*
-        //movable stuff
-            SmartDashboard.putNumber("Joystick POV val", CJoystick.getJoystickPOV() );
-            SmartDashboard.putNumber("Joystick Rot val", CJoystick.getJoystickRotationWithDeadzone() );
-            SmartDashboard.putNumber("Joystick Thrtl val", CJoystick.getJoystickThrottle() );
-            SmartDashboard.putNumber("Joystick X val", CJoystick.getJoystickXWithDeadzone() );
-            SmartDashboard.putNumber("Joystick Y wal", CJoystick.getJoystickYWithDeadzone() );
+    //*
+    //movable stuff
+        SmartDashboard.putNumber("Joystick POV val", Joystick.getJoystickPOV() );
+        SmartDashboard.putNumber("Joystick Rot val", Joystick.getJoystickRotationWithDeadzone() );
+        SmartDashboard.putNumber("Joystick Thrtl val", Joystick.getJoystickThrottle() );
+        SmartDashboard.putNumber("Joystick X val", Joystick.getJoystickXWithDeadzone() );
+        SmartDashboard.putNumber("Joystick Y wal", Joystick.getJoystickYWithDeadzone() );
 
-        //buttons
-            SmartDashboard.putBoolean("B1", CJoystick.joystickButton1Down() );
-            SmartDashboard.putBoolean("B2", CJoystick.joystickButton2Down() );
-            SmartDashboard.putBoolean("B3", CJoystick.joystickButton3Down() );
-            SmartDashboard.putBoolean("B4", CJoystick.joystickButton4Down() );
-            SmartDashboard.putBoolean("B5", CJoystick.joystickButton5Down() );
-            SmartDashboard.putBoolean("B6", CJoystick.joystickButton6Down() );
-            SmartDashboard.putBoolean("B7", CJoystick.joystickButton7Down() );
-            SmartDashboard.putBoolean("B8", CJoystick.joystickButton8Down() );
-            SmartDashboard.putBoolean("B9", CJoystick.joystickButton9Down() );
-            SmartDashboard.putBoolean("B10", CJoystick.joystickButton10Down() );
-            SmartDashboard.putBoolean("B11", CJoystick.joystickButton11Down() );
-            SmartDashboard.putBoolean("B12", CJoystick.joystickButton12Down() );
-        //*/
-    //Xbox Controller\
-        /*
-        //Movable Stuff
-            SmartDashboard.putNumber("LSX", CXbox.getLeftStickXWithDeadzone() );
-            SmartDashboard.putNumber("LSY", CXbox.getLeftStickYWithDeadzone() );
-            SmartDashboard.putNumber("RSX", CXbox.getRightStickXWithDeadzone() );
-            SmartDashboard.putNumber("RSY", CXbox.getRightStickYWithDeadzone() );
-            SmartDashboard.putNumber("LT", CXbox.getRightStickXWithDeadzone() );
-            SmartDashboard.putNumber("RT", CXbox.getRightStickYWithDeadzone() );
-            SmartDashboard.putNumber("DPad", CXbox.getXboxDpad() );
+    //buttons
+        SmartDashboard.putBoolean("B1", Joystick.joystickButton1Down() );
+        SmartDashboard.putNumber("B2", Joystick.joystickButton2Down() );
+        SmartDashboard.putBoolean("B3", Joystick.joystickButton3Down() );
+        SmartDashboard.putBoolean("B4", Joystick.joystickButton4Down() );
+        SmartDashboard.putBoolean("B5", Joystick.joystickButton5Down() );
+        SmartDashboard.putBoolean("B6", Joystick.joystickButton6Down() );
+        SmartDashboard.putBoolean("B7", Joystick.joystickButton7Down() );
+        SmartDashboard.putBoolean("B8", Joystick.joystickButton8Down() );
+        SmartDashboard.putBoolean("B9", Joystick.joystickButton9Down() );
+        SmartDashboard.putBoolean("B10", Joystick.joystickButton10Down() );
+        SmartDashboard.putBoolean("B11", Joystick.joystickButton11Down() );
+        SmartDashboard.putBoolean("B12", Joystick.joystickButton12Down() );
+    //*/
+//Xbox Controller\
+    /*
+    //Movable Stuff
+        SmartDashboard.putNumber("LSX", CXbox.getLeftStickXWithDeadzone() );
+        SmartDashboard.putNumber("LSY", CXbox.getLeftStickYWithDeadzone() );
+        SmartDashboard.putNumber("RSX", CXbox.getRightStickXWithDeadzone() );
+        SmartDashboard.putNumber("RSY", CXbox.getRightStickYWithDeadzone() );
+        SmartDashboard.putNumber("LT", CXbox.getRightStickXWithDeadzone() );
+        SmartDashboard.putNumber("RT", CXbox.getRightStickYWithDeadzone() );
+        SmartDashboard.putNumber("DPad", CXbox.getXboxDpad() );
 
 
-        //Buttons
-            SmartDashboard.putBoolean("A", CXbox.XboxADown());
-            SmartDashboard.putBoolean("B", CXbox.XboxBDown() );
-            SmartDashboard.putBoolean("X", CXbox.XboxXDown() );
-            SmartDashboard.putBoolean("Y", CXbox.XboxYDown() );
-            SmartDashboard.putBoolean("LJB", CXbox.XboxLStickDown() );
-            SmartDashboard.putBoolean("RJB", CXbox.XboxRStickDown());
-            SmartDashboard.putBoolean("LB", CXbox.XboxLBumperDown() );
-            SmartDashboard.putBoolean("RB", CXbox.XboxRBumperDown() );
-        //*/
+    //Buttons
+        SmartDashboard.putBoolean("A", CXbox.XboxADown());
+        SmartDashboard.putBoolean("B", CXbox.XboxBDown() );
+        SmartDashboard.putBoolean("X", CXbox.XboxXDown() );
+        SmartDashboard.putBoolean("Y", CXbox.XboxYDown() );
+        SmartDashboard.putBoolean("LJB", CXbox.XboxLStickDown() );
+        SmartDashboard.putBoolean("RJB", CXbox.XboxRStickDown());
+        SmartDashboard.putBoolean("LB", CXbox.XboxLBumperDown() );
+        SmartDashboard.putBoolean("RB", CXbox.XboxRBumperDown() );
+    //*/
 
     }
+    String[][][][] arr = {
+
+        {{{"1,1,1"},{"1,1,2"},{"1,1,3"}},{{"1,2,1"},{"1,2,2"},{"1,2,3"}},{{"1,3,1"},{"1,3,2"},{"1,3,3"}}},
+        {{{"2,1,1"},{"2,1,2"},{"2,1,3"}},{{"2,2,1"},{"2,2,2"},{"2,2,3"}},{{"2,3,1"},{"2,3,1"},{"2,3,1"}}},
+        {{{"3,1,1"},{"3,1,2"},{"3,1,3"}},{{"3,2,1"},{"3,2,2"},{"3,2,3"}},{{"3,3,1"},{"3,3,1"},{"3,3,1"}}},
+        {{{"4,1,1"},{"4,1,2"},{"4,1,3"}},{{"4,2,1"},{"4,2,2"},{"4,2,3"}},{{"4,3,1"},{"4,3,1"},{"4,3,1"}}},
+
+    };
 }
+
+
+

@@ -5,13 +5,20 @@ import java.util.logging.ConsoleHandler;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class CJoystick {
-    static Joystick joystick = new Joystick(0);
-    
-    CJoystick() {
+    Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+    QOL qol2 = new QOL();
+    QOL qol3 = new QOL();
+    QOL qol4 = new QOL();
+    QOL qol5 = new QOL();
+    QOL qol6 = new QOL();
+    QOL qol7 = new QOL();
+    QOL qol9 = new QOL();
+    QOL qol11 = new QOL();
+    public CJoystick() {
 
     }
 //Joystick POV(the weird knob thing at the top)
-    public static double getJoystickPOV(){
+    public double getJoystickPOV(){
     if(joystick.getPOV() != -1){
        
         return joystick.getPOV();
@@ -19,84 +26,52 @@ public class CJoystick {
     return -1;
     }
 // Buttons 1-12
-    public static boolean joystickButton1Down(){
-        QOL.toggle(joystick.getRawButtonPressed(1), joystick.getRawButton(1));
+    public boolean joystickButton1Down(){
         if(joystick.getRawButton(1)){
+            
             return joystick.getRawButton(1);
         }
         return false;
     }
-    public static boolean joystickButton2Down(){
-        if(joystick.getRawButton(2)){
-            
-            return joystick.getRawButton(2);
-        }
-        return false;
+    public int joystickButton2Down(){
+        return qol2.incrementjs(2,1,3);
     }
-    public static boolean joystickButton3Down(){
-        if(joystick.getRawButton(3)){
-            
-            return joystick.getRawButton(3);
-        }
-        return false;
+    public boolean joystickButton3Down(){
+        return qol3.togglejs(3);
     }
-    public static boolean joystickButton4Down(){
-        if(joystick.getRawButton(4)){
-            
-            return joystick.getRawButton(4);
-        }
-        return false;
+    public boolean joystickButton4Down(){
+        return qol4.togglejs(4);
     }
-    public static boolean joystickButton5Down(){
-        if(joystick.getRawButton(5)){
-            
-            return joystick.getRawButton(5);
-        }
-        return false;
+    public boolean joystickButton5Down(){
+        return qol5.togglejs(5);
     }
-    public static boolean joystickButton6Down(){
-        if(joystick.getRawButton(6)){
-           
-            return joystick.getRawButton(6);
-        }
-        return false;
+    public boolean joystickButton6Down(){
+        return qol6.togglejs(6);
     }
-    public static boolean joystickButton7Down(){
-        if(joystick.getRawButton(7)){
-            
-            return joystick.getRawButton(7);
-        }
-        return false;
+    public boolean joystickButton7Down(){
+        return qol7.togglejs(7);
     }
-    public static boolean joystickButton8Down(){
+    public boolean joystickButton8Down(){
         if(joystick.getRawButton(8)){
             
             return joystick.getRawButton(8);
         }
         return false;
     }
-    public static boolean joystickButton9Down(){
-        if(joystick.getRawButton(9)){
-           
-            return joystick.getRawButton(9);
-        }
-        return false;
+    public boolean joystickButton9Down(){
+        return qol9.togglejs(9);
     }
-    public static boolean joystickButton10Down(){
+    public boolean joystickButton10Down(){
         if(joystick.getRawButton(10)){
             
             return joystick.getRawButton(10);
         }
         return false;
     }
-    public static boolean joystickButton11Down(){
-        if(joystick.getRawButton(11)){
-            
-            return joystick.getRawButton(11);
-        }
-        return false;
+    public boolean joystickButton11Down(){
+        return qol11.togglejs(11);
     }
-    public static boolean joystickButton12Down(){
+    public boolean joystickButton12Down(){
         if(joystick.getRawButton(12)){
            
             return joystick.getRawButton(12);
@@ -105,7 +80,7 @@ public class CJoystick {
     }
 //Joystick axes
     //Joystick X Axis
-    public static double getJoystickXWithDeadzone(){
+    public double getJoystickXWithDeadzone(){
         if(joystick.getX() > Constants.joystickDeadzone || joystick.getX() < -Constants.joystickDeadzone){
            
             return joystick.getX();
@@ -113,7 +88,7 @@ public class CJoystick {
         return 0;
     }
     //Joystick Y Axis
-    public static double getJoystickYWithDeadzone(){
+    public double getJoystickYWithDeadzone(){
         if(joystick.getY() > Constants.joystickDeadzone || joystick.getY() < -Constants.joystickDeadzone){
           
             return joystick.getY();
@@ -121,7 +96,7 @@ public class CJoystick {
         return 0;
     }
     //Joystick Rotation
-    public static double getJoystickRotationWithDeadzone(){
+    public double getJoystickRotationWithDeadzone(){
         if(joystick.getTwist() > Constants.joystickRotDeadzone || joystick.getTwist() < -Constants.joystickRotDeadzone){
            
             return joystick.getTwist();
@@ -129,7 +104,7 @@ public class CJoystick {
         return 0;
     }
     //Joystick Throttle
-    public static double getJoystickThrottle(){
+    public double getJoystickThrottle(){
             if(joystick.getThrottle() != 1){
                
             return joystick.getThrottle();
