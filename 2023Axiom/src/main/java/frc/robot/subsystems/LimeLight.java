@@ -100,10 +100,10 @@ public class LimeLight extends SubsystemBase {
     if (area == 0) {
       distance = -1; //-1 means the limelight does not see a target
     } else {  //calculate the distance based on the area of the target and some constants that we found experimentally.  This is not perfect, but it works for our robot. 
-      double angleToGoalDegrees = Constants.LimelightMountAngle + getYAngle();
+      double angleToGoalDegrees = Constants.LIMELIGHT_MOUNT_ANGLE + getYAngle();
       double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0); 
 
-      distance = (Constants.GoalHeight - Constants.LimelightLensHeight)/Math.tan(angleToGoalRadians);   
+      distance = (Constants.LIMELIGHT_GOAL_HEIGHT - Constants.LIMELIGHT_LENS_HEIGHT)/Math.tan(angleToGoalRadians);
     }
 
     return distance; //returns calculated distance in inches from limelight to reflective tape target or -1 if no valid targets are seen by Limelight camera (i.e., tv=0)
