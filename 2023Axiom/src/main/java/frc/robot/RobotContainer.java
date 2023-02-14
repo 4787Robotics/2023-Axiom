@@ -28,11 +28,10 @@ import frc.robot.subsystems.DriveTrain;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  public static DriveTrain m_driveTrain = new DriveTrain();
-  static XboxController inputController = new XboxController(0);
-  private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
   private final static Balance m_balance = new Balance();
-  private final static NavXAutonomousCommand m_autoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
+  public static DriveTrain m_driveTrain = new DriveTrain();
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
+  private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
   
   // The robot's subsystems and commands are defined here...
@@ -60,9 +59,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getNavXAutoCommand() {
     //I'LL FIGURE THIS OUT AT SOME POINT
-    return m_autoCommand;
+    return m_NavXAutoCommand;
   }
 
   public Command getPathCommand() {

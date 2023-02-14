@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_teleopCommand = m_robotContainer.getTeleopCommand();
-    m_autonomousCommand = m_robotContainer.getPathCommand();
+    m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }

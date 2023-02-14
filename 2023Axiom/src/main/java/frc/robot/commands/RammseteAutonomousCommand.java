@@ -30,17 +30,17 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public class RammseteAutonomousCommand extends CommandBase{
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    public final DriveTrain driveTrain;
-    Pose2d initialPose;
-    public TrajectoryConfig config;
-    public Trajectory exampleTrajectory;
-    /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  public final DriveTrain driveTrain;
+  Pose2d initialPose;
+  public TrajectoryConfig config;
+  public Trajectory exampleTrajectory;
 
+  /**
+  * Creates a new RammseteAutonomousCommand.
+  *
+  * @param subsystem The subsystem used by this command.
+  */
   public RammseteAutonomousCommand(DriveTrain subsystem) {
     driveTrain = RobotContainer.m_driveTrain;
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(

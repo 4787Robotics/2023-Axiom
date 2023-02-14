@@ -28,11 +28,13 @@ public class NavXAutonomousCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (i == 0) {
-      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, 30);
-      turnAngle.schedule();
-      i++;
-    }
+    // if (i == 0) {
+    //   System.out.println("NavX running");
+    //   TurnAngle turnAngle = new TurnAngle(driveTrain, balance, 30);
+    //   turnAngle.schedule();
+    //   i++;
+    // }
+    driveTrain.driveRobot(true, 0.5, 0.5);
   }
 
   // Called once the command ends or is interrupted.

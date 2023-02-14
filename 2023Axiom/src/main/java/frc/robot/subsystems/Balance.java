@@ -34,8 +34,8 @@ public class Balance extends SubsystemBase{
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("Yaw", getYaw()); //Positive is right, 0 is true north **USUALLY**. There isnt any real rhyme or reason to when it is or isnt, so dont fully trust this
-        SmartDashboard.putNumber("Roll", getRoll()); //Positive is tilted right
-        SmartDashboard.putNumber("Pitch", getPitch()); //Positive is forward
+        SmartDashboard.putNumber("Roll", getPitch()); //Positive is tilted right
+        SmartDashboard.putNumber("Pitch", -getRoll()); //Positive is forward
         SmartDashboard.putNumber("Heading Adjust", headingAdjust);
 
         updateHeading();
@@ -115,11 +115,11 @@ public class Balance extends SubsystemBase{
     }
 
     private void updatePitch() {
-        currentRotationPitch = gyro.getPitch();
+        currentRotationPitch = -gyro.getRoll(); //Negative and getRoll instead of getPitch because NavX is placed onto the robot 90 degrees off
     }
 
     private void updateRoll() {
-        currentRotationRoll = gyro.getRoll();
+        currentRotationRoll = gyro.getPitch(); //Negative and getRoll instead of getPitch because NavX is placed onto the robot 90 degrees off
     }
 
     private void updateHeading() {

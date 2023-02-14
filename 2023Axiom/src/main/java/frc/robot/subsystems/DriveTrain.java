@@ -171,7 +171,7 @@ public class DriveTrain extends SubsystemBase{
     m_right1.configClearPositionOnLimitR(true, 0);
     m_right1.configClearPositionOnQuadIdx(true, 0);
   }
-  
+
   //Turning right/left and moving forward/backward 
   //Add if statements for Fidel's class. Turning + moving forward/backward should be 
   //separate joysticks
