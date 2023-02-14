@@ -1,23 +1,34 @@
 package frc.robot;
+
+import edu.wpi.first.wpilibj.Joystick;
+
 // ill put some type convertion stuff in here sometime
 public class QOL {
-    public static boolean Switch = false;
-
+    boolean Switch = false;
+    int increment;
+    int check = 0;
+    Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
     QOL() {
-
-    }
-    public static boolean toggle(boolean button1, boolean button2){
         
-        if (button1){
-            if(button2 && !Switch){
-                Switch = true;
-            }
-            else if(button2 && Switch){
-                Switch = false;
-            }
-            
-        }  
+    }
+    public boolean togglejs(int button){
+        if(joystick.getRawButtonPressed(button)){
+            Switch = !Switch;
+        }
         return Switch;
+    }
+    public int incrementjs(int button,int start, int max){
+        if(check == 0){
+            increment = start;
+            check = 1;
+        }
+        if(joystick.getRawButtonPressed(button)){
+            increment++;
+            if(increment > max){
+                increment = start;
+            }
+        }
+        return increment;
     }
     //turns 1 or 0 into true or false, respectively
     public boolean toBool(int arg){
