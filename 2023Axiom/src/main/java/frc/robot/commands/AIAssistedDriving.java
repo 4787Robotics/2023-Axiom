@@ -8,11 +8,16 @@ import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import java.util.*;
+
 /** An example command that uses an example subsystem. */
 public class AIAssistedDriving extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LimeLight limeLight;
   private long startTime;
+
+  private double[] tagsFound;
+  private double[] initialTags = {0,0,0,0};
 
   /**
    * Creates a new ExampleCommand.
@@ -58,15 +63,18 @@ public class AIAssistedDriving extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //SmartDashboard.putNumberArray("tags found", checkForAllAprilTags());
+    tagsFound = checkForAllAprilTags();
+    SmartDashboard.putNumberArray("tags found", tagsFound);
+
+    if (Arrays.equals(tagsFound, initialTags)) {
+
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Dashboard shit
-    limeLight.updateDashboard();
-    SmartDashboard.putNumberArray("tags found", checkForAllAprilTags());
+
   }
 
   // Called once the command ends or is interrupted.
