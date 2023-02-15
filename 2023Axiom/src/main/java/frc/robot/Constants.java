@@ -19,17 +19,15 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
     //Limelight
-    // distance from the target to the floor
-    public static double LIMELIGHT_GOAL_HEIGHT = 14.25; //inches
-
-    // how many degrees back is your limelight rotated from perfectly vertical?
+    public static double LIMELIGHT_APRILTAG_DOUBLE_STATION_HEIGHT = 36; //cm
+    public static double LIMELIGHT_APRILTAG_GRID_HEIGHT = 59; //cm
+    public static double LIMELIGHT_REFLECTIVETAPE_LOW_HEIGHT = 61; //cm
+    public static double LIMELIGHT_REFLECTIVETAPE_HIGH_HEIGHT = 111; //cm
     public static double LIMELIGHT_MOUNT_ANGLE = 0; //degrees
-
-    // distance from the center of the Limelight lens to the floor
-    public static double LIMELIGHT_LENS_HEIGHT = 7.25; //inches
-
+    public static double LIMELIGHT_LENS_HEIGHT = 7.25; //cm
     public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
+    //Motors
     public static int MOTOR_ARM = 0; //may need to change the Constant for these three later
     public static int MOTOR_LEFT_GRIP = 1;
     public static int MOTOR_RIGHT_GRIP = 2;

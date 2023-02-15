@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -14,12 +15,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AIAssistedDriving extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LimeLight limeLight;
+  private final double fieldOfViewX = 63.3;
+  private final double fieldOfViewY = 49.7;
   private long startTime;
 
   private double[] tagsFound;
   private final double[] initialTags = {0,0,0,0};
   private boolean isCheckingForAllAprilTags;
-  private boolean isFindingClosestAprilTag;
+  private volatile boolean isFindingClosestAprilTag;
 
   /**
    * Creates a new ExampleCommand.
@@ -84,8 +87,11 @@ public class AIAssistedDriving extends CommandBase {
   @Override
   public void initialize() {
     double closestId = findClosestAprilTagId();
-
-    while (isFindingClosestAprilTag) {}
+    double distanceToTag = 0;
+    double distanceTravelled = 0;
+    double heldAngle = 0;
+    double distanceToParallelTag = 0;
+    double distanceToPerpendicularTag = 0;
 
     /*
     - decide which target to choose
@@ -96,9 +102,28 @@ public class AIAssistedDriving extends CommandBase {
     - move set distance to place at certain height
     - place game piece
     - change to teleop
-     */
+    */
 
+    while (isFindingClosestAprilTag) {
+      Thread.onSpinWait();
+    }
 
+    if (closestId != 4.0) {
+      distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
+    }
+    SmartDashboard.putNumber("Distance", distanceToTag);
+
+    if (limeLight.getXAngle() > 0) {
+      heldAngle = limeLight.getXAngle() - 90;
+      distanceToPerpendicularTag = Math.sin(heldAngle) * distanceToTag;
+      distanceToParallelTag = Math.cos(heldAngle) * distanceToTag;
+    }
+
+    //drive distanceToParallelTag
+    //drive distance to targeted reflective tape parallel
+    //turn towards target
+    //forward/backward adjust
+    //arm command
   }
 
   // Called every time the scheduler runs while the command is scheduled.
