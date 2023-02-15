@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.AIAssistedDriving;
+import frc.robot.commands.AutoAlignAndPlace;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.RammseteAutonomousCommand;
@@ -15,11 +15,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.Balance;
-import frc.robot.subsystems.DriveTrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,16 +24,14 @@ import frc.robot.subsystems.DriveTrain;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final LimeLight limeLight = new LimeLight();
+
   private final static Balance m_balance = new Balance();
   public static DriveTrain m_driveTrain = new DriveTrain();
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
-  
-  // The robot's subsystems and commands are defined here...
-  private final LimeLight limeLight = new LimeLight();
-
-  private final AIAssistedDriving aIAssistedDriving = new AIAssistedDriving(limeLight);
+  private final AutoAlignAndPlace aIAssistedDriving = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   /* The container for the robot. Contains subsystems, OI devices, and commands. */

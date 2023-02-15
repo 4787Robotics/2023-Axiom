@@ -4,16 +4,21 @@
 
 package frc.robot.commands;
 
+import frc.robot.commands.TurnAngle;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.Balance;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+
 /** An example command that uses an example subsystem. */
-public class AIAssistedDriving extends CommandBase {
+public class AutoAlignAndPlace extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final Balance balance;
+  private final DriveTrain driveTrain;
   private final LimeLight limeLight;
   private final double fieldOfViewX = 63.3;
   private final double fieldOfViewY = 49.7;
@@ -27,15 +32,17 @@ public class AIAssistedDriving extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param LL The subsystem used by this command.
    */
-  public AIAssistedDriving(LimeLight subsystem) {
-    limeLight = subsystem;
+  public AutoAlignAndPlace(LimeLight LL, DriveTrain DT, Balance B) {
+    driveTrain = DT;
+    balance = B;
+    limeLight = LL;
     isCheckingForAllAprilTags = false;
     isFindingClosestAprilTag = false;
     tagsFound = initialTags;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(LL);
   }
 
   private void restartTimer() {
@@ -86,10 +93,11 @@ public class AIAssistedDriving extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double closestId = findClosestAprilTagId();
+    double closestId = findClosestAprilTagId(); //find closest tag
     double distanceToTag = 0;
     double distanceTravelled = 0;
     double heldAngle = 0;
+    double heldTurnAngle = 0;
     double distanceToParallelTag = 0;
     double distanceToPerpendicularTag = 0;
 
@@ -104,19 +112,33 @@ public class AIAssistedDriving extends CommandBase {
     - change to teleop
     */
 
+    //wait for execution to return a value
     while (isFindingClosestAprilTag) {
       Thread.onSpinWait();
     }
 
+    //calculate distance only if grid tag is found
     if (closestId != 4.0) {
       distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
     }
     SmartDashboard.putNumber("Distance", distanceToTag);
 
     if (limeLight.getXAngle() > 0) {
-      heldAngle = limeLight.getXAngle() - 90;
+      heldTurnAngle =  balance.getHeading() - 90;
+      heldAngle = (balance.getHeading() + limeLight.getXAngle()) - 90;
       distanceToPerpendicularTag = Math.sin(heldAngle) * distanceToTag;
       distanceToParallelTag = Math.cos(heldAngle) * distanceToTag;
+
+      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
+      turnAngle.schedule();
+    } else {
+      heldTurnAngle =  (360 - balance.getHeading()) - 90;
+      heldAngle = ((360 - balance.getHeading()) + limeLight.getXAngle()) - 90;
+      distanceToPerpendicularTag = Math.sin(heldAngle) * distanceToTag;
+      distanceToParallelTag = Math.cos(heldAngle) * distanceToTag;
+
+      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
+      turnAngle.schedule();
     }
 
     //drive distanceToParallelTag
