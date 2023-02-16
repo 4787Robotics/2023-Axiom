@@ -25,6 +25,7 @@ import javax.lang.model.util.ElementScanner6;
 //import com.revrobotics.CANSparkMax;
 
 public class DriveCommand extends CommandBase {
+  static CXbox Xbox = new CXbox();
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain driveTrain;
   // XboxController controller = new XboxController(0);
@@ -50,7 +51,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive.arcadeDrive(CXbox.getLeftStickYWithDeadzone(), CXbox.getRightStickXWithDeadzone());
+    driveTrain.drive.arcadeDrive(Xbox.getLeftStickYWithDeadzone(), Xbox.getRightStickXWithDeadzone());
     // if(controller.getLeftY()>0.7f || controller.getLeftY()<-0.7f || controller.getRightX() > 0.7f || controller.getRightX() < -0.7f){
     //   driveTrain.drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
     // }

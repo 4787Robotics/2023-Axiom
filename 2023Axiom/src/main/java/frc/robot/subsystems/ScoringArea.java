@@ -41,4 +41,7 @@ public class ScoringArea{
         int cell = qol11.incrementjs(11, 0, 2);
         return column+", "+row+", "+cell;
     }
+    public void smth(){
+        
+    }
 }

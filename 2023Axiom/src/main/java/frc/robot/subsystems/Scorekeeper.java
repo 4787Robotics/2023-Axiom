@@ -3,10 +3,11 @@ package frc.robot.subsystems;
 //import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.CJoystick;
-//import frc.robot.CXbox;
+import frc.robot.CXbox;
 
 public class Scorekeeper {
     static CJoystick Joystick = new CJoystick();
+    static CXbox Xbox = new CXbox();
     static ScoringArea score = new ScoringArea();
 
     public static void updateDashboard() {
@@ -34,26 +35,26 @@ public class Scorekeeper {
         SmartDashboard.putBoolean("B12", Joystick.joystickButton12Down() );
     //*/
 //Xbox Controller\
-    /*
+    //*
     //Movable Stuff
-        SmartDashboard.putNumber("LSX", CXbox.getLeftStickXWithDeadzone() );
-        SmartDashboard.putNumber("LSY", CXbox.getLeftStickYWithDeadzone() );
-        SmartDashboard.putNumber("RSX", CXbox.getRightStickXWithDeadzone() );
-        SmartDashboard.putNumber("RSY", CXbox.getRightStickYWithDeadzone() );
-        SmartDashboard.putNumber("LT", CXbox.getRightStickXWithDeadzone() );
-        SmartDashboard.putNumber("RT", CXbox.getRightStickYWithDeadzone() );
-        SmartDashboard.putNumber("DPad", CXbox.getXboxDpad() );
+        SmartDashboard.putNumber("LSX", Xbox.getLeftStickXWithDeadzone() );
+        SmartDashboard.putNumber("LSY", Xbox.getLeftStickYWithDeadzone() );
+        SmartDashboard.putNumber("RSX", Xbox.getRightStickXWithDeadzone() );
+        SmartDashboard.putNumber("RSY", Xbox.getRightStickYWithDeadzone() );
+        SmartDashboard.putNumber("LT", Xbox.getLeftTriggerWithDeadzone() );
+        SmartDashboard.putNumber("RT", Xbox.getRightTriggerWithDeadzone() );
+        SmartDashboard.putNumber("DPad", Xbox.getXboxDpad() );
 
 
     //Buttons
-        SmartDashboard.putBoolean("A", CXbox.XboxADown());
-        SmartDashboard.putBoolean("B", CXbox.XboxBDown() );
-        SmartDashboard.putBoolean("X", CXbox.XboxXDown() );
-        SmartDashboard.putBoolean("Y", CXbox.XboxYDown() );
-        SmartDashboard.putBoolean("LJB", CXbox.XboxLStickDown() );
-        SmartDashboard.putBoolean("RJB", CXbox.XboxRStickDown());
-        SmartDashboard.putBoolean("LB", CXbox.XboxLBumperDown() );
-        SmartDashboard.putBoolean("RB", CXbox.XboxRBumperDown() );
+        SmartDashboard.putBoolean("A", Xbox.XboxADown());
+        SmartDashboard.putBoolean("B", Xbox.XboxBDown() );
+        SmartDashboard.putBoolean("X", Xbox.XboxXDown() );
+        SmartDashboard.putBoolean("Y", Xbox.XboxYDown() );
+        SmartDashboard.putBoolean("LJB", Xbox.XboxLStickDown() );
+        SmartDashboard.putBoolean("RJB", Xbox.XboxRStickDown());
+        SmartDashboard.putBoolean("LB", Xbox.XboxLBumperDown() );
+        SmartDashboard.putBoolean("RB", Xbox.XboxRBumperDown() );
     //*/
     //score
         SmartDashboard.putString("Chosen Position", score.goalKeeperPos());

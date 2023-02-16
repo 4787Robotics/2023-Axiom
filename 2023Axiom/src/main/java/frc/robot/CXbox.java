@@ -5,13 +5,13 @@ import java.util.logging.ConsoleHandler;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class CXbox {
-    static XboxController xboxcontroller = new XboxController(0);
+    static XboxController xboxcontroller = new XboxController(Constants.XCONTROLLER_PORT);
     
-    CXbox() {
+    public CXbox() {
 
     }
 //Dpad buttons
-    public static double getXboxDpad(){
+    public double getXboxDpad(){
         if(xboxcontroller.getPOV() != -1){
             
             return xboxcontroller.getPOV();
@@ -19,59 +19,59 @@ public class CXbox {
         return -1;
     }
 //ABXY buttons
-    public static boolean XboxADown(){
+    public boolean XboxADown(){
         if (xboxcontroller.getAButton()) {
             
         }
         return xboxcontroller.getAButton();
     }
-    public static boolean XboxBDown(){
+    public boolean XboxBDown(){
         if (xboxcontroller.getBButton()) {
             
         }
         return xboxcontroller.getBButton();
     }
-    public static boolean XboxXDown(){
+    public boolean XboxXDown(){
         if (xboxcontroller.getXButton()) {
             
         }
         return xboxcontroller.getXButton();
         
     }
-    public static boolean XboxYDown(){
+    public boolean XboxYDown(){
         if (xboxcontroller.getYButton()) {
            
         }
         return xboxcontroller.getYButton();
     }
 // R&L bumpers
-    public static boolean XboxLBumperDown(){
+    public boolean XboxLBumperDown(){
         if (xboxcontroller.getLeftBumper()) {
            
         }
         return xboxcontroller.getLeftBumper();
     }
-    public static boolean XboxRBumperDown(){
+    public boolean XboxRBumperDown(){
         if (xboxcontroller.getRightBumper()) {
             
         }
         return xboxcontroller.getRightBumper();
     }
 // R&L stick buttons
-    public static boolean XboxLStickDown(){
+    public boolean XboxLStickDown(){
         if (xboxcontroller.getLeftStickButton()) {
             
         }
         return xboxcontroller.getLeftStickButton();
     }
-    public static boolean XboxRStickDown(){
+    public boolean XboxRStickDown(){
         if (xboxcontroller.getRightStickButton()) {
             
         }
         return xboxcontroller.getRightStickButton();
     }
 // left trigger value
-    public static double getLeftTriggerWithDeadzone(){
+    public double getLeftTriggerWithDeadzone(){
         if (xboxcontroller.getLeftTriggerAxis() > Constants.LEFT_TRIGGER_DEAD_ZONE) {
             
             return xboxcontroller.getLeftTriggerAxis();           
@@ -79,7 +79,7 @@ public class CXbox {
         return 0;
     }
 // right trigger value
-    public static double getRightTriggerWithDeadzone(){
+    public double getRightTriggerWithDeadzone(){
         if (xboxcontroller.getRightTriggerAxis() > Constants.RIGHT_TRIGGER_DEAD_ZONE) {
            
             return xboxcontroller.getRightTriggerAxis();
@@ -87,7 +87,7 @@ public class CXbox {
         return 0;
     }
 // left stick X value
-    public static double getLeftStickXWithDeadzone(){
+    public double getLeftStickXWithDeadzone(){
         if (xboxcontroller.getLeftX() > Constants.LEFT_TRIGGER_DEAD_ZONE || xboxcontroller.getLeftX() < -Constants.LEFT_TRIGGER_DEAD_ZONE) {
             
             return xboxcontroller.getLeftX();
@@ -95,7 +95,7 @@ public class CXbox {
         return 0;
     }
 // right stick X value
-    public static double getRightStickXWithDeadzone() {
+    public double getRightStickXWithDeadzone() {
         if (xboxcontroller.getRightX() > Constants.RIGHT_TRIGGER_DEAD_ZONE || xboxcontroller.getRightX() < -Constants.RIGHT_TRIGGER_DEAD_ZONE) {
             
             return xboxcontroller.getRightX();
@@ -103,7 +103,7 @@ public class CXbox {
         return 0;
     }
 // left stick Y value
-    public static double getLeftStickYWithDeadzone(){
+    public double getLeftStickYWithDeadzone(){
         if (xboxcontroller.getLeftY() > Constants.LEFT_TRIGGER_DEAD_ZONE || xboxcontroller.getLeftY() < -Constants.LEFT_TRIGGER_DEAD_ZONE) {
            
             return xboxcontroller.getLeftY();
@@ -111,7 +111,7 @@ public class CXbox {
         return 0;
     }
 //right stick Y value
-    public static double getRightStickYWithDeadzone(){
+    public double getRightStickYWithDeadzone(){
         if (xboxcontroller.getRightY() > Constants.RIGHT_TRIGGER_DEAD_ZONE || xboxcontroller.getRightY() < Constants.RIGHT_TRIGGER_DEAD_ZONE * -1) {
             
             return xboxcontroller.getRightY();
