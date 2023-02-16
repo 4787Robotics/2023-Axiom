@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -20,15 +19,15 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public final class Constants {
     //Limelight
-    // distance from the target to the floor
-    public static double GoalHeight = 14.25; //inches
+    public static double LIMELIGHT_APRILTAG_DOUBLE_STATION_HEIGHT = 36; //cm
+    public static double LIMELIGHT_APRILTAG_GRID_HEIGHT = 59; //cm
+    public static double LIMELIGHT_REFLECTIVETAPE_LOW_HEIGHT = 61; //cm
+    public static double LIMELIGHT_REFLECTIVETAPE_HIGH_HEIGHT = 111; //cm
+    public static double LIMELIGHT_MOUNT_ANGLE = 0; //degrees
+    public static double LIMELIGHT_LENS_HEIGHT = 7.25; //cm
+    public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
-    // how many degrees back is your limelight rotated from perfectly vertical?
-    public static double LimelightMountAngle = 0; //degrees
-
-    // distance from the center of the Limelight lens to the floor
-    public static double LimelightLensHeight = 7.25; //inches
-
+    //Motors
     public static int MOTOR_ARM = 0; //may need to change the Constant for these three later
     public static int MOTOR_LEFT_GRIP = 1;
     public static int MOTOR_RIGHT_GRIP = 2;
@@ -38,21 +37,21 @@ public final class Constants {
     public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
 
     //The constants below will need to be changed later - Talk to electrical
-    public static int LEFT_MOTOR_1_ID = 4; //Front Left
-    public static int LEFT_MOTOR_2_ID = 3; //Back Left
+    public static int LEFT_MOTOR_1_ID = 2; //Front Left
+    public static int LEFT_MOTOR_2_ID = 1; //Back Left
 
-    public static int RIGHT_MOTOR_1_ID = 1; //Front right
-    public static int RIGHT_MOTOR_2_ID = 2; //Back right
+    public static int RIGHT_MOTOR_1_ID = 3; //Front right
+    public static int RIGHT_MOTOR_2_ID = 4; //Back right
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
-    public static final float RIGHT_STICK_DEAD_ZONE = 0.9f;
-    public static final float LEFT_STICK_DEAD_ZONE = 0.9f;
-    public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.7f;
-    public static final float LEFT_TRIGGER_DEAD_ZONE = 0.7f;
+    public static final float RIGHT_STICK_DEAD_ZONE = 0.1f;
+    public static final float LEFT_STICK_DEAD_ZONE = 0.1f;
+    public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.1f;
+    public static final float LEFT_TRIGGER_DEAD_ZONE = 0.1f;
     //Joystick
-    public static final float joystickRotDeadzone = 0.9f;
-    public static final float joystickDeadzone = 0.9f;
+    public static final float joystickRotDeadzone = 0.1f;
+    public static final float joystickDeadzone = 0.1f;
 
     //Constants for Autonomous
     public static final double KS_VOLTS = 0;

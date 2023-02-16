@@ -4,6 +4,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -29,18 +30,63 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public class RammseteAutonomousCommand extends CommandBase{
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final DriveTrain driveTrain;
-    /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  public final DriveTrain driveTrain;
+  Pose2d initialPose;
+  public TrajectoryConfig config;
+  public Trajectory exampleTrajectory;
 
+  /**
+  * Creates a new RammseteAutonomousCommand.
+  *
+  * @param subsystem The subsystem used by this command.
+  */
   public RammseteAutonomousCommand(DriveTrain subsystem) {
-    driveTrain = subsystem;
-    addRequirements(subsystem);
-    }
+    driveTrain = RobotContainer.m_driveTrain;
+    DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+        new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                                   Constants.KV_VOLT_SECONDS_PER_METER,
+                                   Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+        Constants.K_DRIVE_KINEMATICS,
+        4
+    );
+    TrajectoryConfig config =
+      new TrajectoryConfig(Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+        .setKinematics(Constants.K_DRIVE_KINEMATICS) //ensures max speed is actually obeyed
+        .addConstraint(autoVoltageConstraint)
+        .setReversed(false); //voltage constraint
+  }
+    
+  public Command createAutonomousCommand(Trajectory trajectory) {
+        
+    initialPose = trajectory.getInitialPose();
+
+    RamseteCommand autonomousCommand = new RamseteCommand(
+      trajectory,
+      driveTrain::getPose,
+      new RamseteController(Constants.K_RAMSETE_B, Constants.K_RAMSETE_A),
+      new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                                Constants.KV_VOLT_SECONDS_PER_METER,
+                                Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+      Constants.K_DRIVE_KINEMATICS,
+      driveTrain::getWheelSpeeds,
+      new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+      new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+            // RamseteCommand passes volts to the callback
+      driveTrain::tankDriveVolts,
+      driveTrain
+    );
+      driveTrain.resetOdometry(exampleTrajectory.getInitialPose());
+      //wpiLIB has it as a return function because they're not using a void function to call the autonomous command
+      return autonomousCommand.andThen(() -> driveTrain.tankDriveVolts(0,0));
+    
+
+}
+public void resetOdometryInitialPose() {
+  driveTrain.resetOdometry(initialPose);
+}
+
+
     // An ExampleCommand will run in autonomous  
 
   // Called when the command is initially scheduled.

@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_teleopCommand = m_robotContainer.getTeleopCommand();
+    m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }
@@ -73,8 +74,9 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      m_autonomousCommand.cancel();
     }
+    m_autonomousCommand.schedule();
   }
   
 
@@ -89,7 +91,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_teleopCommand = m_robotContainer.getTeleopCommand();
     if (m_teleopCommand != null) {
       m_teleopCommand.cancel();
     }

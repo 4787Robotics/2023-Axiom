@@ -5,11 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants;
 
 public class LimeLight extends SubsystemBase {
   //NetworkTable fields
@@ -23,8 +23,6 @@ public class LimeLight extends SubsystemBase {
   NetworkTableEntry pipeline;
 
   //Other fields
-  double distance = 0;
-
   //Initialize fields and get NetworkTable for the first limelight
   public LimeLight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -72,13 +70,14 @@ public class LimeLight extends SubsystemBase {
   public void setPipeline(double pipelineNumber) {
     pipeline.setValue(pipelineNumber);
   }
-  
 
   public void setTargetedAprilTagId(double targetedAprilTagId) {
     setPipeline(targetedAprilTagId + 1);
   }
 
-  public double calculateDistance() {
+  public double calculateDistance(double targetHeight) {
+
+    double distance = 0;
 
     //with area (doesnt fucking work im ass mb)
     /*double area = getArea();
@@ -95,21 +94,34 @@ public class LimeLight extends SubsystemBase {
 
        return 0;*/
     
-    //using known variables (angles, heights, etc.)
-    double area = getArea();
-    if (area == 0) {
+    //Using known variables (angles, heights, etc.)
+    //From limelight documentation
+    /*if (hasTarget()) {
       distance = -1; //-1 means the limelight does not see a target
-    } else {  //calculate the distance based on the area of the target and some constants that we found experimentally.  This is not perfect, but it works for our robot. 
-      double angleToGoalDegrees = Constants.LimelightMountAngle + getYAngle();
-      double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0); 
+    } else {  //calculate the distance based on the area of the target and some constants that we found experimentally.  This is not perfect, but it works for our robot.
+      double angleToGoalDegrees = Constants.LIMELIGHT_MOUNT_ANGLE + getYAngle();
+      double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
-      distance = (Constants.GoalHeight - Constants.LimelightLensHeight)/Math.tan(angleToGoalRadians);   
-    } 
-    return distance; //returns calculated distance in inches from limelight to reflective tape target or -1 if no valid targets are seen by Limelight camera (i.e., tv=0)
+      distance = (Constants.LIMELIGHT_GOAL_HEIGHT - Constants.LIMELIGHT_LENS_HEIGHT)/Math.tan(angleToGoalRadians);
+    }*/
+
+    //Distance calculation from https://www.chiefdelphi.com/t/calculating-distance-to-vision-target/387183/6
+    if (hasTarget()) {
+      distance = 0; //-1 means the limelight does not see a target
+    } else {
+      double z = 1 / (Math.sqrt(1 + Math.pow(Math.tan(getYAngle()), 2) + Math.pow(Math.tan(getXAngle()), 2)));
+      double y = getYAngle() / (Math.sqrt(1 + Math.pow(Math.tan(getYAngle()), 2) + Math.pow(Math.tan(getXAngle()), 2)));
+      double x = getXAngle() / (Math.sqrt(1 + Math.pow(Math.tan(getYAngle()), 2) + Math.pow(Math.tan(getXAngle()), 2)));
+
+      double scaleFactor = (targetHeight - Constants.LIMELIGHT_LENS_HEIGHT) / y;
+
+      distance = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) * scaleFactor;
+    }
+
+    return distance; //returns calculated distance in inches from limelight to reflective tape target or 0 if no valid targets are seen by Limelight camera (i.e., tv=0)
   }
 
   public void updateDashboard() {
-    SmartDashboard.putNumber("Distance", calculateDistance());
     SmartDashboard.putNumber("LimelightX", getXAngle());
     SmartDashboard.putNumber("LimelightY", getYAngle());
     SmartDashboard.putNumber("LimelightArea", getArea());
