@@ -33,23 +33,47 @@ public class CJoystick {
         }
         return false;
     }
-    public int joystickButton2Down(){
-        return qol2.incrementjs(2,1,3);
+    public boolean joystickButton2Down(){
+        if(joystick.getRawButton(2)){
+            
+            return joystick.getRawButton(2);
+        }
+        return false;
     }
     public boolean joystickButton3Down(){
-        return qol3.togglejs(3);
+        if(joystick.getRawButton(3)){
+            
+            return joystick.getRawButton(3);
+        }
+        return false;
     }
     public boolean joystickButton4Down(){
-        return qol4.togglejs(4);
+        if(joystick.getRawButton(4)){
+            
+            return joystick.getRawButton(4);
+        }
+        return false;
     }
     public boolean joystickButton5Down(){
-        return qol5.togglejs(5);
+        if(joystick.getRawButton(5)){
+            
+            return joystick.getRawButton(5);
+        }
+        return false;
     }
     public boolean joystickButton6Down(){
-        return qol6.togglejs(6);
+        if(joystick.getRawButton(6)){
+            
+            return joystick.getRawButton(6);
+        }
+        return false;
     }
     public boolean joystickButton7Down(){
-        return qol7.togglejs(7);
+        if(joystick.getRawButton(7)){
+            
+            return joystick.getRawButton(7);
+        }
+        return false;
     }
     public boolean joystickButton8Down(){
         if(joystick.getRawButton(8)){
@@ -59,7 +83,11 @@ public class CJoystick {
         return false;
     }
     public boolean joystickButton9Down(){
-        return qol9.togglejs(9);
+        if(joystick.getRawButton(9)){
+            
+            return joystick.getRawButton(9);
+        }
+        return false;
     }
     public boolean joystickButton10Down(){
         if(joystick.getRawButton(10)){
@@ -69,7 +97,11 @@ public class CJoystick {
         return false;
     }
     public boolean joystickButton11Down(){
-        return qol11.togglejs(11);
+        if(joystick.getRawButton(11)){
+            
+        return joystick.getRawButton(11);
+    }
+    return false;
     }
     public boolean joystickButton12Down(){
         if(joystick.getRawButton(12)){

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.CJoystick;
 import frc.robot.Constants;
 import frc.robot.QOL;
 
@@ -11,27 +12,33 @@ public class ScoringArea{
     static QOL qol7 = new QOL();
     static QOL qol9 = new QOL();
     static QOL qol11 = new QOL();
-    static boolean initst;
+
+    boolean[][][] goals = {
+        {{false, false, false},{false, false, false},{false, false, false}},
+        {{false, false, false},{false, false, false},{false, false, false}},
+        {{false, false, false},{false, false, false},{false, false, false}},
+    };
+
     public ScoringArea(){
 
     }
-    public static boolean goalkeeper(){
-        boolean[][][] goals = {
-            {{initst,initst,initst},{initst,initst,initst},{initst,initst,initst}},
-            {{initst,initst,initst},{initst,initst,initst},{initst,initst,initst}},
-            {{initst,initst,initst},{initst,initst,initst},{initst,initst,initst}},
-            {{initst,initst,initst},{initst,initst,initst},{initst,initst,initst}},
-        };
-
-        int column = qol7.incrementjs(7, 0, 3);
+    public boolean goalKeeperVal(){
+        int column = qol7.incrementjs(7, 0, 2);
         int row = qol9.incrementjs(9, 0, 2);
         int cell = qol11.incrementjs(11, 0, 2);
 
+        boolean currentGoal = goals[column][row][cell];
 
-        if(joystick.getRawButtonPressed(1)) {
-            goals[column][row][cell] = !goals[column][row][cell];
+        if(joystick.getRawButtonPressed(1)){
+            goals[column][row][cell] = !currentGoal;
         }
-        System.out.println(goals[column][row][cell]);
+
         return goals[column][row][cell];
+    }
+    public String goalKeeperPos(){
+        int column = qol7.incrementjs(7, 0, 2);
+        int row = qol9.incrementjs(9, 0, 2);
+        int cell = qol11.incrementjs(11, 0, 2);
+        return column+", "+row+", "+cell;
     }
 }

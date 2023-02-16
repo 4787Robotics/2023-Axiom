@@ -4,13 +4,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.CJoystick;
 //import frc.robot.CXbox;
-import frc.robot.QOL;
 
 public class Scorekeeper {
     static CJoystick Joystick = new CJoystick();
+    static ScoringArea score = new ScoringArea();
+
     public static void updateDashboard() {
-    
-    //Joystick
+//Joystick
     //*
     //movable stuff
         SmartDashboard.putNumber("Joystick POV val", Joystick.getJoystickPOV() );
@@ -21,7 +21,7 @@ public class Scorekeeper {
 
     //buttons
         SmartDashboard.putBoolean("B1", Joystick.joystickButton1Down() );
-        SmartDashboard.putNumber("B2", Joystick.joystickButton2Down() );
+        SmartDashboard.putBoolean("B2", Joystick.joystickButton2Down() );
         SmartDashboard.putBoolean("B3", Joystick.joystickButton3Down() );
         SmartDashboard.putBoolean("B4", Joystick.joystickButton4Down() );
         SmartDashboard.putBoolean("B5", Joystick.joystickButton5Down() );
@@ -55,6 +55,9 @@ public class Scorekeeper {
         SmartDashboard.putBoolean("LB", CXbox.XboxLBumperDown() );
         SmartDashboard.putBoolean("RB", CXbox.XboxRBumperDown() );
     //*/
+    //score
+        SmartDashboard.putString("Chosen Position", score.goalKeeperPos());
+        SmartDashboard.putBoolean("Position Value", score.goalKeeperVal());
     }   
 }
 

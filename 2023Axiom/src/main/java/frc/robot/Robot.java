@@ -14,6 +14,7 @@ import frc.robot.subsystems.ScoringArea;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.subsystems.ScoringArea;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,7 +25,7 @@ import edu.wpi.first.wpilibj.SPI;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_teleopCommand;
-
+  
   private RobotContainer m_robotContainer;
 
   /**
@@ -127,7 +128,7 @@ public class Robot extends TimedRobot {
     CXbox.XboxYDown();
     CXbox.XboxLStickDown();
     CXbox.XboxRStickDown();
-    CXbox.XboxLBumperDown();
+    CXbox.XboxLBumperDown(); 
     CXbox.XboxRBumperDown();
     CXbox.getLeftTriggerWithDeadzone();
     CXbox.getRightTriggerWithDeadzone();
@@ -156,7 +157,6 @@ public class Robot extends TimedRobot {
     CJoystick.joystickButton11Down();
     CJoystick.joystickButton12Down();
     //*/
-    //Scorekeeper.updateDashboard();
-    ScoringArea.goalkeeper();
+    Scorekeeper.updateDashboard();
   }
 }
