@@ -1,8 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-
 // ill put some type convertion stuff in here sometime
 public class QOL {
     boolean Switch = false;

@@ -35,7 +35,7 @@ public class Scorekeeper {
         SmartDashboard.putBoolean("B12", Joystick.joystickButton12Down() );
     //*/
 //Xbox Controller\
-    //*
+    /*
     //Movable Stuff
         SmartDashboard.putNumber("LSX", Xbox.getLeftStickXWithDeadzone() );
         SmartDashboard.putNumber("LSY", Xbox.getLeftStickYWithDeadzone() );
