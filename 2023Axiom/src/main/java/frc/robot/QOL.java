@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 // ill put some type convertion stuff in here sometime
 public class QOL {
@@ -11,6 +12,7 @@ public class QOL {
     public QOL() {
         
     }
+
     public boolean togglejs(int button){
         if(joystick.getRawButtonPressed(button)){
             Switch = !Switch;
@@ -30,6 +32,7 @@ public class QOL {
         }
         return increment;
     }
+
     //turns 1 or 0 into true or false, respectively
     public boolean toBool(int arg){
         if(arg == 1){
