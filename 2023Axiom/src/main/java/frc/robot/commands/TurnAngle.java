@@ -14,6 +14,7 @@ public class TurnAngle extends CommandBase {
   private DriveTrain driveTrain;
   private Balance balance;
   private double turnTo;
+  private double headingTo;
 
   public TurnAngle(DriveTrain m_driveTrain, Balance m_balance, double TurnTo) {
     driveTrain = m_driveTrain;
@@ -26,12 +27,16 @@ public class TurnAngle extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    headingTo = balance.getLinearHeading() + turnTo;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.driveRobot(false, 0, MathUtil.clamp(balance.calculatePID(balance.getHeading(), balance.getHeading() + turnTo), -0.2, 0.2));
+    double speed = MathUtil.clamp(balance.calculatePID(balance.getLinearHeading(), headingTo), -0.5, 0.5);
+    System.out.println("speed: " + speed);
+    driveTrain.driveRobot(false, 0, speed);
   }
 
   // Called once the command ends or is interrupted.

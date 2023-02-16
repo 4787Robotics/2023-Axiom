@@ -12,29 +12,37 @@ import frc.robot.CXbox;
 public class NavXAutonomousCommand extends CommandBase {
   DriveTrain driveTrain;
   Balance balance;
-  int i = 0;
+  int i;
 
   /** Creates a new NavXAutonomousCommand. */
   public NavXAutonomousCommand(DriveTrain m_driveTrain, Balance m_balance) {
     driveTrain = m_driveTrain;
     balance = m_balance;
+    i = 0;
     addRequirements(m_driveTrain, m_balance);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("i");
+    i = 0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (i == 0) {
-    //   System.out.println("NavX running");
-    //   TurnAngle turnAngle = new TurnAngle(driveTrain, balance, 30);
-    //   turnAngle.schedule();
-    //   i++;
-    // }
-    driveTrain.driveRobot(true, 0.5, 0.5);
+    if (i == 0) {
+      System.out.println("NavX running");
+      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, 90);
+      turnAngle.schedule();
+      System.out.println("Scheduled");
+      i++;
+    }
+    else {
+      System.out.println("I " + i);
+    }
+    System.out.println(i);
   }
 
   // Called once the command ends or is interrupted.

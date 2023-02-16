@@ -16,8 +16,10 @@ public class Balance extends SubsystemBase{
     private double currentRotationRoll = 0; //Current rotation [-180, 180] tilted to left and and right. 1 means leaned 180 degrees left, -1 180 degrees right
     private double currentRotationYaw = 0;
     private double currentHeading = 0;
+    private double currentLinearHeading = 0;
     
     private double headingAdjust = 0;
+    private double linearHeadingAdjust = 36000;
     private boolean headingReady = false;
 
     private int i = 0; //For testing, unnecessary otherwise
@@ -27,7 +29,7 @@ public class Balance extends SubsystemBase{
 
     public Balance() {
         gyro = new AHRS(SPI.Port.kMXP);
-        PID = new PIDController(0.1, 0, 0); //CHANGE THESE VALUES BEFORE YOU MAKE IT GO
+        PID = new PIDController(0.036, 0.02, 0.01425);
     }
 
     @Override
@@ -37,6 +39,7 @@ public class Balance extends SubsystemBase{
         SmartDashboard.putNumber("Roll", getPitch()); //Positive is tilted right
         SmartDashboard.putNumber("Pitch", -getRoll()); //Positive is forward
         SmartDashboard.putNumber("Heading Adjust", headingAdjust);
+        SmartDashboard.putNumber("LinearHeading", getLinearHeading());
 
         updateHeading();
         SmartDashboard.putNumber("Heading", currentHeading);
@@ -88,6 +91,11 @@ public class Balance extends SubsystemBase{
         return currentHeading;
     }
 
+    public double getLinearHeading() {
+        updateLinearHeading();
+        return currentLinearHeading;
+    }
+
     /**
      * Gets the AHRS type gyro being used by this object.
      *
@@ -124,6 +132,10 @@ public class Balance extends SubsystemBase{
 
     private void updateHeading() {
         currentHeading = getYaw() + headingAdjust;
+    }
+    
+    private void updateLinearHeading() {
+        currentLinearHeading = gyro.getAngle() + linearHeadingAdjust;
     }
 
     /**
