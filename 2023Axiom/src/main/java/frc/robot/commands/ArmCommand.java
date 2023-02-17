@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
 import frc.robot.Constants;
+import frc.robot.CJoystick;
 import frc.robot.subsystems.MotorController;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -23,18 +24,21 @@ import javax.swing.text.Position;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.Encoder;
 import com.revrobotics.SparkMaxPIDController;
 /** An example command that uses an example subsystem. */
 public class ArmCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
-
+  Encoder ArmEncoder; 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public ArmCommand(MotorController subsystem) {
+    ArmEncoder.reset();
+    Encoder ArmEncoder = new Encoder(0, 1);
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -63,15 +67,17 @@ public class ArmCommand extends CommandBase {
     if (Pushed >= 2){
       System.out.println("Two or more buttons are pressed"); //I may want to change letter buttons to user prefrence
     } else if(CXbox.XboxADown()) {
-      m_subsystem.ArmPID(1,0);//Lowest Point, Grounded
+      m_subsystem.ArmPID(ArmEncoder.getDistance(),0);//Lowest Point, Grounded
     } else if (CXbox.XboxBDown()) {
-      m_subsystem.ArmPID(1,66.2113);//Mid Point, from below
+      m_subsystem.ArmPID(ArmEncoder.getDistance(),66.2113);//Mid Point, from below
     } else if (CXbox.XboxYDown()) {
-      m_subsystem.ArmPID(1,83.725);//Highmid point?
-    } else if (CXbox.getXboxDpad() == 0) {
-      m_subsystem.ArmMove(.1);
-    } else if (CXbox.getXboxDpad() == 180) {
-      m_subsystem.ArmMove(-.1);
+      m_subsystem.ArmPID(ArmEncoder.getDistance(),83.725);//Highmid point?
+    } else if (CJoystick.getJoystickThrottle() > .5) {
+      m_subsystem.ArmMove(2*(CJoystick.getJoystickThrottle() - 0.4));
+    } else if (CJoystick.getJoystickThrottle() < -.5) {
+      m_subsystem.ArmMove(2*(CJoystick.getJoystickThrottle() + 0.4));
+    } else {
+      m_subsystem.ArmMove(0);
     }
   } //I have no idea what to put here for PID values and such
 

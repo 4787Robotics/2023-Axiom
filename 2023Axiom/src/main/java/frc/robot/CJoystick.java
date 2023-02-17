@@ -103,6 +103,7 @@ public class CJoystick {
         }
         return false;
     }
+/* 
 //Joystick axes
     //Joystick X Axis
     public double getJoystickXWithDeadzone(){
@@ -127,9 +128,9 @@ public class CJoystick {
             return joystick.getTwist();
         }
         return 0;
-    }
+    } */
     //Joystick Throttle
-    public double getJoystickThrottle(){
+    public static double getJoystickThrottle(){
             if(joystick.getThrottle() != 1){
                
             return joystick.getThrottle();
