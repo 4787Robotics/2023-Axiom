@@ -16,7 +16,9 @@ public class MotorController extends SubsystemBase {
   private CANSparkMax RightHand;
   private CANSparkMax Arm;
   private RelativeEncoder armEncoder; 
-  private PIDController PID; {
+  private PIDController PID; 
+  
+  public MotorController() {
       // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM, MotorType.kBrushless);
   armEncoder = Arm.getEncoder(); //for PID
