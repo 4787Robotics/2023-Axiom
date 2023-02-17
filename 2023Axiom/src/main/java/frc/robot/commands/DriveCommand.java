@@ -25,7 +25,7 @@ public class DriveCommand extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param m_DriveTrain The subsystem used by this command.
    */
   public DriveCommand(DriveTrain m_DriveTrain) {
     driveTrain = m_DriveTrain;

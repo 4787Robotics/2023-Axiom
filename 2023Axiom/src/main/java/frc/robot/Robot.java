@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.SPI;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_teleopCommand;
-
+  private Command m_autoAlignAndPlaceCommand;
   private RobotContainer m_robotContainer;
 
   /**
@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_teleopCommand = m_robotContainer.getTeleopCommand();
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
+    m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }

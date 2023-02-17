@@ -79,7 +79,7 @@ public class DriveTrain extends SubsystemBase{
    
     
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
-    Integer window_size = 100;
+    int window_size = 100;
 
     AHRS gyro = Balance.getGyro();
     m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters);
@@ -157,7 +157,7 @@ public class DriveTrain extends SubsystemBase{
     m_odometry.resetPosition(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters, pose);
   }
   
-  public static void resetEncoders() {
+  public void resetEncoders() {
     m_left1.configClearPositionOnLimitF(true, 0);
     m_left1.configClearPositionOnLimitR(true, 0);
     m_left1.configClearPositionOnQuadIdx(true, 0);
