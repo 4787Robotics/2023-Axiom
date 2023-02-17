@@ -13,7 +13,6 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
 /** An example command that uses an example subsystem. */
 public class AutoAlignAndPlace extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -100,6 +99,8 @@ public class AutoAlignAndPlace extends CommandBase {
     double heldTurnAngle = 0;
     double distanceToParallelTag = 0;
     double distanceToPerpendicularTag = 0;
+    TurnAngle turnAngle;
+    MoveTo moveTo;
 
     /*
     - decide which target to choose
@@ -129,7 +130,7 @@ public class AutoAlignAndPlace extends CommandBase {
       distanceToPerpendicularTag = Math.sin(heldAngle) * distanceToTag;
       distanceToParallelTag = Math.cos(heldAngle) * distanceToTag;
 
-      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
+      turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
       turnAngle.schedule();
     } else {
       heldTurnAngle =  (360 - balance.getHeading()) - 90;
@@ -137,13 +138,24 @@ public class AutoAlignAndPlace extends CommandBase {
       distanceToPerpendicularTag = Math.sin(heldAngle) * distanceToTag;
       distanceToParallelTag = Math.cos(heldAngle) * distanceToTag;
 
-      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
+      turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
       turnAngle.schedule();
     }
 
+    while (!turnAngle.isFinished()) {
+      Thread.onSpinWait();
+    }
+
+    cancel();
+
     //drive distanceToParallelTag
-    //drive distance to targeted reflective tape parallel
+    /*moveTo = new MoveTo(driveTrain, balance, distanceToParallelTag);
+    moveTo.schedule();
+    while (!moveTo.isFinished()) {
+      Thread.onSpinWait();
+    }*/
     //turn towards target
+
     //forward/backward adjust
     //arm command
   }

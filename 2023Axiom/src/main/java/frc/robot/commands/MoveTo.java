@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.RobotController;
 
 public class MoveTo extends CommandBase {
   /** Creates a new TurnAngle. */
-  static private DriveTrain driveTrain;
+  private final DriveTrain driveTrain;
   private Balance balance;
   private double meters; // positive meters = forward while negative meters = backward
   private double headingTo;
@@ -35,7 +35,7 @@ public class MoveTo extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DriveTrain.resetEncoders();
+    driveTrain.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

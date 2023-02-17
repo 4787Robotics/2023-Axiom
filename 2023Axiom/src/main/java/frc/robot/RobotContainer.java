@@ -31,7 +31,7 @@ public class RobotContainer {
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
-  private final AutoAlignAndPlace aIAssistedDriving = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance);
+  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -74,4 +74,6 @@ public class RobotContainer {
   public DriveTrain getDriveTrain() {
     return m_driveTrain;
   }
+
+  public AutoAlignAndPlace getAutoAlignAndPlace() { return autoAlignAndPlace;}
 }
