@@ -10,6 +10,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,8 +28,6 @@ public class MotorController extends SubsystemBase{
   public MotorController() {
       // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
-  Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
-  Arm2.follow(Arm);
   Arm.restoreFactoryDefaults();
   ArmEncoder = Arm.getEncoder();
   PID = Arm.getPIDController();
@@ -85,11 +85,15 @@ public class MotorController extends SubsystemBase{
   SmartDashboard.putNumber("SetPoint", rotations);
   SmartDashboard.putNumber("ProcessVariable", ArmEncoder.getPosition());
 
+  Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
+  Arm2.follow(Arm);
+
   // Controls wheels that suck em up
   LeftHand = new CANSparkMax(Constants.MOTOR_LEFT_HAND, MotorType.kBrushless);
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_HAND, MotorType.kBrushless);
-  LeftHand.setInverted(true); 
-// ewqeKeeps the motors in place and stops them frowm moving without input
+  LeftHand.setInverted(true);
+
+
   Arm.setIdleMode(IdleMode.kBrake);
   Arm2.setIdleMode(IdleMode.kBrake);
   LeftHand.setIdleMode(IdleMode.kBrake);
@@ -100,10 +104,10 @@ public class MotorController extends SubsystemBase{
   Arm.setOpenLoopRampRate(0.4); 
   LeftHand.setOpenLoopRampRate(0.1); 
   RightHand.setOpenLoopRampRate(0.1); 
-
+/*
   Arm.set(.25); //changes top speed. stay between -1 and 1 for safety
   LeftHand.set(.25);
-  RightHand.set(.25);
+  RightHand.set(.25); */ //May be useless
   }
 
   @Override
@@ -114,15 +118,15 @@ public class MotorController extends SubsystemBase{
   
   public void Intake(double Direction){
     //add inverts if going backward
-    LeftHand.setVoltage(Direction);
-    RightHand.setVoltage(Direction);
+    LeftHand.set(Direction);
+    RightHand.set(Direction);
   }
 
-  public PIDController getArmPID() {
+  public SparkMaxPIDController getArmPID() {
     return PID;
   }
-  public double ArmPID(double currentMeasurement, double goalPoint) {
-    Arm.set(PID.calculate(ArmEncoder.getPosition(), goalPoint));
+  public double ArmPID(double goalPoint) {
+    Arm.set(MathUtil.clamp(PID.calculate(Math.abs(ArmEncoder.getPosition() - goalPoint), goalPoint), -0.25, 0.25));
   }
   public void ArmMove(double Movement){
     Arm.set(Movement);
