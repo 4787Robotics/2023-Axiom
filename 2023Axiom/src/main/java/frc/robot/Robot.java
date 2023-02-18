@@ -25,7 +25,11 @@ import frc.robot.subsystems.ScoringArea;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_teleopCommand;
+<<<<<<< HEAD
   
+=======
+  private Command m_autoAlignAndPlaceCommand;
+>>>>>>> main
   private RobotContainer m_robotContainer;
 
   /**
@@ -38,6 +42,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_teleopCommand = m_robotContainer.getTeleopCommand();
+    //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
+    //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+    m_autonomousCommand = m_robotContainer.getAutoAlignAndPlace();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }
@@ -66,21 +73,24 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  
   @Override
   
   public void autonomousInit() {
-
-    System.out.println("AUTO INIT");
     m_robotContainer.getBalance().setHeadingAdjust();
 
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      m_autonomousCommand.cancel();
     }
-    
-  } 
+
+    assert m_autonomousCommand != null;
+    m_autonomousCommand.schedule();
+  }
+  
+
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
@@ -92,7 +102,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_teleopCommand = RobotContainer.getTeleopCommand();
     if (m_teleopCommand != null) {
       m_teleopCommand.cancel();
     }

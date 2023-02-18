@@ -6,16 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoAlignAndPlace;
+import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
-//import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.RammseteAutonomousCommand;
+// import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.Balance;
-import frc.robot.subsystems.DriveTrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,12 +24,16 @@ import frc.robot.subsystems.DriveTrain;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final static DriveTrain m_subsystem = new DriveTrain();
-  static XboxController inputController = new XboxController(0);
-  private final static DriveCommand m_teleopCommand = new DriveCommand(m_subsystem);
-  private final Balance m_balance = new Balance();
-  
-  // The robot's subsystems and commands are defined here...
+  private final LimeLight limeLight = new LimeLight();
+
+  private final static Balance m_balance = new Balance();
+  public static DriveTrain m_driveTrain = new DriveTrain();
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
+  private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
+  private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
+  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance);
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -49,21 +53,27 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-
-
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-
+  public Command getNavXAutoCommand() {
     //I'LL FIGURE THIS OUT AT SOME POINT
-    return m_teleopCommand;
+    return m_NavXAutoCommand;
   }
 
-  public static Command getTeleopCommand(){
-   
+  public Command getPathCommand() {
+    //I'LL FIGURE THIS OUT AT SOME POINT
+    return m_pathCommand;
+  }
+
+  public Command getTeleopCommand(){
     return m_teleopCommand;
   }
 
   public Balance getBalance() {
     return m_balance;
   }
+  
+  public DriveTrain getDriveTrain() {
+    return m_driveTrain;
+  }
+
+  public AutoAlignAndPlace getAutoAlignAndPlace() { return autoAlignAndPlace;}
 }

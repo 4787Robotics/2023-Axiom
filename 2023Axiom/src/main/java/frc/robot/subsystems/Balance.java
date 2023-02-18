@@ -6,30 +6,40 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.*;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.Robot;
 
 public class Balance extends SubsystemBase{
     private double currentRotationPitch = 0; //Current rotation [-180, 180] backward and forward. 1 means leaned 180 degrees forward, -1 180 degrees backward
     private double currentRotationRoll = 0; //Current rotation [-180, 180] tilted to left and and right. 1 means leaned 180 degrees left, -1 180 degrees right
     private double currentRotationYaw = 0;
     private double currentHeading = 0;
+    private double currentLinearHeading = 0;
+    
     private double headingAdjust = 0;
+    private double linearHeadingAdjust = 36000;
     private boolean headingReady = false;
-    private int i = 0;
 
-    private AHRS gyro;
+    private int i = 0; //For testing, unnecessary otherwise
+
+    private static AHRS gyro;
+    private PIDController PID;
 
     public Balance() {
         gyro = new AHRS(SPI.Port.kMXP);
+        PID = new PIDController(0.03, 0.03, 0.01425);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("Yaw", getYaw()); //Positive is right, 0 is true north **USUALLY**. There isnt any real rhyme or reason to when it is or isnt, so dont fully trust this
-        SmartDashboard.putNumber("Roll", getRoll()); //Positive is tilted right
-        SmartDashboard.putNumber("Pitch", getPitch()); //Positive is forward
+        SmartDashboard.putNumber("Roll", getPitch()); //Positive is tilted right
+        SmartDashboard.putNumber("Pitch", -getRoll()); //Positive is forward
         SmartDashboard.putNumber("Heading Adjust", headingAdjust);
+        SmartDashboard.putNumber("LinearHeading", getLinearHeading());
 
         updateHeading();
         SmartDashboard.putNumber("Heading", currentHeading);
@@ -81,13 +91,31 @@ public class Balance extends SubsystemBase{
         return currentHeading;
     }
 
+    public double getLinearHeading() {
+        updateLinearHeading();
+        return currentLinearHeading;
+    }
+
     /**
      * Gets the AHRS type gyro being used by this object.
      *
      * @return gyro
      */  
-    public AHRS getGyro() {
+    public static AHRS getGyro() {
         return gyro;
+    }
+
+    /**
+     * Gets the PID controller being used by this object.
+     *
+     * @return PID
+     */ 
+    public PIDController getPID() {
+        return PID;
+    }
+
+    public double calculatePID(double currentMeasurement, double goalPoint) {
+        return PID.calculate(currentMeasurement, goalPoint);
     }
 
     private void updateYaw() {
@@ -95,15 +123,19 @@ public class Balance extends SubsystemBase{
     }
 
     private void updatePitch() {
-        currentRotationPitch = gyro.getPitch();
+        currentRotationPitch = -gyro.getRoll(); //Negative and getRoll instead of getPitch because NavX is placed onto the robot 90 degrees off
     }
 
     private void updateRoll() {
-        currentRotationRoll = gyro.getRoll();
+        currentRotationRoll = gyro.getPitch(); //Negative and getRoll instead of getPitch because NavX is placed onto the robot 90 degrees off
     }
 
     private void updateHeading() {
         currentHeading = getYaw() + headingAdjust;
+    }
+    
+    private void updateLinearHeading() {
+        currentLinearHeading = gyro.getAngle() + linearHeadingAdjust;
     }
 
     /**
