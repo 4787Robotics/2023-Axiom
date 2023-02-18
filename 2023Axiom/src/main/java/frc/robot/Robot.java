@@ -8,10 +8,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Balance;
+import frc.robot.subsystems.Scorekeeper;
+import frc.robot.subsystems.ScoringArea;
 //import frc.robot.subsystems.Scorekeeper;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.subsystems.ScoringArea;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -130,7 +133,7 @@ public class Robot extends TimedRobot {
     CXbox.XboxYDown();
     CXbox.XboxLStickDown();
     CXbox.XboxRStickDown();
-    CXbox.XboxLBumperDown();
+    CXbox.XboxLBumperDown(); 
     CXbox.XboxRBumperDown();
     CXbox.getLeftTriggerWithDeadzone();
     CXbox.getRightTriggerWithDeadzone();
@@ -138,7 +141,7 @@ public class Robot extends TimedRobot {
     CXbox.getLeftStickYWithDeadzone();
     CXbox.getRightStickXWithDeadzone();
     CXbox.getRightStickYWithDeadzone();
-    */
+    //*/
 
     /*
     CJoystick.getJoystickPOV();
@@ -158,7 +161,7 @@ public class Robot extends TimedRobot {
     CJoystick.joystickButton10Down();
     CJoystick.joystickButton11Down();
     CJoystick.joystickButton12Down();
-    */
-    //Scorekeeper.updateDashboard();
+    //*/
+    Scorekeeper.updateDashboard();
   }
 }
