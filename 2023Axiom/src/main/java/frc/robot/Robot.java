@@ -35,8 +35,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_teleopCommand = m_robotContainer.getTeleopCommand();
-    m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
-    m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+    //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
+    //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+    m_autonomousCommand = m_robotContainer.getAutoAlignAndPlace();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }
@@ -77,6 +78,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
   }
   
