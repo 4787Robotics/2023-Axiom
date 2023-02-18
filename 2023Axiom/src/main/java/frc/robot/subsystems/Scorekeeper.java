@@ -56,9 +56,38 @@ public class Scorekeeper {
         SmartDashboard.putBoolean("LB", Xbox.XboxLBumperDown() );
         SmartDashboard.putBoolean("RB", Xbox.XboxRBumperDown() );
     //*/
-    //score
+    //scoreS
         SmartDashboard.putString("Chosen Position", score.goalKeeperPos());
-        SmartDashboard.putBoolean("Position Value", score.goalKeeperVal());
+        
+        SmartDashboard.putBoolean("0,0,0", score.goal(0,0,0));
+        SmartDashboard.putBoolean("0,0,1", score.goal(0,0,1));
+        SmartDashboard.putBoolean("0,0,2", score.goal(0,0,2));
+        SmartDashboard.putBoolean("0,1,0", score.goal(0,1,0));
+        SmartDashboard.putBoolean("0,1,1", score.goal(0,1,1));
+        SmartDashboard.putBoolean("0,1,2", score.goal(0,1,2));
+        SmartDashboard.putBoolean("0,2,0", score.goal(0,2,0));
+        SmartDashboard.putBoolean("0,2,1", score.goal(0,2,1));
+        SmartDashboard.putBoolean("0,2,2", score.goal(0,2,2));
+        
+        SmartDashboard.putBoolean("1,0,0", score.goal(1,0,0));
+        SmartDashboard.putBoolean("1,0,1", score.goal(1,0,1));
+        SmartDashboard.putBoolean("1,0,2", score.goal(1,0,2));
+        SmartDashboard.putBoolean("1,1,0", score.goal(1,1,0));
+        SmartDashboard.putBoolean("1,1,1", score.goal(1,1,1));
+        SmartDashboard.putBoolean("1,1,2", score.goal(1,1,2));
+        SmartDashboard.putBoolean("1,2,0", score.goal(1,2,0));
+        SmartDashboard.putBoolean("1,2,1", score.goal(1,2,1));
+        SmartDashboard.putBoolean("1,2,2", score.goal(1,2,2));
+        
+        SmartDashboard.putBoolean("2,0,0", score.goal(2,0,0));
+        SmartDashboard.putBoolean("2,0,1", score.goal(2,0,1));
+        SmartDashboard.putBoolean("2,0,2", score.goal(2,0,2));
+        SmartDashboard.putBoolean("2,1,0", score.goal(2,1,0));
+        SmartDashboard.putBoolean("2,1,1", score.goal(2,1,1));
+        SmartDashboard.putBoolean("2,1,2", score.goal(2,1,2));
+        SmartDashboard.putBoolean("2,2,0", score.goal(2,2,0));
+        SmartDashboard.putBoolean("2,2,1", score.goal(2,2,1));
+        SmartDashboard.putBoolean("2,2,2", score.goal(2,2,2));
     }   
 }
 
