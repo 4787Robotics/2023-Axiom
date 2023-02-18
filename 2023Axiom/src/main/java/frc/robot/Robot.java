@@ -25,11 +25,7 @@ import frc.robot.subsystems.ScoringArea;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_teleopCommand;
-<<<<<<< HEAD
-  
-=======
   private Command m_autoAlignAndPlaceCommand;
->>>>>>> main
   private RobotContainer m_robotContainer;
 
   /**

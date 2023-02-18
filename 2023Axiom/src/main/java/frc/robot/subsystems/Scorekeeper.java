@@ -56,8 +56,9 @@ public class Scorekeeper {
         SmartDashboard.putBoolean("LB", Xbox.XboxLBumperDown() );
         SmartDashboard.putBoolean("RB", Xbox.XboxRBumperDown() );
     //*/
-    //scoreS
+    //score
         SmartDashboard.putString("Chosen Position", score.goalKeeperPos());
+        SmartDashboard.putBoolean("test val", score.goalKeeperVal());
         
         SmartDashboard.putBoolean("0,0,0", score.goal(0,0,0));
         SmartDashboard.putBoolean("0,0,1", score.goal(0,0,1));
