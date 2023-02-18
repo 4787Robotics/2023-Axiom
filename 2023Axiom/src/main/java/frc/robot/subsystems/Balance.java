@@ -29,7 +29,7 @@ public class Balance extends SubsystemBase{
 
     public Balance() {
         gyro = new AHRS(SPI.Port.kMXP);
-        PID = new PIDController(0.036, 0.02, 0.01425);
+        PID = new PIDController(0.03, 0.03, 0.01425);
     }
 
     @Override

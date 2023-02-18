@@ -34,9 +34,20 @@ public class TurnAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = MathUtil.clamp(balance.calculatePID(balance.getLinearHeading(), headingTo), -0.5, 0.5);
-    System.out.println("speed: " + speed);
-    driveTrain.driveRobot(false, 0, speed);
+    if (balance.getLinearHeading() < headingTo + 1 && balance.getLinearHeading() > headingTo - 1) {
+      driveTrain.driveRobot(false, 0, 0);
+    }
+    else {
+      double speed = MathUtil.clamp(balance.calculatePID(balance.getLinearHeading(), headingTo), -0.5, 0.5);
+      if (speed < 0) {
+        speed = MathUtil.clamp(speed, -0.5, -0.35);
+      }
+      else if (speed > 0) {
+        speed = MathUtil.clamp(speed, 0.35, 0.5);
+      }
+      System.out.println("speed: " + speed);
+      driveTrain.driveRobot(false, 0, speed);
+    }
   }
 
   // Called once the command ends or is interrupted.
