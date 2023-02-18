@@ -28,9 +28,10 @@ public final class Constants {
     public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
     //Motors
-    public static int MOTOR_ARM = 0; //may need to change the Constant for these three later
-    public static int MOTOR_LEFT_GRIP = 1;
-    public static int MOTOR_RIGHT_GRIP = 2;
+    public static int MOTOR_ARM_1 = 5; //may need to change the Constant for these three later
+    public static int MOTOR_ARM_2 = 6;
+    public static int MOTOR_LEFT_HAND = 1;
+    public static int MOTOR_RIGHT_HAND = 2;
 
     
     public static boolean LEFT_SIDE_INVERTED = true;

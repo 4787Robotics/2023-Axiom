@@ -148,6 +148,8 @@ public class AutoAlignAndPlace extends CommandBase {
     while (!turnAngle.isFinished()) {
       Thread.onSpinWait();
     }
+
+    turnAngle.cancel();
     System.out.println("distanceToTag" + distanceToTag);
     System.out.println("distanceToPerpendicularTag" + distanceToPerpendicularTag);
     System.out.println("distanceToParallelTag" + distanceToParallelTag);
