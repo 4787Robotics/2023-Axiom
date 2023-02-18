@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.CXbox;
 import frc.robot.Constants;
@@ -20,14 +21,15 @@ import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
 import javax.swing.text.Position;
+import edu.wpi.first.math.MathUtil;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-
-import edu.wpi.first.wpilibj.Encoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.RelativeEncoder;
 /** An example command that uses an example subsystem. */
 public class ArmCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -42,6 +44,9 @@ public class ArmCommand extends CommandBase {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
+    CANSparkMax Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
+    Arm.restoreFactoryDefaults();
+    RelativeEncoder ArmEncoder = Arm.getEncoder();
   }
 
   // Called when the command is initially scheduled.
@@ -66,12 +71,20 @@ public class ArmCommand extends CommandBase {
     }
     if (Pushed >= 2){
       System.out.println("Two or more buttons are pressed"); //I may want to change letter buttons to user prefrence
-    } else if(CXbox.XboxADown()) {
-      m_subsystem.ArmPID(0);//Lowest Point, Grounded
-    } else if (CXbox.XboxBDown()) {
-      m_subsystem.ArmPID(66.2113);//Mid Point, from below
-    } else if (CXbox.XboxYDown()) {
-      m_subsystem.ArmPID(83.725);//Highmid point?
+    } else if (CXbox.XboxBDown() || CJoystick.joystickButton1Down()) {
+      m_subsystem.ArmPID(ArmEncoder.getPosition()); //Tells the PID to go to the spot that it is it, hopefully stopping it in place.
+    } else if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) {
+      while (Math.abs(ArmEncoder.getPosition()) > 1) {
+        m_subsystem.ArmPID(0);//Lowest Point, Grounded
+      }
+    } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
+      while (Math.abs(ArmEncoder.getPosition() - 66.211) > 1) {
+        m_subsystem.ArmPID(66.211);//Mid point
+      }
+    } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {
+      while (Math.abs(ArmEncoder.getPosition() - 83.725) > 1) {
+        m_subsystem.ArmPID(83.725);//Highmid point?
+      }
     } else if (CJoystick.getJoystickThrottle() > .5) {
       m_subsystem.ArmMove((CJoystick.getJoystickThrottle() - 0.25));
     } else if (CJoystick.getJoystickThrottle() < -.5) {

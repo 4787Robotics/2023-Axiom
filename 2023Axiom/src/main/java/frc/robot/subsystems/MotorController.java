@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.security.PublicKey;
 
+import org.ejml.equation.Equation;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -13,6 +15,8 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,7 +27,13 @@ public class MotorController extends SubsystemBase{
   private CANSparkMax Arm2;
   RelativeEncoder ArmEncoder; 
   private SparkMaxPIDController PID; 
-  private double AkP, AkI, AkD, AkIz, AkFF, AkMaxOutput, AkMinOutput;
+  private static double AkP;
+  private static double AkI;
+  private static double AkD;
+  private double AkIz;
+  private double AkFF;
+  private double AkMaxOutput;
+  private double AkMinOutput;
   
   public MotorController() {
       // Big Arm Motor
@@ -33,9 +43,9 @@ public class MotorController extends SubsystemBase{
   PID = Arm.getPIDController();
 
   // PID coefficients
-  AkP = 0.1; 
-  AkI = 1e-4;
-  AkD = 1; 
+  AkP = 0.05; 
+  AkI = .02;
+  AkD = 0; 
   AkIz = 0; 
   AkFF = 0; 
   AkMaxOutput = 1; 
@@ -125,9 +135,10 @@ public class MotorController extends SubsystemBase{
   public SparkMaxPIDController getArmPID() {
     return PID;
   }
-  public double ArmPID(double goalPoint) {
-    Arm.set(MathUtil.clamp(PID.calculate(Math.abs(ArmEncoder.getPosition() - goalPoint), goalPoint), -0.25, 0.25));
-  }
+  public void ArmPID(double goalPoint) {
+    ProfiledPIDController Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
+    Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.25));
+  } 
   public void ArmMove(double Movement){
     Arm.set(Movement);
   }

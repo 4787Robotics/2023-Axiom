@@ -19,7 +19,7 @@ public class CJoystick {
     return -1;
     }
 // Buttons 1-12
-    public boolean joystickButton1Down(){
+    public static boolean joystickButton1Down(){
         if(joystick.getRawButton(1)){
             System.out.println("button 1 = "+joystick.getRawButton(1));
             return joystick.getRawButton(1);
@@ -68,7 +68,7 @@ public class CJoystick {
         }
         return false;
     }
-    public boolean joystickButton8Down(){
+    public static boolean joystickButton8Down(){
         if(joystick.getRawButton(8)){
             
             return joystick.getRawButton(8);
@@ -82,7 +82,7 @@ public class CJoystick {
         }
         return false;
     }
-    public boolean joystickButton10Down(){
+    public static boolean joystickButton10Down(){
         if(joystick.getRawButton(10)){
             
             return joystick.getRawButton(10);
@@ -96,7 +96,7 @@ public class CJoystick {
         }
         return false;
     }
-    public boolean joystickButton12Down(){
+    public static boolean joystickButton12Down(){
         if(joystick.getRawButton(12)){
            
             return joystick.getRawButton(12);

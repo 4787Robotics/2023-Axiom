@@ -19,6 +19,10 @@ public final class Constants {
     public static final int MOTOR_LEFT_HAND = 1; //Chnage needed for two
     public static final int MOTOR_RIGHT_HAND = 2;
 
+    public static final double LOW_POINT = 0;
+    public static final double MID_POINT = 66.2113;
+    public static final double HIGH_POINT = 83.725;
+
     public static final float RIGHT_STICK_DEAD_ZONE = 0.9f;
     public static final float LEFT_STICK_DEAD_ZONE = 0.9f;
     public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.7f;
