@@ -34,8 +34,8 @@ public final class Constants {
     //Motors
     public static int MOTOR_ARM_1 = 5;
     public static int MOTOR_ARM_2 = 6; 
-    public static int MOTOR_LEFT_GRIP = 7;
-    public static int MOTOR_RIGHT_GRIP = 8;
+    public static int MOTOR_LEFT_GRIP = 8;
+    public static int MOTOR_RIGHT_GRIP = 7;
     
     //Position of where the arm should be for each grid level. (degrees)
     public static double LOW_LEVEL = 0; 

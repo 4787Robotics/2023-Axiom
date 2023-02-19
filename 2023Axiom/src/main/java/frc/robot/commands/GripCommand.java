@@ -23,12 +23,18 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+
 /** An example command that uses an example subsystem. */
 public class GripCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
   CXbox CXbox = new CXbox();
   CJoystick CJoystick = new CJoystick();
+  RelativeEncoder GripEncoder; 
+  private CANSparkMax Grip;
+
 
   /**
    * Creates a new ExampleCommand.
@@ -37,8 +43,11 @@ public class GripCommand extends CommandBase {
    */
   public GripCommand(MotorController subsystem) {
     m_subsystem = subsystem;
+    Grip = new CANSparkMax(Constants.MOTOR_LEFT_GRIP, MotorType.kBrushless); 
+    GripEncoder = Grip.getEncoder(); //The Encoder only checks the left motor
+    Grip.restoreFactoryDefaults();  //This won't matter because the right motor will copy movements anyway
     // Use addRequirements() here to declare subsystem dependencies, if any.
-    //addRequirements(subsystem);
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -51,9 +60,9 @@ public class GripCommand extends CommandBase {
     if (CXbox.getLeftTriggerWithDeadzone() > 0 && CXbox.getRightTriggerWithDeadzone() > 0){
       System.out.println("Implosion upcoming");
       m_subsystem.Intake(0); //Don't move
-    } else if(CXbox.getRightTriggerWithDeadzone() > 0) {
+    } else if(CXbox.getRightTriggerWithDeadzone() > 0 && GripEncoder.getPosition() < 10) {
       m_subsystem.Intake(0.1); //Pull in
-    } else if (CXbox.getLeftTriggerWithDeadzone() > 0) {
+    } else if (CXbox.getLeftTriggerWithDeadzone() > 0 && GripEncoder.getPosition() > -60){
       m_subsystem.Intake(-0.1); //Pull out
     } else {
       m_subsystem.Intake(0); //Don't move

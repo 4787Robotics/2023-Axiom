@@ -30,7 +30,7 @@ import com.revrobotics.RelativeEncoder;
 public class ArmCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
-  RelativeEncoder ArmEncoder; 
+  RelativeEncoder ArmEncoderC; 
   CXbox CXbox = new CXbox();
   CJoystick CJoystick = new CJoystick();
   /**
@@ -42,9 +42,9 @@ public class ArmCommand extends CommandBase {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    CANSparkMax Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
-    Arm.restoreFactoryDefaults();
-    RelativeEncoder ArmEncoder = Arm.getEncoder();
+    CANSparkMax ArmC = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
+    ArmC.restoreFactoryDefaults();
+    RelativeEncoder ArmEncoderC = ArmC.getEncoder();
   }
 
   // Called when the command is initially scheduled.
@@ -70,17 +70,17 @@ public class ArmCommand extends CommandBase {
     if (Pushed >= 2){
       System.out.println("Two or more buttons are pressed"); //I may want to change letter buttons to user prefrence
     } else if (CXbox.XboxBDown() || CJoystick.joystickButton1Down()) {
-      m_subsystem.ArmPID(ArmEncoder.getPosition()); //Tells the PID to go to the spot that it is it, hopefully stopping it in place.
+      m_subsystem.ArmPID(ArmEncoderC.getPosition()); //Tells the PID to go to the spot that it is it, hopefully stopping it in place.
     } else if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) {
-      while (Math.abs(ArmEncoder.getPosition()) > 1) {
+      while (Math.abs(ArmEncoderC.getPosition()) > 1) {
         m_subsystem.ArmPID(Constants.LOW_LEVEL);//Lowest Point, Grounded
       }
     } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
-      while (Math.abs(ArmEncoder.getPosition() - Constants.MID_LEVEL) > 1) {
+      while (Math.abs(ArmEncoderC.getPosition() - Constants.MID_LEVEL) > 1) {
         m_subsystem.ArmPID(Constants.MID_LEVEL);//Mid point
       }
     } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {
-      while (Math.abs(ArmEncoder.getPosition() - Constants.HIGH_LEVEL) > 1) {
+      while (Math.abs(ArmEncoderC.getPosition() - Constants.HIGH_LEVEL) > 1) {
         m_subsystem.ArmPID(Constants.HIGH_LEVEL);//Highmid point?
       }
     } else if (CJoystick.getJoystickThrottle() > .5) {

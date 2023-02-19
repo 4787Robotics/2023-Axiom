@@ -17,7 +17,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MotorController extends SubsystemBase{
@@ -101,7 +100,7 @@ public class MotorController extends SubsystemBase{
   // Controls wheels that suck em up
   LeftHand = new CANSparkMax(Constants.MOTOR_LEFT_GRIP, MotorType.kBrushless);
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_GRIP, MotorType.kBrushless);
-  LeftHand.setInverted(true);
+  RightHand.setInverted(true);
 
 
   Arm.setIdleMode(IdleMode.kBrake);
@@ -114,10 +113,7 @@ public class MotorController extends SubsystemBase{
   Arm.setOpenLoopRampRate(0.4); 
   LeftHand.setOpenLoopRampRate(0.1); 
   RightHand.setOpenLoopRampRate(0.1); 
-/*
-  Arm.set(.25); //changes top speed. stay between -1 and 1 for safety
-  LeftHand.set(.25);
-  RightHand.set(.25); */ //May be useless
+
   }
 
   @Override
@@ -127,7 +123,6 @@ public class MotorController extends SubsystemBase{
   }
   
   public void Intake(double Direction){
-    //add inverts if going backward
     LeftHand.set(Direction);
     RightHand.set(Direction);
   }
