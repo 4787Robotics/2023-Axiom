@@ -111,6 +111,7 @@ public class MotorController extends SubsystemBase{
 
     // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
   Arm.setOpenLoopRampRate(0.4); 
+  Arm2.setOpenLoopRampRate(0.4); 
   LeftHand.setOpenLoopRampRate(0.1); 
   RightHand.setOpenLoopRampRate(0.1); 
 
