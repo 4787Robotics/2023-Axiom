@@ -55,40 +55,48 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     int Pushed = 0;
-    if (CXbox.XboxBDown() == true){
-      Pushed++;
-    }
-    if (CXbox.XboxADown() == true){
-      Pushed++;
-    }
-    if (CXbox.XboxYDown() == true){
-      Pushed++;
-    }
-    if (CXbox.XboxXDown() == true){
-      Pushed++;
-    }
-    if (Pushed >= 2){
-      System.out.println("Two or more buttons are pressed"); //I may want to change letter buttons to user prefrence
-    } else if (CXbox.XboxBDown() || CJoystick.joystickButton1Down()) {
-      m_subsystem.ArmPID(ArmEncoderC.getPosition()); //Tells the PID to go to the spot that it is it, hopefully stopping it in place.
-    } else if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) {
-      while (Math.abs(ArmEncoderC.getPosition()) > 1) {
-        m_subsystem.ArmPID(Constants.LOW_LEVEL);//Lowest Point, Grounded
-      }
-    } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
-      while (Math.abs(ArmEncoderC.getPosition() - Constants.MID_LEVEL) > 1) {
-        m_subsystem.ArmPID(Constants.MID_LEVEL);//Mid point
-      }
-    } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {
-      while (Math.abs(ArmEncoderC.getPosition() - Constants.HIGH_LEVEL) > 1) {
-        m_subsystem.ArmPID(Constants.HIGH_LEVEL);//Highmid point?
-      }
-    } else if (CJoystick.getJoystickThrottle() > .5) {
-      m_subsystem.ArmMove((CJoystick.getJoystickThrottle() - 0.25));
-    } else if (CJoystick.getJoystickThrottle() < -.5) {
-      m_subsystem.ArmMove((CJoystick.getJoystickThrottle() + 0.25));
+    if (ArmEncoderC.getPosition() > 120) {
+      m_subsystem.ArmMove(-1);
     } else {
-      m_subsystem.ArmMove(0);
+      if (CXbox.XboxADown()){
+        Pushed++;
+      }
+      if (CXbox.XboxYDown()){
+        Pushed++;
+      }
+      if (CXbox.XboxXDown()){
+        Pushed++;
+      }
+      if (CJoystick.joystickButton8Down()){
+        Pushed++;
+      }
+      if (CJoystick.joystickButton10Down()){
+        Pushed++;
+      }
+      if (CJoystick.joystickButton12Down()){
+        Pushed++;
+      }
+      if (CXbox.XboxBDown() || CJoystick.joystickButton1Down() || Pushed > 1) {
+        m_subsystem.ArmPID(4787); //Used to stop motor
+      } else if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) {
+        while (Math.abs(ArmEncoderC.getPosition()) > 1) {
+          m_subsystem.ArmPID(Constants.LOW_LEVEL);//Lowest Point, Grounded
+        }
+      } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
+        while (Math.abs(ArmEncoderC.getPosition() - Constants.MID_LEVEL) > 1) {
+          m_subsystem.ArmPID(Constants.MID_LEVEL);//Mid point
+        }
+      } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {
+        while (Math.abs(ArmEncoderC.getPosition() - Constants.HIGH_LEVEL) > 1) {
+          m_subsystem.ArmPID(Constants.HIGH_LEVEL);//Highmid point?
+        }
+      } else if (CJoystick.getJoystickThrottle() > .5) {
+        m_subsystem.ArmMove((CJoystick.getJoystickThrottle() - 0.25));
+      } else if (CJoystick.getJoystickThrottle() < -.5) {
+        m_subsystem.ArmMove((CJoystick.getJoystickThrottle() + 0.25));
+      } else {
+        m_subsystem.ArmMove(0);
+      }
     }
   } //I have no idea what to put here for PID values and such
 

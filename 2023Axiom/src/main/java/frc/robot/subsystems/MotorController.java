@@ -131,8 +131,12 @@ public class MotorController extends SubsystemBase{
     return PID;
   }
   public void ArmPID(double goalPoint) {
-    ProfiledPIDController Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
-    Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.25));
+    if (goalPoint == 4787) {
+      Arm.set(0);
+    } else {
+      ProfiledPIDController Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
+      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.35, 0.45));
+    }
   } 
   public void ArmMove(double Movement){
     Arm.set(Movement);
