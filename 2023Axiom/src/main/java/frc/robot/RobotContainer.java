@@ -14,9 +14,9 @@ import frc.robot.commands.RammseteAutonomousCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.MotorController;
-import frc.robot.commands.ArmCommand;
-import frc.robot.commands.GripCommand;
+//import frc.robot.subsystems.MotorController;
+//import frc.robot.commands.ArmCommand;
+//import frc.robot.commands.GripCommand;
 
 import frc.robot.subsystems.Balance;
 
@@ -31,13 +31,13 @@ public class RobotContainer {
 
   private final static Balance m_balance = new Balance();
   public static DriveTrain m_driveTrain = new DriveTrain();
-  private static MotorController m_MotorController = new MotorController();
+  //private static MotorController m_MotorController = new MotorController();
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
   private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance);
-  private final static ArmCommand m_ArmCommand= new ArmCommand(m_MotorController);
-  private final static GripCommand m_GripCommand= new GripCommand(m_MotorController);
+ // private final static ArmCommand m_ArmCommand= new ArmCommand(m_MotorController);
+  //private final static GripCommand m_GripCommand= new GripCommand(m_MotorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   /* The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -73,13 +73,13 @@ public class RobotContainer {
     return m_teleopCommand;
   }
   
-  public Command getArmCommand(){
+  /*public Command getArmCommand(){
     return m_ArmCommand;
   }
 
   public Command getGripCommand(){
     return m_GripCommand;
-  }
+  }*/
   
   public Balance getBalance() {
     return m_balance;
@@ -88,9 +88,9 @@ public class RobotContainer {
   public DriveTrain getDriveTrain() {
     return m_driveTrain;
   }
-  public MotorController getMotorController(){
-    return m_MotorController;
-  }
+ // public MotorController getMotorController(){
+ //   return m_MotorController;
+ // }
   public AutoAlignAndPlace getAutoAlignAndPlace() { 
     return autoAlignAndPlace;}
 }
