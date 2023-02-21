@@ -22,7 +22,7 @@ public class MoveTo extends CommandBase {
   private double meters; // positive meters = forward while negative meters = backward
   private double headingTo;
   private double millisecondsToRun; // This should run 1000ms = 1 s.
-  private double initTime = RobotController.getFPGATime();
+  private double initTime;
 
   public MoveTo(DriveTrain m_driveTrain, Balance m_balance, double meters) {
     driveTrain = m_driveTrain;
@@ -36,6 +36,7 @@ public class MoveTo extends CommandBase {
   @Override
   public void initialize() {
     driveTrain.resetEncoders();
+    initTime = RobotController.getFPGATime();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
