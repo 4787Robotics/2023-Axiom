@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.subsystems.ScoringArea;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.CXbox;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,6 +29,8 @@ public class Robot extends TimedRobot {
   private Command m_teleopCommand;
   private Command m_autoAlignAndPlaceCommand;
   private RobotContainer m_robotContainer;
+  private XboxController xbox = new XboxController(0);
+  private CXbox cXbox = new CXbox();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,7 +44,8 @@ public class Robot extends TimedRobot {
     m_teleopCommand = m_robotContainer.getTeleopCommand();
     //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
-    m_autonomousCommand = m_robotContainer.getAutoAlignAndPlace();
+    m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
+    m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }
@@ -101,12 +106,28 @@ public class Robot extends TimedRobot {
     if (m_teleopCommand != null) {
       m_teleopCommand.cancel();
     }
+    assert m_teleopCommand != null;
     m_teleopCommand.schedule();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (xbox.getStartButton()) {
+
+      if (m_autoAlignAndPlaceCommand != null) {
+        m_autoAlignAndPlaceCommand.cancel();
+      }
+      if (m_autonomousCommand != null) {
+        m_autonomousCommand.cancel();
+      }
+      assert m_autoAlignAndPlaceCommand != null;
+      m_autoAlignAndPlaceCommand.schedule();
+      if (m_teleopCommand != null) {
+        m_teleopCommand.cancel();
+      }
+    }
+  }
 
   @Override
   public void testInit() {

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.commands.TurnAngle;
 
@@ -28,13 +29,15 @@ public class AutoAlignAndPlace extends CommandBase {
   private final double[] initialTags = {0,0,0,0};
   private boolean isCheckingForAllAprilTags;
   private volatile boolean isFindingClosestAprilTag;
+  private Command teleopCommand;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param LL The subsystem used by this command.
    */
-  public AutoAlignAndPlace(LimeLight LL, DriveTrain DT, Balance B) {
+  public AutoAlignAndPlace(LimeLight LL, DriveTrain DT, Balance B, Command TC) {
+    teleopCommand = TC;
     driveTrain = DT;
     balance = B;
     limeLight = LL;
@@ -180,6 +183,11 @@ public class AutoAlignAndPlace extends CommandBase {
     isCheckingForAllAprilTags = false;
     isFindingClosestAprilTag = false;
     tagsFound = initialTags;
+    if (teleopCommand != null) {
+      teleopCommand.cancel();
+    }
+    assert teleopCommand != null;
+    teleopCommand.schedule();
   }
 
   // Returns true when the command should end.
