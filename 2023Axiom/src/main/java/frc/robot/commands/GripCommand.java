@@ -33,7 +33,7 @@ public class GripCommand extends CommandBase {
   CXbox CXbox = new CXbox();
   CJoystick CJoystick = new CJoystick();
   RelativeEncoder GripEncoder; 
-  private CANSparkMax Grip;
+  public CANSparkMax Grip;
 
 
   /**

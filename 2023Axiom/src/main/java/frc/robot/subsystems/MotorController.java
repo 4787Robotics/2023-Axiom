@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MotorController extends SubsystemBase{
   public CANSparkMax LeftHand;
-  private CANSparkMax RightHand;
+  public CANSparkMax RightHand;
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
   public RelativeEncoder ArmEncoder; 
