@@ -36,16 +36,16 @@ public class AutoAlignAndPlace extends CommandBase {
    *
    * @param LL The subsystem used by this command.
    */
-  public AutoAlignAndPlace(LimeLight LL, DriveTrain DT, Balance B, Command TC) {
-    teleopCommand = TC;
-    driveTrain = DT;
-    balance = B;
-    limeLight = LL;
+  public AutoAlignAndPlace(LimeLight m_limeLight, DriveTrain m_driveTrain, Balance m_balance, Command m_teleopCommand) {
+    teleopCommand = m_teleopCommand;
+    driveTrain = m_driveTrain;
+    balance = m_balance;
+    limeLight = m_limeLight;
     isCheckingForAllAprilTags = false;
     isFindingClosestAprilTag = false;
     tagsFound = initialTags;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(LL);
+    addRequirements(m_limeLight);
   }
 
   private void restartTimer() {

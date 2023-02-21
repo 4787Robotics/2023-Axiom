@@ -37,7 +37,7 @@ public class RobotContainer {
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
-  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance /* Add m_teleopCommand to here? */);
+  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_teleopCommand);
   private final static ArmCommand m_ArmCommand = new ArmCommand(m_motorController);
   private final static GripCommand m_GripCommand = new GripCommand(m_motorController);
   /**
