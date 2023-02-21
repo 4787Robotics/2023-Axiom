@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.commands.TurnAngle;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,13 +29,15 @@ public class AutoAlignAndPlace extends CommandBase {
   private final double[] initialTags = {0,0,0,0};
   private boolean isCheckingForAllAprilTags;
   private volatile boolean isFindingClosestAprilTag;
+  private Command teleopCommand;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param LL The subsystem used by this command.
    */
-  public AutoAlignAndPlace(LimeLight LL, DriveTrain DT, Balance B) {
+  public AutoAlignAndPlace(LimeLight LL, DriveTrain DT, Balance B, Command TC) {
+    teleopCommand = TC;
     driveTrain = DT;
     balance = B;
     limeLight = LL;
@@ -75,16 +79,17 @@ public class AutoAlignAndPlace extends CommandBase {
   }
 
   public double findClosestAprilTagId() {
-    isFindingClosestAprilTag = true;
-    limeLight.setPipeline(Constants.ALL_APRILTAG_IDS_PIPELINE);
-    restartTimer();
-    while (getElapsedSeconds() < 0.01) {
-      isFindingClosestAprilTag = false;
-      if (limeLight.getTagID() != 0) {
-        return limeLight.getTagID();
+    if (!isCheckingForAllAprilTags) {
+      isFindingClosestAprilTag = true;
+      limeLight.setPipeline(Constants.ALL_APRILTAG_IDS_PIPELINE);
+      restartTimer();
+      while (getElapsedSeconds() < 0.01) {
+        isFindingClosestAprilTag = false;
+        if (limeLight.getTagID() != 0) {
+          return limeLight.getTagID();
+        }
       }
     }
-
     isFindingClosestAprilTag = false;
     return 0;
   }
@@ -121,30 +126,36 @@ public class AutoAlignAndPlace extends CommandBase {
     //calculate distance only if grid tag is found
     if (closestId != 4.0) {
       distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
+    } else if (closestId == 0) {
+      cancel();
+      System.out.println("No AprilTag Found");
     }
     SmartDashboard.putNumber("Distance", distanceToTag);
 
     if (limeLight.getXAngle() > 0) {
       heldTurnAngle =  balance.getHeading() - 90;
       heldAngle = (balance.getHeading() + limeLight.getXAngle()) - 90;
-      distanceToPerpendicularTag = Math.sin(heldAngle) * distanceToTag;
-      distanceToParallelTag = Math.cos(heldAngle) * distanceToTag;
-
       turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
       turnAngle.schedule();
     } else {
       heldTurnAngle =  (360 - balance.getHeading()) - 90;
       heldAngle = ((360 - balance.getHeading()) + limeLight.getXAngle()) - 90;
-      distanceToPerpendicularTag = Math.sin(heldAngle) * distanceToTag;
-      distanceToParallelTag = Math.cos(heldAngle) * distanceToTag;
 
       turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
       turnAngle.schedule();
     }
 
+    distanceToPerpendicularTag = Math.sin(Math.toRadians(heldAngle)) * distanceToTag;
+    distanceToParallelTag = Math.cos(Math.toRadians(heldAngle)) * distanceToTag;
+
     while (!turnAngle.isFinished()) {
       Thread.onSpinWait();
     }
+
+    turnAngle.cancel();
+    System.out.println("distanceToTag" + distanceToTag);
+    System.out.println("distanceToPerpendicularTag" + distanceToPerpendicularTag);
+    System.out.println("distanceToParallelTag" + distanceToParallelTag);
 
     cancel();
 
@@ -168,7 +179,16 @@ public class AutoAlignAndPlace extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    isCheckingForAllAprilTags = false;
+    isFindingClosestAprilTag = false;
+    tagsFound = initialTags;
+    if (teleopCommand != null) {
+      teleopCommand.cancel();
+    }
+    assert teleopCommand != null;
+    teleopCommand.schedule();
+  }
 
   // Returns true when the command should end.
   @Override

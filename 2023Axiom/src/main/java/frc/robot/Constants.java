@@ -18,6 +18,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    //ports
+    public static int JOYSTICK_PORT = 0;
+    public static int XCONTROLLER_PORT= 1;
+
     //Limelight
     public static double LIMELIGHT_APRILTAG_DOUBLE_STATION_HEIGHT = 36; //cm
     public static double LIMELIGHT_APRILTAG_GRID_HEIGHT = 59; //cm
@@ -28,9 +32,15 @@ public final class Constants {
     public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
     //Motors
-    public static int MOTOR_ARM = 0; //may need to change the Constant for these three later
-    public static int MOTOR_LEFT_GRIP = 1;
-    public static int MOTOR_RIGHT_GRIP = 2;
+    public static int MOTOR_ARM_1 = 5;
+    public static int MOTOR_ARM_2 = 6; 
+    public static int MOTOR_LEFT_GRIP = 8;
+    public static int MOTOR_RIGHT_GRIP = 7;
+    
+    //Position of where the arm should be for each grid level. (degrees)
+    public static double LOW_LEVEL = 0; 
+    public static double MID_LEVEL = 66.211; 
+    public static double HIGH_LEVEL = 83.725; 
 
     
     public static boolean LEFT_SIDE_INVERTED = true;
