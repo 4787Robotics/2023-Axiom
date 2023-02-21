@@ -20,11 +20,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MotorController extends SubsystemBase{
-  private CANSparkMax LeftHand;
+  public CANSparkMax LeftHand;
   private CANSparkMax RightHand;
-  private CANSparkMax Arm;
+  public CANSparkMax Arm;
   private CANSparkMax Arm2;
-  RelativeEncoder ArmEncoder; 
+  public RelativeEncoder ArmEncoder; 
   private SparkMaxPIDController PID; 
   private static double AkP;
   private static double AkI;

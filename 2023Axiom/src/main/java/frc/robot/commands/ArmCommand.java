@@ -42,9 +42,7 @@ public class ArmCommand extends CommandBase {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    CANSparkMax ArmC = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
-    ArmC.restoreFactoryDefaults();
-    RelativeEncoder ArmEncoderC = ArmC.getEncoder();
+    ArmEncoderC = m_subsystem.ArmEncoder;
   }
 
   // Called when the command is initially scheduled.

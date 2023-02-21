@@ -43,7 +43,7 @@ public class GripCommand extends CommandBase {
    */
   public GripCommand(MotorController subsystem) {
     m_subsystem = subsystem;
-    Grip = new CANSparkMax(Constants.MOTOR_LEFT_GRIP, MotorType.kBrushless); 
+    Grip = m_subsystem.LeftHand;
     GripEncoder = Grip.getEncoder(); //The Encoder only checks the left motor
     Grip.restoreFactoryDefaults();  //This won't matter because the right motor will copy movements anyway
     // Use addRequirements() here to declare subsystem dependencies, if any.
