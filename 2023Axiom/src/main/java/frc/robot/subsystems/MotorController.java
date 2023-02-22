@@ -39,11 +39,12 @@ public class MotorController extends SubsystemBase{
   private int Moves = 0;
   
   public MotorController() {
-      // Big Arm Motor
+    // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
   Arm.restoreFactoryDefaults();
   PID = Arm.getPIDController();
+  SmartDashboard.putNumber("Arm's Angle", ArmEncoder.getPosition());
 
   // PID coefficients
   AkP = 0.05; 
@@ -138,40 +139,46 @@ public class MotorController extends SubsystemBase{
   }
   public void ArmPID(double goalPoint, int newPointNum) {
     if (Moved) { //From my understanding, this way of it working means we can only move the arm manully 5 times
-      if (Moves == 0){
-        Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.375, 0.40));
-      } else if (Moves == 1){
-        Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.375, 0.40));
-      } else if (Moves == 2){
-        Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.375, 0.40));
-      } else if (Moves == 3){
-        Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.375, 0.40));
-      } else if (Moves == 4){
-        Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.375, 0.40));
+      while (ArmEncoder.getPosition() != goalPoint) {
+        if (Moves == 0){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
+        } else if (Moves == 1){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
+        } else if (Moves == 2){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
+        } else if (Moves == 3){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
+        } else if (Moves == 4){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
+        }
       }
       Moves++;
       if (Moves == 5){ //Last resort if we go over 5
         Moves = 0;
       }
       Moved = false;
-    } else if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 0){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.25));
-    } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 0){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.45));
-    } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 0){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.65));
-    } else if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 1){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.45, 0.20));
-    } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 1){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.25));
-    } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 1){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.45));
-    } else if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 2){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.65, 0.20));
-    } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 2){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.45, 0.20));
-    } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 2){
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.20));
+    } else {
+      while (ArmEncoder.getPosition() != goalPoint) {
+        if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 0){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.25));
+        } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 0){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.45));
+        } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 0){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.65));
+        } else if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 1){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.45, 0.20));
+        } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 1){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.25));
+        } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 1){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.45));
+        } else if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 2){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.65, 0.20));
+        } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 2){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.45, 0.20));
+        } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 2){
+          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.20));
+        }
+      }
     }
     currentPointNum = newPointNum;
   } 

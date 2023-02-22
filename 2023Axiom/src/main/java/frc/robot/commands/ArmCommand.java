@@ -55,7 +55,7 @@ public class ArmCommand extends CommandBase {
     int Pushed = 0;
 
     if (ArmEncoderC.getPosition() > 120) {
-      m_subsystem.ArmMove(-1);
+      m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
     } else {
       if (CXbox.XboxADown()){
         Pushed++;
@@ -80,7 +80,7 @@ public class ArmCommand extends CommandBase {
       } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
         m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
       } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {
-        m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//Highmid point?
+        m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
       } else if (CJoystick.getJoystickThrottle() > .5) {
         m_subsystem.ArmMove((CJoystick.getJoystickThrottle() - 0.25));
       } else if (CJoystick.getJoystickThrottle() < -.5) {
