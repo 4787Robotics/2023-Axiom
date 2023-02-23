@@ -54,7 +54,7 @@ public class ArmCommand extends CommandBase {
   public void execute() {
     int Pushed = 0;
 
-    if (ArmEncoderC.getPosition() > 120) {
+    if (ArmEncoderC.getPosition() > 4) {
       m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
     } else {
       if (CXbox.XboxADown()){
@@ -74,9 +74,9 @@ public class ArmCommand extends CommandBase {
       }
       if (CJoystick.joystickButton12Down()){
         Pushed++;
-      }//Used to stop motor
-      if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) {
-        m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Lowest Point, Grounded
+      }
+      if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) { 
+        m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
       } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
         m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
       } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {

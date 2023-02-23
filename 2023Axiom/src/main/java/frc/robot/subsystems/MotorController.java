@@ -34,7 +34,7 @@ public class MotorController extends SubsystemBase{
   private double AkFF;
   private double AkMaxOutput;
   private double AkMinOutput;
-  private int currentPointNum = 0;
+  private int currentPointNum = 0; //doesn't matter what this is as long as it is more than 2
   private boolean Moved = false;
   private int Moves = 0;
   
@@ -138,52 +138,13 @@ public class MotorController extends SubsystemBase{
     return PID;
   }
   public void ArmPID(double goalPoint, int newPointNum) {
-    if (Moved) { //From my understanding, this way of it working means we can only move the arm manully 5 times
-      while (ArmEncoder.getPosition() != goalPoint) {
-        if (Moves == 0){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
-        } else if (Moves == 1){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
-        } else if (Moves == 2){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
-        } else if (Moves == 3){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
-        } else if (Moves == 4){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.40, 0.40));
-        }
-      }
-      Moves++;
-      if (Moves == 5){ //Last resort if we go over 5
-        Moves = 0;
-      }
-      Moved = false;
-    } else {
-      while (ArmEncoder.getPosition() != goalPoint) {
-        if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 0){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.25));
-        } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 0){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.45));
-        } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 0){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.65));
-        } else if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 1){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.45, 0.20));
-        } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 1){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.25));
-        } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 1){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.20, 0.45));
-        } else if (goalPoint == Constants.LOW_LEVEL && currentPointNum == 2){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.65, 0.20));
-        } else if (goalPoint == Constants.MID_LEVEL && currentPointNum == 2){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.45, 0.20));
-        } else if (goalPoint == Constants.HIGH_LEVEL && currentPointNum == 2){
-          Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.25, 0.20));
-        }
-      }
+    if (currentPointNum != newPointNum){
+      currentPointNum = newPointNum;
+      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
     }
-    currentPointNum = newPointNum;
-  } 
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.45, 0.5));
+    } 
   public void ArmMove(double Movement){
-    Arm.set(Movement);
-    Moved = true; 
+    Arm.set(Movement/10);
   }
 }
