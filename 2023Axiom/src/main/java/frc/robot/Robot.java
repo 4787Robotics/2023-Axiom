@@ -29,8 +29,7 @@ public class Robot extends TimedRobot {
   private Command m_teleopCommand;
   private Command m_autoAlignAndPlaceCommand;
   private RobotContainer m_robotContainer;
-  private XboxController xbox = new XboxController(0);
-  private CXbox cXbox = new CXbox();
+  //private CXbox cxbox = new CXbox();
 
   /**
    * This function is run when the robot is first started up and should be used for any

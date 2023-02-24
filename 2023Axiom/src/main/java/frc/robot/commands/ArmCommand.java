@@ -31,15 +31,18 @@ public class ArmCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
   RelativeEncoder ArmEncoderC; 
-  CXbox ArmCXbox = new CXbox();
-  CJoystick ArmCJoystick = new CJoystick();
-  /**
+  private final CXbox m_cxbox;
+  private final CJoystick ArmCJoystick;
+  /*
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmCommand(MotorController subsystem) {
+  public ArmCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick m_cjoystick) {
     m_subsystem = subsystem;
+    m_cxbox = ArmCXbox;
+    ArmCJoystick = m_cjoystick;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     ArmEncoderC = m_subsystem.ArmEncoder;
@@ -52,34 +55,15 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int Pushed = 0;
 
     if (ArmEncoderC.getPosition() > 4) {
       m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
     } else {
-      if (ArmCXbox.XboxADown()){
-        Pushed++;
-      }
-      if (ArmCXbox.XboxYDown()){
-        Pushed++;
-      }
-      if (ArmCXbox.XboxXDown()){
-        Pushed++;
-      }
-      if (ArmCJoystick.joystickButton8Down()){
-        Pushed++;
-      }
-      if (ArmCJoystick.joystickButton10Down()){
-        Pushed++;
-      }
-      if (ArmCJoystick.joystickButton12Down()){
-        Pushed++;
-      }
-      if(ArmCXbox.XboxADown() || ArmCJoystick.joystickButton12Down()) { 
+      if( ArmCJoystick.joystickButton12Down()) { 
         m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
-      } else if (ArmCXbox.XboxBDown() || ArmCJoystick.joystickButton10Down()) {
+      } else if ( ArmCJoystick.joystickButton10Down()) {
         m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
-      } else if (ArmCXbox.XboxYDown() || ArmCJoystick.joystickButton8Down()) {
+      } else if ( ArmCJoystick.joystickButton8Down()) {
         m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
       } else if (ArmCJoystick.getJoystickThrottle() > .5) {
         m_subsystem.ArmMove((ArmCJoystick.getJoystickThrottle() - 0.25));

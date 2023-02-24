@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.print.attribute.standard.PrinterURI;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoAlignAndPlace;
@@ -30,16 +32,17 @@ import frc.robot.subsystems.Balance;
  */
 public class RobotContainer {
   private final LimeLight limeLight = new LimeLight();
-
+  private final static CXbox m_cxbox = new CXbox();
+  private final static CJoystick m_joystick = new CJoystick();
   private final static Balance m_balance = new Balance();
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static MotorController m_motorController = new MotorController();
-  private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain);
+  private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain, m_cxbox);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
   private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_teleopCommand);
-  private final static ArmCommand m_ArmCommand = new ArmCommand(m_motorController);
-  private final static GripCommand m_GripCommand = new GripCommand(m_motorController);
+  private final static ArmCommand m_ArmCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
+  private final static GripCommand m_GripCommand = new GripCommand(m_motorController, m_cxbox);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

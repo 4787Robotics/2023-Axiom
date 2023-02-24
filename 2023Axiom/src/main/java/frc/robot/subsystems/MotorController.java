@@ -35,8 +35,6 @@ public class MotorController extends SubsystemBase{
   private double AkMaxOutput;
   private double AkMinOutput;
   private int currentPointNum = 0; //doesn't matter what this is as long as it is more than 2
-  private boolean Moved = false;
-  private int Moves = 0;
   
   public MotorController() {
     // Big Arm Motor
@@ -95,9 +93,7 @@ public class MotorController extends SubsystemBase{
   }
 
   PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
-    
-  SmartDashboard.putNumber("SetPoint", rotations);
-  SmartDashboard.putNumber("ProcessVariable", ArmEncoder.getPosition());
+  
 
   Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
   Arm2.follow(Arm);
@@ -115,8 +111,8 @@ public class MotorController extends SubsystemBase{
 
 
     // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
-  Arm.setOpenLoopRampRate(0.4); 
-  Arm2.setOpenLoopRampRate(0.4); 
+  Arm.setOpenLoopRampRate(1); 
+  Arm2.setOpenLoopRampRate(1); 
   LeftHand.setOpenLoopRampRate(0.1); 
   RightHand.setOpenLoopRampRate(0.1); 
   
@@ -142,7 +138,7 @@ public class MotorController extends SubsystemBase{
       currentPointNum = newPointNum;
       Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
     }
-    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.45, 0.5));
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
     } 
   public void ArmMove(double Movement){
     Arm.set(Movement/10);

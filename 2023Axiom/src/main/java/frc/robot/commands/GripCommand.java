@@ -29,15 +29,15 @@ import com.revrobotics.RelativeEncoder;
 public class GripCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private MotorController m_subsystem;
-  CXbox GripCXbox = new CXbox();
-  CJoystick GripCJoystick = new CJoystick();
   RelativeEncoder GripEncoder; 
   public CANSparkMax Grip;
+  private final CXbox GripCXbox;
 
 
 
-  public GripCommand(MotorController subsystem) {
+  public GripCommand(MotorController subsystem, CXbox m_cxbox) {
     m_subsystem = subsystem;
+    GripCXbox = m_cxbox;
     Grip = m_subsystem.LeftHand;
     GripEncoder = Grip.getEncoder(); //The Encoder only checks the left motor
     Grip.restoreFactoryDefaults();  //This won't matter because the right motor will copy movements anyway
