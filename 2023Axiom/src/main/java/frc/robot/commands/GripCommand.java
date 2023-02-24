@@ -28,9 +28,9 @@ import com.revrobotics.RelativeEncoder;
 
 public class GripCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final MotorController m_subsystem;
-  CXbox CXbox = new CXbox();
-  CJoystick CJoystick = new CJoystick();
+  private MotorController m_subsystem;
+  CXbox GripCXbox = new CXbox();
+  CJoystick GripCJoystick = new CJoystick();
   RelativeEncoder GripEncoder; 
   public CANSparkMax Grip;
 
@@ -52,12 +52,12 @@ public class GripCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (CXbox.getLeftTriggerWithDeadzone() > 0 && CXbox.getRightTriggerWithDeadzone() > 0){
+    if (GripCXbox.getLeftTriggerWithDeadzone() > 0 && GripCXbox.getRightTriggerWithDeadzone() > 0){
       System.out.println("Implosion upcoming");
       m_subsystem.Intake(0); //Don't move
-    } else if(CXbox.getRightTriggerWithDeadzone() > 0 && GripEncoder.getPosition() < 10) {
+    } else if(GripCXbox.getRightTriggerWithDeadzone() > 0 && GripEncoder.getPosition() < 10) {
       m_subsystem.Intake(0.1); //Pull in
-    } else if (CXbox.getLeftTriggerWithDeadzone() > 0 && GripEncoder.getPosition() > -60){
+    } else if (GripCXbox.getLeftTriggerWithDeadzone() > 0 && GripEncoder.getPosition() > -60){
       m_subsystem.Intake(-0.1); //Pull out
     } else {
       m_subsystem.Intake(0); //Don't move
