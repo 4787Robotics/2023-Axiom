@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
     //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
-    m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+    //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
   }
@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (xbox.getStartButton()) {
+    /*if (xbox.getStartButton()) {
 
       if (m_autoAlignAndPlaceCommand != null) {
         m_autoAlignAndPlaceCommand.cancel();
@@ -126,7 +126,7 @@ public class Robot extends TimedRobot {
       if (m_teleopCommand != null) {
         m_teleopCommand.cancel();
       }
-    }
+    }*/
   }
 
   @Override
