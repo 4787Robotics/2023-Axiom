@@ -26,7 +26,6 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-/** An example command that uses an example subsystem. */
 public class GripCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
@@ -36,11 +35,7 @@ public class GripCommand extends CommandBase {
   public CANSparkMax Grip;
 
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+
   public GripCommand(MotorController subsystem) {
     m_subsystem = subsystem;
     Grip = m_subsystem.LeftHand;

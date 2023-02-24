@@ -33,15 +33,16 @@ public final class Constants {
 
     //Motors
     public static int MOTOR_ARM_1 = 5;
-    public static int MOTOR_ARM_2 = 6; 
+    public static int MOTOR_ARM_2 = 6; //Copies arm 1
     public static int MOTOR_LEFT_GRIP = 8;
-    public static int MOTOR_RIGHT_GRIP = 7;
+    public static int MOTOR_RIGHT_GRIP = 7; //does the opposite of left Grip
     
-    //Position of where the arm should be for each grid level. (degrees)
+    //Position of where the arm should be for each grid level. (in rotations)
     public static double LOW_LEVEL = 0; 
-    public static double MID_LEVEL = 66.211; 
-    public static double HIGH_LEVEL = 83.725; 
+    public static double MID_LEVEL = 1.82460593034; 
+    public static double HIGH_LEVEL = 2.30723655203; 
 
+    //One motor rotation is 10.08% of one full arm rotation. (36.288 degrees per rotation)
     
     public static boolean LEFT_SIDE_INVERTED = true;
     public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;

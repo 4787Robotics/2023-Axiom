@@ -53,8 +53,9 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     int Pushed = 0;
-    if (ArmEncoderC.getPosition() > 120) {
-      m_subsystem.ArmMove(-1);
+
+    if (ArmEncoderC.getPosition() > 4) {
+      m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
     } else {
       if (CXbox.XboxADown()){
         Pushed++;
@@ -74,20 +75,12 @@ public class ArmCommand extends CommandBase {
       if (CJoystick.joystickButton12Down()){
         Pushed++;
       }
-      if (CXbox.XboxBDown() || CJoystick.joystickButton1Down() || Pushed > 1) {
-        m_subsystem.ArmPID(4787); //Used to stop motor
-      } else if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) {
-        while (Math.abs(ArmEncoderC.getPosition()) > 1) {
-          m_subsystem.ArmPID(Constants.LOW_LEVEL);//Lowest Point, Grounded
-        }
+      if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) { 
+        m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
       } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
-        while (Math.abs(ArmEncoderC.getPosition() - Constants.MID_LEVEL) > 1) {
-          m_subsystem.ArmPID(Constants.MID_LEVEL);//Mid point
-        }
+        m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
       } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {
-        while (Math.abs(ArmEncoderC.getPosition() - Constants.HIGH_LEVEL) > 1) {
-          m_subsystem.ArmPID(Constants.HIGH_LEVEL);//Highmid point?
-        }
+        m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
       } else if (CJoystick.getJoystickThrottle() > .5) {
         m_subsystem.ArmMove((CJoystick.getJoystickThrottle() - 0.25));
       } else if (CJoystick.getJoystickThrottle() < -.5) {

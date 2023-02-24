@@ -20,6 +20,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MotorController extends SubsystemBase{
+  ProfiledPIDController Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
   public CANSparkMax LeftHand;
   public CANSparkMax RightHand;
   public CANSparkMax Arm;
@@ -33,13 +34,17 @@ public class MotorController extends SubsystemBase{
   private double AkFF;
   private double AkMaxOutput;
   private double AkMinOutput;
+  private int currentPointNum = 0; //doesn't matter what this is as long as it is more than 2
+  private boolean Moved = false;
+  private int Moves = 0;
   
   public MotorController() {
-      // Big Arm Motor
+    // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
   Arm.restoreFactoryDefaults();
   PID = Arm.getPIDController();
+  SmartDashboard.putNumber("Arm's Angle", ArmEncoder.getPosition());
 
   // PID coefficients
   AkP = 0.05; 
@@ -114,6 +119,7 @@ public class MotorController extends SubsystemBase{
   Arm2.setOpenLoopRampRate(0.4); 
   LeftHand.setOpenLoopRampRate(0.1); 
   RightHand.setOpenLoopRampRate(0.1); 
+  
 
   }
 
@@ -131,15 +137,14 @@ public class MotorController extends SubsystemBase{
   public SparkMaxPIDController getArmPID() {
     return PID;
   }
-  public void ArmPID(double goalPoint) {
-    if (goalPoint == 4787) {
-      Arm.set(0);
-    } else {
-      ProfiledPIDController Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
-      Arm.set(MathUtil.clamp(Equation.calculate(goalPoint), -0.35, 0.45));
+  public void ArmPID(double goalPoint, int newPointNum) {
+    if (currentPointNum != newPointNum){
+      currentPointNum = newPointNum;
+      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
     }
-  } 
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.45, 0.5));
+    } 
   public void ArmMove(double Movement){
-    Arm.set(Movement);
+    Arm.set(Movement/10);
   }
 }
