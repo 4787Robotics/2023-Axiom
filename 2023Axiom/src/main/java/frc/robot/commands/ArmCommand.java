@@ -31,8 +31,8 @@ public class ArmCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
   RelativeEncoder ArmEncoderC; 
-  CXbox CXbox = new CXbox();
-  CJoystick CJoystick = new CJoystick();
+  CXbox ArmCXbox = new CXbox();
+  CJoystick ArmCJoystick = new CJoystick();
   /**
    * Creates a new ExampleCommand.
    *
@@ -57,34 +57,34 @@ public class ArmCommand extends CommandBase {
     if (ArmEncoderC.getPosition() > 4) {
       m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
     } else {
-      if (CXbox.XboxADown()){
+      if (ArmCXbox.XboxADown()){
         Pushed++;
       }
-      if (CXbox.XboxYDown()){
+      if (ArmCXbox.XboxYDown()){
         Pushed++;
       }
-      if (CXbox.XboxXDown()){
+      if (ArmCXbox.XboxXDown()){
         Pushed++;
       }
-      if (CJoystick.joystickButton8Down()){
+      if (ArmCJoystick.joystickButton8Down()){
         Pushed++;
       }
-      if (CJoystick.joystickButton10Down()){
+      if (ArmCJoystick.joystickButton10Down()){
         Pushed++;
       }
-      if (CJoystick.joystickButton12Down()){
+      if (ArmCJoystick.joystickButton12Down()){
         Pushed++;
       }
-      if(CXbox.XboxADown() || CJoystick.joystickButton12Down()) { 
+      if(ArmCXbox.XboxADown() || ArmCJoystick.joystickButton12Down()) { 
         m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
-      } else if (CXbox.XboxBDown() || CJoystick.joystickButton10Down()) {
+      } else if (ArmCXbox.XboxBDown() || ArmCJoystick.joystickButton10Down()) {
         m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
-      } else if (CXbox.XboxYDown() || CJoystick.joystickButton8Down()) {
+      } else if (ArmCXbox.XboxYDown() || ArmCJoystick.joystickButton8Down()) {
         m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
-      } else if (CJoystick.getJoystickThrottle() > .5) {
-        m_subsystem.ArmMove((CJoystick.getJoystickThrottle() - 0.25));
-      } else if (CJoystick.getJoystickThrottle() < -.5) {
-        m_subsystem.ArmMove((CJoystick.getJoystickThrottle() + 0.25));
+      } else if (ArmCJoystick.getJoystickThrottle() > .5) {
+        m_subsystem.ArmMove((ArmCJoystick.getJoystickThrottle() - 0.25));
+      } else if (ArmCJoystick.getJoystickThrottle() < -.5) {
+        m_subsystem.ArmMove((ArmCJoystick.getJoystickThrottle() + 0.25));
       } else {
         m_subsystem.ArmMove(0);
       }
