@@ -28,11 +28,13 @@ public class MoveTo extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while (meters < DriveTrain.m_right1.getSelectedSensorPosition()){
+    if (meters < DriveTrain.m_right1.getSelectedSensorPosition()){
       driveTrain.drive.arcadeDrive(0.5, 0);
     }
-    driveTrain.resetEncoders();
+    if (meters > DriveTrain.m_right1.getSelectedSensorPosition()){
+      driveTrain.resetEncoders();
     }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
