@@ -7,8 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.commands.TurnAngle;
-
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.CXbox;
 import frc.robot.Constants;
 import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.DriveTrain;
@@ -21,6 +22,7 @@ public class AutoAlignAndPlace extends CommandBase {
   private final Balance balance;
   private final DriveTrain driveTrain;
   private final LimeLight limeLight;
+  private final XboxController xbox;
   private final double fieldOfViewX = 63.3;
   private final double fieldOfViewY = 49.7;
   private long startTime;
@@ -36,8 +38,9 @@ public class AutoAlignAndPlace extends CommandBase {
    *
    * @param LL The subsystem used by this command.
    */
-  public AutoAlignAndPlace(LimeLight m_limeLight, DriveTrain m_driveTrain, Balance m_balance, Command m_teleopCommand) {
+  public AutoAlignAndPlace(LimeLight m_limeLight, DriveTrain m_driveTrain, Balance m_balance, Command m_teleopCommand, XboxController m_cXbox) {
     teleopCommand = m_teleopCommand;
+    xbox = m_cXbox;
     driveTrain = m_driveTrain;
     balance = m_balance;
     limeLight = m_limeLight;
@@ -107,6 +110,8 @@ public class AutoAlignAndPlace extends CommandBase {
     TurnAngle turnAngle;
     MoveTo moveTo;
 
+    double testLLX = 10;
+
     /*
     - decide which target to choose
     - find distance to apriltag
@@ -124,41 +129,42 @@ public class AutoAlignAndPlace extends CommandBase {
     }
 
     //calculate distance only if grid tag is found
+    closestId = 2;
     if (closestId != 4.0) {
-      distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
+      distanceToTag = 30;
+      //distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
     } else if (closestId == 0) {
       cancel();
       System.out.println("No AprilTag Found");
     }
     SmartDashboard.putNumber("Distance", distanceToTag);
+    System.out.println("balance: " + balance.getHeading());
 
-    if (limeLight.getXAngle() > 0) {
-      heldTurnAngle =  balance.getHeading() - 90;
-      heldAngle = (balance.getHeading() + limeLight.getXAngle()) - 90;
+    if (testLLX > 0) {
+      heldTurnAngle =  balance.getHeading() - 90.0;
+      heldAngle = heldTurnAngle + testLLX;
       turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
       turnAngle.schedule();
     } else {
       heldTurnAngle =  (360 - balance.getHeading()) - 90;
-      heldAngle = ((360 - balance.getHeading()) + limeLight.getXAngle()) - 90;
-
+      heldAngle = heldTurnAngle + testLLX;
       turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
       turnAngle.schedule();
     }
 
+    System.out.println(heldTurnAngle);
+    System.out.println(heldAngle);
+
     distanceToPerpendicularTag = Math.sin(Math.toRadians(heldAngle)) * distanceToTag;
     distanceToParallelTag = Math.cos(Math.toRadians(heldAngle)) * distanceToTag;
-
-    while (!turnAngle.isFinished()) {
-      Thread.onSpinWait();
-    }
-
-    turnAngle.cancel();
     System.out.println("distanceToTag" + distanceToTag);
     System.out.println("distanceToPerpendicularTag" + distanceToPerpendicularTag);
     System.out.println("distanceToParallelTag" + distanceToParallelTag);
 
-    cancel();
-
+    /*while (true) {
+      Thread.onSpinWait();
+    }*/
+    
     //drive distanceToParallelTag
     /*moveTo = new MoveTo(driveTrain, balance, distanceToParallelTag);
     moveTo.schedule();
@@ -169,6 +175,8 @@ public class AutoAlignAndPlace extends CommandBase {
 
     //forward/backward adjust
     //arm command
+
+    //cancel();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -183,10 +191,6 @@ public class AutoAlignAndPlace extends CommandBase {
     isCheckingForAllAprilTags = false;
     isFindingClosestAprilTag = false;
     tagsFound = initialTags;
-    if (teleopCommand != null) {
-      teleopCommand.cancel();
-    }
-    assert teleopCommand != null;
     teleopCommand.schedule();
   }
 

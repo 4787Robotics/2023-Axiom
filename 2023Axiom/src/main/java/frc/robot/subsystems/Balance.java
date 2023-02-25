@@ -88,14 +88,15 @@ public class Balance extends SubsystemBase{
      */  
     public double getHeading() {
         updateHeading();
-        return currentHeading;
+        //return currentHeading;
+        return 120;
     }
 
     public double getLinearHeading() {
         updateLinearHeading();
         return currentLinearHeading;
     }
-
+ 
     /**
      * Gets the AHRS type gyro being used by this object.
      *
