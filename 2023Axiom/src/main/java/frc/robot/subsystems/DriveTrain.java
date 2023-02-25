@@ -66,10 +66,10 @@ public class DriveTrain extends SubsystemBase{
     m_right1.enableVoltageCompensation(true);
     m_right2.enableVoltageCompensation(true);
 
-    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
-    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
-    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
-    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.5));
+    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
+    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
+    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
+    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
     
     m_left1.configOpenloopRamp(0.2); // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
     m_left2.configOpenloopRamp(0.2); // (helps keep robot from rocking around violently every time driver stops)

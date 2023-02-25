@@ -26,6 +26,7 @@ public class MotorController extends SubsystemBase{
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
   public RelativeEncoder ArmEncoder; 
+  public RelativeEncoder GripEncoder;
   private SparkMaxPIDController PID; 
   private static double AkP;
   private static double AkI;
@@ -40,26 +41,25 @@ public class MotorController extends SubsystemBase{
     // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
-  Arm.restoreFactoryDefaults();
-  PID = Arm.getPIDController();
+  // PID = Arm.getPIDController();
   SmartDashboard.putNumber("Arm's Angle", ArmEncoder.getPosition());
 
   // PID coefficients
-  AkP = 0.05; 
-  AkI = .02;
-  AkD = 0; 
-  AkIz = 0; 
-  AkFF = 0; 
-  AkMaxOutput = 1; 
-  AkMinOutput = -1;
+  // AkP = 0.05; 
+  // AkI = .02;
+  // AkD = 0; 
+  // AkIz = 0; 
+  // AkFF = 0; 
+  // AkMaxOutput = 1; 
+  // AkMinOutput = -1;
 
   // set PID coefficients
-  PID.setP(AkP);
-  PID.setI(AkI);
-  PID.setD(AkD);
-  PID.setIZone(AkIz);
-  PID.setFF(AkFF);
-  PID.setOutputRange(AkMinOutput, AkMaxOutput);
+  // PID.setP(AkP);
+  // PID.setI(AkI);
+  // PID.setD(AkD);
+  // PID.setIZone(AkIz);
+  // PID.setFF(AkFF);
+  // PID.setOutputRange(AkMinOutput, AkMaxOutput);
 
   // display PID coefficients on SmartDashboard
   SmartDashboard.putNumber("P Gain", AkP);
@@ -82,17 +82,17 @@ public class MotorController extends SubsystemBase{
   double rotations = SmartDashboard.getNumber("Set Rotations", 0);
 
   // if PID coefficients on SmartDashboard have changed, write new values to controller
-  if((p != AkP)) { PID.setP(p); AkP = p; }
-  if((i != AkI)) { PID.setI(i); AkI = i; }
-  if((d != AkD)) { PID.setD(d); AkD = d; }
-  if((iz != AkIz)) { PID.setIZone(iz); AkIz = iz; }
-  if((ff != AkFF)) { PID.setFF(ff); AkFF = ff; }
-  if((max != AkMaxOutput) || (min != AkMinOutput)) { 
-    PID.setOutputRange(min, max); 
-    AkMinOutput = min; AkMaxOutput = max; 
-  }
+  // if((p != AkP)) { PID.setP(p); AkP = p; }
+  // if((i != AkI)) { PID.setI(i); AkI = i; }
+  // if((d != AkD)) { PID.setD(d); AkD = d; }
+  // if((iz != AkIz)) { PID.setIZone(iz); AkIz = iz; }
+  // if((ff != AkFF)) { PID.setFF(ff); AkFF = ff; }
+  // if((max != AkMaxOutput) || (min != AkMinOutput)) { 
+  //   PID.setOutputRange(min, max); 
+  //   AkMinOutput = min; AkMaxOutput = max; 
+  // }
 
-  PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
+  // PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
   
 
   Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
@@ -100,21 +100,22 @@ public class MotorController extends SubsystemBase{
 
   // Controls wheels that suck em up
   LeftHand = new CANSparkMax(Constants.MOTOR_LEFT_GRIP, MotorType.kBrushless);
+  LeftHand.setInverted(true);
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_GRIP, MotorType.kBrushless);
   RightHand.setInverted(true);
 
 
   Arm.setIdleMode(IdleMode.kBrake);
   Arm2.setIdleMode(IdleMode.kBrake);
-  LeftHand.setIdleMode(IdleMode.kBrake);
-  RightHand.setIdleMode(IdleMode.kBrake);
+  LeftHand.setIdleMode(IdleMode.kCoast);
+  RightHand.setIdleMode(IdleMode.kCoast);
 
 
     // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
-  Arm.setOpenLoopRampRate(1); 
-  Arm2.setOpenLoopRampRate(1); 
-  LeftHand.setOpenLoopRampRate(0.1); 
-  RightHand.setOpenLoopRampRate(0.1); 
+  Arm.setOpenLoopRampRate(0); 
+  Arm2.setOpenLoopRampRate(0); 
+  LeftHand.setOpenLoopRampRate(0); 
+  RightHand.setOpenLoopRampRate(0); 
   
 
   }
@@ -126,21 +127,22 @@ public class MotorController extends SubsystemBase{
   }
   
   public void Intake(double Direction){
-    LeftHand.set(Direction);
+    //LeftHand.set(Direction);
     RightHand.set(Direction);
   }
 
-  public SparkMaxPIDController getArmPID() {
-    return PID;
-  }
-  public void ArmPID(double goalPoint, int newPointNum) {
-    if (currentPointNum != newPointNum){
-      currentPointNum = newPointNum;
-      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
-    }
-    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
-    } 
+  // public SparkMaxPIDController getArmPID() {
+  //   return PID;
+  // }
+  // public void ArmPID(double goalPoint, int newPointNum) {
+  //   if (currentPointNum != newPointNum){
+  //     currentPointNum = newPointNum;
+  //     Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
+  //   }
+  //   Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
+  // } 
+
   public void ArmMove(double Movement){
-    Arm.set(Movement/10);
+    Arm.set(Movement);
   }
 }
