@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.Scorekeeper;
 import frc.robot.subsystems.ScoringArea;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.subsystems.ScoringArea;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.CXbox;
 
@@ -25,10 +27,14 @@ import frc.robot.CXbox;
  * project.
  */
 public class Robot extends TimedRobot {
+  private XboxController m_controller;
   private Command m_autonomousCommand;
   private Command m_teleopCommand;
   private Command m_autoAlignAndPlaceCommand;
+  private Command m_CancelPlaceCommand;
   private RobotContainer m_robotContainer;
+  private ParallelCommandGroup m_autoPlaceCommandGroup;
+  private boolean debounce = true;
   //private CXbox cxbox = new CXbox();
 
   /**
@@ -39,10 +45,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    m_controller = new XboxController(1);
     m_robotContainer = new RobotContainer();
     m_teleopCommand = m_robotContainer.getTeleopCommand();
     //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
-    //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+    m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
 
@@ -89,7 +96,6 @@ public class Robot extends TimedRobot {
     assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
   }
-  
 
   /** This function is called periodically during autonomous. */
   @Override
@@ -112,20 +118,26 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    /*if (xbox.getStartButton()) {
-
-      if (m_autoAlignAndPlaceCommand != null) {
-        m_autoAlignAndPlaceCommand.cancel();
+    if (m_controller.getStartButtonPressed()) {  
+      if (debounce) {
+        debounce = false;
+        if (m_autoAlignAndPlaceCommand != null) {
+          m_autoAlignAndPlaceCommand.cancel();
+        }
+        if (m_autonomousCommand != null) {
+          m_autonomousCommand.cancel();
+        }
+        
+        m_autoAlignAndPlaceCommand.schedule();
+        System.out.println("teleopcancel");
+        if (m_teleopCommand != null) {
+          m_teleopCommand.cancel();
+        }
       }
-      if (m_autonomousCommand != null) {
-        m_autonomousCommand.cancel();
-      }
-      assert m_autoAlignAndPlaceCommand != null;
-      m_autoAlignAndPlaceCommand.schedule();
-      if (m_teleopCommand != null) {
-        m_teleopCommand.cancel();
-      }
-    }*/
+    } else if (m_controller.getStartButtonReleased()) {
+      debounce = true;
+    }
+      
   }
 
   @Override

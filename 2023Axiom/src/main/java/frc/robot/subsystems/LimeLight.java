@@ -5,11 +5,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.CXbox;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.commands.AutoAlignAndPlace;
 
 public class LimeLight extends SubsystemBase {
   //NetworkTable fields
@@ -23,8 +28,14 @@ public class LimeLight extends SubsystemBase {
   NetworkTableEntry pipeline;
 
   //Other fields
+  RobotContainer m_robotContainer;
+  XboxController m_controller;
+  AutoAlignAndPlace m_autoPlaceCommand;
+
   //Initialize fields and get NetworkTable for the first limelight
-  public LimeLight() {
+  public LimeLight(RobotContainer robotContainer) {
+    m_robotContainer = robotContainer;
+    m_controller = new XboxController(Constants.XCONTROLLER_PORT);
     table = NetworkTableInstance.getDefault().getTable("limelight");
     tv = table.getEntry("tv");
     tx = table.getEntry("tx");
@@ -131,11 +142,24 @@ public class LimeLight extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler
+    m_autoPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+    if (m_controller.getLeftX() > Constants.LEFT_TRIGGER_DEAD_ZONE || m_controller.getLeftX() < -Constants.LEFT_TRIGGER_DEAD_ZONE || m_controller.getLeftY() > Constants.LEFT_TRIGGER_DEAD_ZONE || m_controller.getLeftY() < -Constants.LEFT_TRIGGER_DEAD_ZONE) {
+      if (m_autoPlaceCommand.isScheduled()) {
+          m_autoPlaceCommand.cancel();
+          System.out.println("finished");
+      }
+    } 
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+    if (m_controller.getLeftX() > Constants.LEFT_TRIGGER_DEAD_ZONE || m_controller.getLeftX() < -Constants.LEFT_TRIGGER_DEAD_ZONE || m_controller.getLeftY() > Constants.LEFT_TRIGGER_DEAD_ZONE || m_controller.getLeftY() < -Constants.LEFT_TRIGGER_DEAD_ZONE) {
+      if (m_autoPlaceCommand.isScheduled()) {
+          m_autoPlaceCommand.cancel();
+          System.out.println("finished");
+      }
+    }
   }
 }

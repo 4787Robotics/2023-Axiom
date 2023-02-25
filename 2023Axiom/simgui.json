@@ -86,11 +86,14 @@
     "LiveWindow": {
       "open": true
     },
-    "Retained Values": {
-      "open": false
-    },
     "transitory": {
       "FMSInfo": {
+        "open": true
+      },
+      "LiveWindow": {
+        ".status": {
+          "open": true
+        },
         "open": true
       }
     }

@@ -31,16 +31,17 @@ import frc.robot.subsystems.Balance;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final LimeLight limeLight = new LimeLight();
+  private final LimeLight limeLight = new LimeLight(this);
   private final static CXbox m_cxbox = new CXbox();
   private final static CJoystick m_joystick = new CJoystick();
   private final static Balance m_balance = new Balance();
+  private final static XboxController m_xboxController = new XboxController(1);
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static MotorController m_motorController = new MotorController();
   private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain, m_cxbox);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
-  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_teleopCommand);
+  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_teleopCommand, m_xboxController);
   private final static ArmCommand m_ArmCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
   private final static GripCommand m_GripCommand = new GripCommand(m_motorController, m_cxbox);
   /**
@@ -70,6 +71,10 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  public CXbox getCXbox() {
+    return m_cxbox;
+  }
+
   public Command getNavXAutoCommand() {
     // I'LL FIGURE THIS OUT AT SOME POINT
     return m_NavXAutoCommand;
