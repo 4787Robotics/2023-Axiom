@@ -40,10 +40,10 @@ public class TurnAngle extends CommandBase {
     else {
       double speed = MathUtil.clamp(balance.calculatePID(balance.getLinearHeading(), headingTo), -0.5, 0.5);
       if (speed < 0) {
-        speed = MathUtil.clamp(speed, -0.5, -0.35);
+        speed = MathUtil.clamp(speed, -0.5, -0.15);
       }
       else if (speed > 0) {
-        speed = MathUtil.clamp(speed, 0.35, 0.5);
+        speed = MathUtil.clamp(speed, 0.15, 0.5);
       }
       System.out.println("speed: " + speed);
       driveTrain.driveRobot(false, 0, speed);

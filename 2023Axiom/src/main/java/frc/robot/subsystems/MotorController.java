@@ -127,7 +127,7 @@ public class MotorController extends SubsystemBase{
   }
   
   public void Intake(double Direction){
-    //LeftHand.set(Direction);
+    LeftHand.set(Direction);
     RightHand.set(Direction);
   }
 

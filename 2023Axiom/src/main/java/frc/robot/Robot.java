@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_controller = new XboxController(1);
     m_robotContainer = new RobotContainer();
-    m_teleopCommand = m_robotContainer.getTeleopCommand();
+    m_teleopCommand = m_robotContainer.getArmCommand();
     //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
