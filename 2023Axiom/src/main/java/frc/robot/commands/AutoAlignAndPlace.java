@@ -131,7 +131,7 @@ public class AutoAlignAndPlace extends CommandBase {
     //calculate distance only if grid tag is found
     closestId = 2;
     if (closestId != 4.0) {
-      distanceToTag = 30;
+      distanceToTag = 30 + 20.32;
       //distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
     } else if (closestId == 0) {
       cancel();
@@ -146,7 +146,7 @@ public class AutoAlignAndPlace extends CommandBase {
       turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
       turnAngle.schedule();
     } else {
-      heldTurnAngle =  (360 - balance.getHeading()) - 90;
+      heldTurnAngle =  balance.getHeading() - 270;
       heldAngle = heldTurnAngle + testLLX;
       turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
       turnAngle.schedule();
@@ -161,11 +161,11 @@ public class AutoAlignAndPlace extends CommandBase {
     System.out.println("distanceToPerpendicularTag" + distanceToPerpendicularTag);
     System.out.println("distanceToParallelTag" + distanceToParallelTag);
 
-    /*while (true) {
+    /*while (turnAngle.isScheduled) {
       Thread.onSpinWait();
     }*/
     
-    //drive distanceToParallelTag
+    //drive distanceToParallelTag + 
     /*moveTo = new MoveTo(driveTrain, balance, distanceToParallelTag);
     moveTo.schedule();
     while (!moveTo.isFinished()) {

@@ -26,7 +26,6 @@ public class MotorController extends SubsystemBase{
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
   public RelativeEncoder ArmEncoder; 
-  public RelativeEncoder GripEncoder;
   private SparkMaxPIDController PID; 
   private static double AkP;
   private static double AkI;

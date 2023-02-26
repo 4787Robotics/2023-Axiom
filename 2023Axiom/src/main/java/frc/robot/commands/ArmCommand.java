@@ -67,26 +67,17 @@ public class ArmCommand extends CommandBase {
     //     m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
     //   } else 
 
-    boolean armMove = false;
     if (ArmCJoystick.getJoystickThrottle() > .5) {
       m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
-      armMove = true;
     } else if (ArmCJoystick.getJoystickThrottle() < -.5) {
       m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
-      armMove = true;
     } else {
       m_subsystem.ArmMove(0);
     }
-    if(ArmCJoystick.joystickButton1Down() == true && ArmCJoystick.joystickButton2Down() == true) {
+    if(ArmCJoystick.joystickButton1Down() == true && ArmCJoystick.joystickButton2Down() == true) { 
       m_subsystem.Intake(-0.1); //Pull out
-      // if (!armMove) {
-      //   m_subsystem.ArmMove(0.1);
-      // }
-    } else if (ArmCJoystick.joystickButton1Down() == true) {
+    } else if (ArmCJoystick.joystickButton1Down() == true) { //will change for user
       m_subsystem.Intake(0.1); //Pull out
-      // if (!armMove) {
-      //   m_subsystem.ArmMove(0.1);
-      // }
     } else {
       m_subsystem.Intake(0); //Don't move
     }

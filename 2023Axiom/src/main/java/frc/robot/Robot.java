@@ -19,7 +19,6 @@ import frc.robot.subsystems.ScoringArea;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.CXbox;
-
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -29,9 +28,11 @@ import frc.robot.CXbox;
 public class Robot extends TimedRobot {
   private XboxController m_controller;
   private Command m_autonomousCommand;
-  private Command m_teleopCommand;
+  private Command m_driveCommand;
   private Command m_autoAlignAndPlaceCommand;
-  private Command m_CancelPlaceCommand;
+  private Command m_cancelPlaceCommand;
+  private Command m_armCommand;
+  private Command m_teleopCommand;
   private RobotContainer m_robotContainer;
   private ParallelCommandGroup m_autoPlaceCommandGroup;
   private boolean debounce = true;
@@ -47,10 +48,12 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_controller = new XboxController(1);
     m_robotContainer = new RobotContainer();
-    m_teleopCommand = m_robotContainer.getTeleopCommand();
+    m_driveCommand = m_robotContainer.getDriveCommand();
     //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
+    m_armCommand = m_robotContainer.getArmCommand();
+    m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
 
     Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());

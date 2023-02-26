@@ -129,7 +129,8 @@ public class LimeLight extends SubsystemBase {
       distance = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) * scaleFactor;
     }
 
-    return distance; //returns calculated distance in inches from limelight to reflective tape target or 0 if no valid targets are seen by Limelight camera (i.e., tv=0)
+    //20.32 accounts for the distance from the limelight to the center of the robot
+    return distance + 20.32; //returns calculated distance in inches from limelight to reflective tape target or 0 if no valid targets are seen by Limelight camera (i.e., tv=0)
   }
 
   public void updateDashboard() {
