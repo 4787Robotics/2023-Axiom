@@ -18,7 +18,7 @@ import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
 import frc.robot.commands.ArmCommand;
-import frc.robot.commands.GripCommand;
+
 import frc.robot.subsystems.Balance;
 
 /**
@@ -38,12 +38,11 @@ public class RobotContainer {
   private final static XboxController m_xboxController = new XboxController(1);
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static MotorController m_motorController = new MotorController();
-  private final static DriveCommand m_teleopCommand = new DriveCommand(m_driveTrain, m_cxbox);
+  private final static DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, m_cxbox);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
-  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_teleopCommand, m_xboxController);
-  private final static ArmCommand m_ArmCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
-  private final static GripCommand m_GripCommand = new GripCommand(m_motorController, m_cxbox);
+  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_driveCommand, m_xboxController);
+  private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -85,16 +84,12 @@ public class RobotContainer {
     return m_pathCommand;
   }
 
-  public Command getTeleopCommand() {
-    return m_teleopCommand;
+  public Command getDriveCommand() {
+    return m_driveCommand;
   }
 
   public Command getArmCommand() {
-    return m_ArmCommand;
-  }
-
-  public Command getGripCommand() {
-    return m_GripCommand;
+    return m_armCommand;
   }
 
   public MotorController getMotorController() {
