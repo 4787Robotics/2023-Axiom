@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +32,7 @@ public class LimeLight extends SubsystemBase {
   RobotContainer m_robotContainer;
   XboxController m_controller;
   AutoAlignAndPlace m_autoPlaceCommand;
+  Command m_teleopCommand;
 
   //Initialize fields and get NetworkTable for the first limelight
   public LimeLight(RobotContainer robotContainer) {
@@ -44,6 +46,10 @@ public class LimeLight extends SubsystemBase {
     tid = table.getEntry("tid");
     getpipe = table.getEntry("getpipe");
     pipeline = table.getEntry("pipeline");
+  }
+
+  public void setTeleopCommand(Command teleopCommand) {
+    m_teleopCommand = teleopCommand;
   }
 
   //Returns the horizontal angle the detected object 
@@ -149,6 +155,7 @@ public class LimeLight extends SubsystemBase {
       if (m_autoPlaceCommand.isScheduled()) {
           m_autoPlaceCommand.cancel();
           System.out.println("finished");
+          //m_teleopCommand.schedule();
       }
     } 
   }
