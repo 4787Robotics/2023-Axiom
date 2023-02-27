@@ -88,8 +88,7 @@ public class Balance extends SubsystemBase{
      */  
     public double getHeading() {
         updateHeading();
-        //return currentHeading;
-        return 120;
+        return currentHeading;
     }
 
     public double getLinearHeading() {

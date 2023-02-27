@@ -129,10 +129,8 @@ public class AutoAlignAndPlace extends CommandBase {
     }
 
     //calculate distance only if grid tag is found
-    closestId = 2;
     if (closestId != 4.0) {
-      distanceToTag = 30 + 20.32;
-      //distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
+      distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
     } else if (closestId == 0) {
       cancel();
       System.out.println("No AprilTag Found");
@@ -140,16 +138,23 @@ public class AutoAlignAndPlace extends CommandBase {
     SmartDashboard.putNumber("Distance", distanceToTag);
     System.out.println("balance: " + balance.getHeading());
 
-    if (testLLX > 0) {
-      heldTurnAngle =  balance.getHeading() - 90.0;
-      heldAngle = heldTurnAngle + testLLX;
-      turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
-      turnAngle.schedule();
+    double adjustedBalance = balance.getHeading();
+    if (balance.getHeading() > 0) {
+      adjustedBalance = balance.getHeading();
     } else {
-      heldTurnAngle =  balance.getHeading() - 270;
-      heldAngle = heldTurnAngle + testLLX;
-      turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
-      turnAngle.schedule();
+      adjustedBalance = Math.abs(balance.getHeading()) + 180;
+    }
+
+    if (limeLight.getXAngle() > 0) {
+      heldTurnAngle =  adjustedBalance - 90.0;
+      heldAngle = heldTurnAngle + limeLight.getXAngle();
+      //turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
+      //turnAngle.schedule();
+    } else {
+      heldTurnAngle =  adjustedBalance - 270;
+      heldAngle = heldTurnAngle + limeLight.getXAngle();
+      //turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
+      //turnAngle.schedule();
     }
 
     System.out.println(heldTurnAngle);
