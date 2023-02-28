@@ -36,7 +36,6 @@ public final class Constants {
     public static int MOTOR_ARM_2 = 6; //Copies arm 1
     public static int MOTOR_LEFT_GRIP = 8;
     public static int MOTOR_RIGHT_GRIP = 7; //does the opposite of left Grip
-    
     //Position of where the arm should be for each grid level. (in rotations)
     public static double LOW_LEVEL = 0; 
     public static double MID_LEVEL = 1.82460593034; 

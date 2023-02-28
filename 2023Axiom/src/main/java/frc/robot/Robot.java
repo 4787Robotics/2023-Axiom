@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.Scorekeeper;
 import frc.robot.subsystems.ScoringArea;
@@ -34,7 +35,6 @@ public class Robot extends TimedRobot {
   private Command m_armCommand;
   private Command m_teleopCommand;
   private RobotContainer m_robotContainer;
-  private ParallelCommandGroup m_autoPlaceCommandGroup;
   private boolean debounce = true;
   //private CXbox cxbox = new CXbox();
 
@@ -114,23 +114,19 @@ public class Robot extends TimedRobot {
     if (m_teleopCommand != null) {
       m_teleopCommand.cancel();
     }
-    assert m_teleopCommand != null;
+
     m_teleopCommand.schedule();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (m_controller.getStartButtonPressed()) {  
+    if (m_controller.getStartButtonPressed()) {
       if (debounce) {
         debounce = false;
-        if (m_autoAlignAndPlaceCommand != null) {
+        if (m_autoAlignAndPlaceCommand.isScheduled()) {
           m_autoAlignAndPlaceCommand.cancel();
         }
-        if (m_autonomousCommand != null) {
-          m_autonomousCommand.cancel();
-        }
-        
         m_autoAlignAndPlaceCommand.schedule();
         System.out.println("teleopcancel");
         if (m_teleopCommand != null) {
@@ -139,6 +135,10 @@ public class Robot extends TimedRobot {
       }
     } else if (m_controller.getStartButtonReleased()) {
       debounce = true;
+    }
+
+    if (!m_autoAlignAndPlaceCommand.isScheduled()) {
+      m_teleopCommand.schedule();
     }
       
   }
