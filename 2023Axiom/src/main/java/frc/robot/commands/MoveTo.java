@@ -32,6 +32,7 @@ public class MoveTo extends CommandBase {
       driveTrain.drive.arcadeDrive(0.5, 0);
     }
     if (meters > DriveTrain.m_right1.getSelectedSensorPosition()){
+      driveTrain.drive.arcadeDrive(0, 0);
       driveTrain.resetEncoders();
     }
   }
