@@ -19,12 +19,19 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.Timer;
+
 public class MotorController extends SubsystemBase{
   ProfiledPIDController Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
   public CANSparkMax LeftHand;
   public CANSparkMax RightHand;
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
+  public WPI_TalonFX HandUpDown;
   public RelativeEncoder ArmEncoder; 
   private SparkMaxPIDController PID; 
   private static double AkP;
@@ -40,8 +47,7 @@ public class MotorController extends SubsystemBase{
     // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
-  /*
-  PID = Arm.getPIDController();
+  /* PID = Arm.getPIDController();
 
   // PID coefficients
   AkP = 0.05; 
@@ -80,15 +86,15 @@ public class MotorController extends SubsystemBase{
   double min = SmartDashboard.getNumber("Min Output", 0);
   double rotations = SmartDashboard.getNumber("Set Rotations", 0);
 
-  if PID coefficients on SmartDashboard have changed, write new values to controller
+  //if PID coefficients on SmartDashboard have changed, write new values to controller
   if((p != AkP)) { PID.setP(p); AkP = p; }
   if((i != AkI)) { PID.setI(i); AkI = i; }
   if((d != AkD)) { PID.setD(d); AkD = d; }
   if((iz != AkIz)) { PID.setIZone(iz); AkIz = iz; }
   if((ff != AkFF)) { PID.setFF(ff); AkFF = ff; }
   if((max != AkMaxOutput) || (min != AkMinOutput)) { 
-    PID.setOutputRange(min, max); 
-    AkMinOutput = min; AkMaxOutput = max; 
+   PID.setOutputRange(min, max); 
+   AkMinOutput = min; AkMaxOutput = max; 
   }
 
   PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
@@ -97,30 +103,31 @@ public class MotorController extends SubsystemBase{
   Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
   Arm2.follow(Arm);
 
-  // Controls that will grab the grabables
+  // Controls wheels that suck em up
   LeftHand = new CANSparkMax(Constants.MOTOR_LEFT_GRIP, MotorType.kBrushless);
   LeftHand.setInverted(true);
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_GRIP, MotorType.kBrushless);
-  RightHand.setInverted(flase);
-
+  RightHand.setInverted(false);
 
   Arm.setIdleMode(IdleMode.kBrake);
   Arm2.setIdleMode(IdleMode.kBrake);
-  LeftHand.setIdleMode(IdleMode.kbrake);
-  RightHand.setIdleMode(IdleMode.kbrake);
+  LeftHand.setIdleMode(IdleMode.kBrake);
+  RightHand.setIdleMode(IdleMode.kBrake);
 
-
-  // limits acceleration in seconds
-  Arm.setOpenLoopRampRate(1); 
-  Arm2.setOpenLoopRampRate(1); 
+    // limits acceleration
+  Arm.setOpenLoopRampRate(1.5); 
+  Arm2.setOpenLoopRampRate(1.5); 
   LeftHand.setOpenLoopRampRate(0); 
   RightHand.setOpenLoopRampRate(0); 
-  
 
+  HandUpDown = new WPI_TalonFX(Constants.MOTOR_MOVE_GRIP);
+  HandUpDown.enableVoltageCompensation(true);
+  HandUpDown.setInverted(TalonFXInvertType.Clockwise); 
+  HandUpDown.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
-  public void periodic() { //Will update/run 60? times a second
+  public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
   }
   
@@ -128,20 +135,26 @@ public class MotorController extends SubsystemBase{
     LeftHand.set(Direction);
     RightHand.set(Direction);
   }
-  /*
-  public SparkMaxPIDController getArmPID() {
+
+  /*public SparkMaxPIDController getArmPID() {
     return PID;
   }
-  
   public void ArmPID(double goalPoint, int newPointNum) {
     if (currentPointNum != newPointNum){
       currentPointNum = newPointNum;
       Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
     }
     Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
-  } 
-  */
+  } */
+
   public void ArmMove(double Movement){
-    Arm.set(Movement*.5); //Please change the number to be a speed multiplier for the arm, used as a percent
+    Arm.set(Movement);
   }
+
+  public void GripMove(boolean UpDown){ //may switch to pid in the future
+    HandUpDown.set(.2);
+    Timer.delay(1);
+    HandUpDown.set(0);
+  }
+
 }

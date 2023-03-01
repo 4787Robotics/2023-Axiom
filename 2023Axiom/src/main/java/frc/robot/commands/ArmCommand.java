@@ -55,19 +55,17 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    // if (ArmEncoderC.getPosition() > 4) {
-    //   m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
-    // } else {
-    //   if( ArmCJoystick.joystickButton12Down()) { 
-    //     m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
-    //   } else if ( ArmCJoystick.joystickButton10Down()) {
-    //     m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
-    //   } else if ( ArmCJoystick.joystickButton8Down()) {
-    //     m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
-    //   } else 
-
-    if (ArmCJoystick.getJoystickThrottle() > .5) {
+/*
+    if (ArmEncoderC.getPosition() > 4) {
+       m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
+    } else { 
+      if( ArmCJoystick.joystickButton12Down()) { 
+        m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
+      else if ( ArmCJoystick.joystickButton10Down()) {
+         m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
+      } else if ( ArmCJoystick.joystickButton8Down()) {
+        m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
+      } else */ if (ArmCJoystick.getJoystickThrottle() > .5) {
       m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
     } else if (ArmCJoystick.getJoystickThrottle() < -.5) {
       m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
