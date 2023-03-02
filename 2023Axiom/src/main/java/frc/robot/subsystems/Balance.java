@@ -177,6 +177,6 @@ public class Balance extends SubsystemBase{
                     System.out.println(headingAdjust);
                 }
             }
-        }
+         }
     }
 }
