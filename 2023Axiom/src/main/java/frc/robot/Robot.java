@@ -14,12 +14,22 @@ import frc.robot.subsystems.Scorekeeper;
 import frc.robot.subsystems.ScoringArea;
 //import frc.robot.subsystems.Scorekeeper;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.subsystems.ScoringArea;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.CXbox;
+import frc.robot.commands.RammseteAutonomousCommand;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -34,8 +44,12 @@ public class Robot extends TimedRobot {
   private Command m_cancelPlaceCommand;
   private Command m_armCommand;
   private Command m_teleopCommand;
+  private Command m_pathCommand;
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
+  String trajectoryJSON = "C:/Users/robotics/Documents/GitHub/2023-Axiom/2023Axiom/PathWeaver/pathweaver.wpilib.json";
+  Trajectory trajectory = new Trajectory();
+
   //private CXbox cxbox = new CXbox();
 
   /**
@@ -54,9 +68,10 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     m_armCommand = m_robotContainer.getArmCommand();
     m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
+    m_pathCommand = m_robotContainer.getPathCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
 
-    Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
+    
   }
 
   /**
@@ -94,10 +109,12 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+      m_pathCommand.cancel();
     }
 
     assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
+    m_pathCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */
