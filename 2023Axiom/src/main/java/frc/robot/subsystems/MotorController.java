@@ -26,6 +26,8 @@ public class MotorController extends SubsystemBase{
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
   public RelativeEncoder ArmEncoder; 
+  public RelativeEncoder LeftEncoder; 
+  public RelativeEncoder RightEncoder; 
   private SparkMaxPIDController PID; 
   private static double AkP;
   private static double AkI;
@@ -100,21 +102,23 @@ public class MotorController extends SubsystemBase{
   // Controls wheels that suck em up
   LeftHand = new CANSparkMax(Constants.MOTOR_LEFT_GRIP, MotorType.kBrushless);
   LeftHand.setInverted(true);
+  LeftEncoder = LeftHand.getEncoder();
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_GRIP, MotorType.kBrushless);
   RightHand.setInverted(true);
+  RightEncoder = RightHand.getEncoder();
 
 
   Arm.setIdleMode(IdleMode.kBrake);
   Arm2.setIdleMode(IdleMode.kBrake);
-  LeftHand.setIdleMode(IdleMode.kCoast);
-  RightHand.setIdleMode(IdleMode.kCoast);
+  LeftHand.setIdleMode(IdleMode.kBrake);
+  RightHand.setIdleMode(IdleMode.kBrake);
 
 
-    // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
+    // limits acceleration, takes 0.2 seconds to accelerate from 0 to 100%
   Arm.setOpenLoopRampRate(0); 
   Arm2.setOpenLoopRampRate(0); 
-  LeftHand.setOpenLoopRampRate(0); 
-  RightHand.setOpenLoopRampRate(0); 
+  LeftHand.setOpenLoopRampRate(0.2); 
+  RightHand.setOpenLoopRampRate(0.2); 
   
 
   }
@@ -127,6 +131,14 @@ public class MotorController extends SubsystemBase{
   
   public void Intake(double Direction){
     LeftHand.set(Direction);
+    RightHand.set(Direction);
+  }
+
+  public void LeftHandMove(double Direction){
+    LeftHand.set(Direction);  
+  }
+
+  public void RightHandMove(double Direction){
     RightHand.set(Direction);
   }
 

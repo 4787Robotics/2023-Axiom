@@ -30,7 +30,11 @@ import com.revrobotics.RelativeEncoder;
 public class ArmCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
-  RelativeEncoder ArmEncoderC; 
+  private RelativeEncoder ArmEncoderC; 
+  private RelativeEncoder LeftEncoderC;
+  private RelativeEncoder RightEncoderC;
+  private double LeftStartingPos;
+  private double RightStartingPos;
   private final CXbox m_cxbox;
   private final CJoystick ArmCJoystick;
   /*
@@ -45,12 +49,17 @@ public class ArmCommand extends CommandBase {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    ArmEncoderC = m_subsystem.ArmEncoder;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    ArmEncoderC = m_subsystem.ArmEncoder;
+    LeftEncoderC = m_subsystem.LeftEncoder;
+    RightEncoderC = m_subsystem.RightEncoder;
+    LeftStartingPos = LeftEncoderC.getPosition();
+    RightStartingPos = RightEncoderC.getPosition();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -67,17 +76,16 @@ public class ArmCommand extends CommandBase {
     //     m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
     //   } else 
 
-    if (ArmCJoystick.getJoystickThrottle() > .5) {
-      m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
-    } else if (ArmCJoystick.getJoystickThrottle() < -.5) {
-      m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
-    } else {
-      m_subsystem.ArmMove(0);
-    }
-    if(ArmCJoystick.joystickButton1Down() == true && ArmCJoystick.joystickButton2Down() == true) { 
+    m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
+
+    if(ArmCJoystick.joystickButton1Down() == true && ArmCJoystick.joystickButton2Down() == true) { //will change for user
       m_subsystem.Intake(-0.1); //Pull out
-    } else if (ArmCJoystick.joystickButton1Down() == true) { //will change for user
-      m_subsystem.Intake(0.1); //Pull out
+    } else if (ArmCJoystick.joystickButton1Down() == true) { 
+      m_subsystem.Intake(0.1); //Pull in
+    } else if (ArmCJoystick.joystickButton3Down()) {
+      m_subsystem.LeftHandMove(-0.1);
+    } else if (ArmCJoystick.joystickButton4Down()) {
+      m_subsystem.RightHandMove(-0.1);
     } else {
       m_subsystem.Intake(0); //Don't move
     }
