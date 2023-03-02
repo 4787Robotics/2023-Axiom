@@ -31,12 +31,15 @@ public class AutoAlignAndPlace extends CommandBase {
   private final double[] initialTags = {0,0,0,0};
   private boolean isCheckingForAllAprilTags;
   private volatile boolean isFindingClosestAprilTag;
+  private double distanceToParallelTag = 0;
+  private double distanceToPerpendicularTag = 0;
   private Command teleopCommand;
+  private double distanceToTag = 0;
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param LL The subsystem used by this command.
+   * @param m_limeLight The subsystem used by this command.
    */
   public AutoAlignAndPlace(LimeLight m_limeLight, DriveTrain m_driveTrain, Balance m_balance, Command m_teleopCommand, XboxController m_cXbox) {
     teleopCommand = m_teleopCommand;
@@ -47,6 +50,7 @@ public class AutoAlignAndPlace extends CommandBase {
     isCheckingForAllAprilTags = false;
     isFindingClosestAprilTag = false;
     tagsFound = initialTags;
+    limeLight.setTeleopCommand(teleopCommand);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_limeLight);
   }
@@ -101,12 +105,11 @@ public class AutoAlignAndPlace extends CommandBase {
   @Override
   public void initialize() {
     double closestId = findClosestAprilTagId(); //find closest tag
-    double distanceToTag = 0;
+
     double distanceTravelled = 0;
     double heldAngle = 0;
     double heldTurnAngle = 0;
-    double distanceToParallelTag = 0;
-    double distanceToPerpendicularTag = 0;
+
     TurnAngle turnAngle;
     MoveTo moveTo;
 
@@ -129,27 +132,31 @@ public class AutoAlignAndPlace extends CommandBase {
     }
 
     //calculate distance only if grid tag is found
-    closestId = 2;
     if (closestId != 4.0) {
-      distanceToTag = 30 + 20.32;
-      //distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
+      distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
     } else if (closestId == 0) {
       cancel();
       System.out.println("No AprilTag Found");
     }
-    SmartDashboard.putNumber("Distance", distanceToTag);
     System.out.println("balance: " + balance.getHeading());
 
-    if (testLLX > 0) {
-      heldTurnAngle =  balance.getHeading() - 90.0;
-      heldAngle = heldTurnAngle + testLLX;
-      turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
-      turnAngle.schedule();
+    double adjustedBalance = balance.getHeading();
+    if (balance.getHeading() > 0) {
+      adjustedBalance = balance.getHeading();
     } else {
-      heldTurnAngle =  balance.getHeading() - 270;
-      heldAngle = heldTurnAngle + testLLX;
-      turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
-      turnAngle.schedule();
+      adjustedBalance = Math.abs(balance.getHeading()) + 180;
+    }
+
+    if (limeLight.getXAngle() > 0) {
+      heldTurnAngle =  adjustedBalance - 90.0;
+      heldAngle = heldTurnAngle + limeLight.getXAngle();
+      //turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
+      //turnAngle.schedule();
+    } else {
+      heldTurnAngle =  adjustedBalance - 270;
+      heldAngle = heldTurnAngle + limeLight.getXAngle();
+      //turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
+      //turnAngle.schedule();
     }
 
     System.out.println(heldTurnAngle);
@@ -161,6 +168,9 @@ public class AutoAlignAndPlace extends CommandBase {
     System.out.println("distanceToPerpendicularTag" + distanceToPerpendicularTag);
     System.out.println("distanceToParallelTag" + distanceToParallelTag);
 
+    SmartDashboard.putNumber("distanceToTag", distanceToTag);
+    SmartDashboard.putNumber("distanceToParallelTag", distanceToParallelTag);
+    SmartDashboard.putNumber("distanceToPerpendicularTag", distanceToPerpendicularTag);
     /*while (turnAngle.isScheduled) {
       Thread.onSpinWait();
     }*/
@@ -176,7 +186,7 @@ public class AutoAlignAndPlace extends CommandBase {
     //forward/backward adjust
     //arm command
 
-    //cancel();
+    cancel();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -191,7 +201,6 @@ public class AutoAlignAndPlace extends CommandBase {
     isCheckingForAllAprilTags = false;
     isFindingClosestAprilTag = false;
     tagsFound = initialTags;
-    teleopCommand.schedule();
   }
 
   // Returns true when the command should end.

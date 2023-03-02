@@ -19,12 +19,19 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.Timer;
+
 public class MotorController extends SubsystemBase{
   ProfiledPIDController Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
   public CANSparkMax LeftHand;
   public CANSparkMax RightHand;
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
+  public WPI_TalonFX HandUpDown;
   public RelativeEncoder ArmEncoder; 
   public RelativeEncoder LeftEncoder; 
   public RelativeEncoder RightEncoder; 
@@ -42,25 +49,24 @@ public class MotorController extends SubsystemBase{
     // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
-  // PID = Arm.getPIDController();
-  SmartDashboard.putNumber("Arm's Angle", ArmEncoder.getPosition());
+  /* PID = Arm.getPIDController();
 
   // PID coefficients
-  // AkP = 0.05; 
-  // AkI = .02;
-  // AkD = 0; 
-  // AkIz = 0; 
-  // AkFF = 0; 
-  // AkMaxOutput = 1; 
-  // AkMinOutput = -1;
+  AkP = 0.05; 
+  AkI = .02;
+  AkD = 0; 
+  AkIz = 0; 
+  AkFF = 0; 
+  AkMaxOutput = 1; 
+  AkMinOutput = -1;
 
   // set PID coefficients
-  // PID.setP(AkP);
-  // PID.setI(AkI);
-  // PID.setD(AkD);
-  // PID.setIZone(AkIz);
-  // PID.setFF(AkFF);
-  // PID.setOutputRange(AkMinOutput, AkMaxOutput);
+  PID.setP(AkP);
+  PID.setI(AkI);
+  PID.setD(AkD);
+  PID.setIZone(AkIz);
+  PID.setFF(AkFF);
+  PID.setOutputRange(AkMinOutput, AkMaxOutput);
 
   // display PID coefficients on SmartDashboard
   SmartDashboard.putNumber("P Gain", AkP);
@@ -82,19 +88,19 @@ public class MotorController extends SubsystemBase{
   double min = SmartDashboard.getNumber("Min Output", 0);
   double rotations = SmartDashboard.getNumber("Set Rotations", 0);
 
-  // if PID coefficients on SmartDashboard have changed, write new values to controller
-  // if((p != AkP)) { PID.setP(p); AkP = p; }
-  // if((i != AkI)) { PID.setI(i); AkI = i; }
-  // if((d != AkD)) { PID.setD(d); AkD = d; }
-  // if((iz != AkIz)) { PID.setIZone(iz); AkIz = iz; }
-  // if((ff != AkFF)) { PID.setFF(ff); AkFF = ff; }
-  // if((max != AkMaxOutput) || (min != AkMinOutput)) { 
-  //   PID.setOutputRange(min, max); 
-  //   AkMinOutput = min; AkMaxOutput = max; 
-  // }
+  //if PID coefficients on SmartDashboard have changed, write new values to controller
+  if((p != AkP)) { PID.setP(p); AkP = p; }
+  if((i != AkI)) { PID.setI(i); AkI = i; }
+  if((d != AkD)) { PID.setD(d); AkD = d; }
+  if((iz != AkIz)) { PID.setIZone(iz); AkIz = iz; }
+  if((ff != AkFF)) { PID.setFF(ff); AkFF = ff; }
+  if((max != AkMaxOutput) || (min != AkMinOutput)) { 
+   PID.setOutputRange(min, max); 
+   AkMinOutput = min; AkMaxOutput = max; 
+  }
 
-  // PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
-  
+  PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
+  */
 
   Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
   Arm2.follow(Arm);
@@ -104,9 +110,8 @@ public class MotorController extends SubsystemBase{
   LeftHand.setInverted(true);
   LeftEncoder = LeftHand.getEncoder();
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_GRIP, MotorType.kBrushless);
-  RightHand.setInverted(true);
+  RightHand.setInverted(false);
   RightEncoder = RightHand.getEncoder();
-
 
   Arm.setIdleMode(IdleMode.kBrake);
   Arm2.setIdleMode(IdleMode.kBrake);
@@ -121,11 +126,14 @@ public class MotorController extends SubsystemBase{
   RightHand.setOpenLoopRampRate(0.2); 
   
 
+  HandUpDown = new WPI_TalonFX(Constants.MOTOR_MOVE_GRIP);
+  HandUpDown.enableVoltageCompensation(true);
+  HandUpDown.setInverted(TalonFXInvertType.Clockwise); 
+  HandUpDown.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
   public void periodic() {
-        // This method will be called once per scheduler run
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
   }
   
@@ -156,4 +164,11 @@ public class MotorController extends SubsystemBase{
   public void ArmMove(double Movement){
     Arm.set(Movement);
   }
+
+  public void GripMove(boolean UpDown){ //may switch to pid in the future
+    HandUpDown.set(.2);
+    Timer.delay(1);
+    HandUpDown.set(0);
+  }
+
 }
