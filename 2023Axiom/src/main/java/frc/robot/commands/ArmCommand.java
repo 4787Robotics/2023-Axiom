@@ -36,8 +36,8 @@ public class ArmCommand extends CommandBase {
   private RelativeEncoder RightEncoderC;
   private double LeftStartingPos;
   private double RightStartingPos;
-  private final CXbox m_cxbox;
-  private final CJoystick m_cjoystick;
+  private final CXbox m_cXbox;
+  private final CJoystick m_cJoystick;
   private boolean gripPlace = false;
   /*
    * Creates a new ExampleCommand.
@@ -46,8 +46,8 @@ public class ArmCommand extends CommandBase {
    */
   public ArmCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick ArmCJoystick) {
     m_subsystem = subsystem;
-    m_cxbox = ArmCXbox;
-    m_cjoystick = ArmCJoystick;
+    m_cXbox = ArmCXbox;
+    m_cJoystick = ArmCJoystick;
 
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -79,24 +79,24 @@ public class ArmCommand extends CommandBase {
     //     m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
     //   } else 
 
-    m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
+    m_subsystem.ArmMove((m_cJoystick.getJoystickYWithDeadzone()));
 
-    if(ArmCJoystick.joystickButton1Down() == true && ArmCJoystick.joystickButton2Down() == true) { //will change for user
+    if(m_cJoystick.joystickButton1Down() == true && m_cJoystick.joystickButton2Down() == true) { //will change for user
       m_subsystem.Intake(-0.1); //Pull out
-    } else if (ArmCJoystick.joystickButton1Down() == true) { 
+    } else if (m_cJoystick.joystickButton1Down() == true) { 
       m_subsystem.Intake(0.1); //Pull in
-    } else if (ArmCJoystick.joystickButton3Down()) {
+    } else if (m_cJoystick.joystickButton3Down()) {
       m_subsystem.LeftHandMove(-0.1);
-    } else if (ArmCJoystick.joystickButton4Down()) {
+    } else if (m_cJoystick.joystickButton4Down()) {
       m_subsystem.RightHandMove(-0.1);
     } else {
       m_subsystem.Intake(0); //Don't move
     }
 
-      if(m_cjoystick.getJoystickThrottle() > .8 && gripPlace == true){
+      if(m_cJoystick.getJoystickThrottle() > .8 && gripPlace == true){
         m_subsystem.GripMove(-.2);
         gripPlace = false;
-      } else if (m_cjoystick.getJoystickThrottle() < -.8 && gripPlace == false){
+      } else if (m_cJoystick.getJoystickThrottle() < -.8 && gripPlace == false){
         m_subsystem.GripMove(.2);
         gripPlace = false;
       } else {
