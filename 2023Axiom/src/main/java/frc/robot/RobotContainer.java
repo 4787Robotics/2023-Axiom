@@ -39,7 +39,7 @@ public class RobotContainer {
   private final static XboxController m_xboxController = new XboxController(1);
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static MotorController m_motorController = new MotorController();
-  private final static DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, m_cxbox, m_balance);
+  private final static DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, m_cxbox);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_driveCommand, m_xboxController);
   private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
