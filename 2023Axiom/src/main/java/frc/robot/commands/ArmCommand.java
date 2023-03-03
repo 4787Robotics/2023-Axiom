@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
 import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
+import javax.swing.GrayFilter;
 import javax.swing.text.Position;
 import edu.wpi.first.math.MathUtil;
 
@@ -32,16 +33,18 @@ public class ArmCommand extends CommandBase {
   private final MotorController m_subsystem;
   RelativeEncoder ArmEncoderC; 
   private final CXbox m_cxbox;
-  private final CJoystick ArmCJoystick;
+  private final CJoystick m_cjoystick;
+  private boolean gripPlace = false;
   /*
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick m_cjoystick) {
+  public ArmCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick ArmCJoystick) {
     m_subsystem = subsystem;
     m_cxbox = ArmCXbox;
-    ArmCJoystick = m_cjoystick;
+    m_cjoystick = ArmCJoystick;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -59,26 +62,37 @@ public class ArmCommand extends CommandBase {
     if (ArmEncoderC.getPosition() > 4) {
        m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
     } else { 
-      if( ArmCJoystick.joystickButton12Down()) { 
+      if( m_cjoystick.joystickButton12Down()) { 
         m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
-      else if ( ArmCJoystick.joystickButton10Down()) {
+      else if ( m_cjoystick.joystickButton10Down()) {
          m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
-      } else if ( ArmCJoystick.joystickButton8Down()) {
+      } else if ( m_cjoystick.joystickButton8Down()) {
         m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
-      } else */ if (ArmCJoystick.getJoystickThrottle() > .5) {
-      m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
-    } else if (ArmCJoystick.getJoystickThrottle() < -.5) {
-      m_subsystem.ArmMove((ArmCJoystick.getJoystickYWithDeadzone()));
+      } else */ if (m_cjoystick.getJoystickThrottle() > .5) {
+      m_subsystem.ArmMove((m_cjoystick.getJoystickYWithDeadzone()));
+    } else if (m_cjoystick.getJoystickThrottle() < -.5) {
+      m_subsystem.ArmMove((m_cjoystick.getJoystickYWithDeadzone()));
     } else {
       m_subsystem.ArmMove(0);
     }
-    if(ArmCJoystick.joystickButton1Down() == true && ArmCJoystick.joystickButton2Down() == true) { 
+
+    if(m_cjoystick.joystickButton1Down() == true && m_cjoystick.joystickButton2Down() == true) { 
       m_subsystem.Intake(-0.1); //Pull out
-    } else if (ArmCJoystick.joystickButton1Down() == true) { //will change for user
+    } else if (m_cjoystick.joystickButton1Down() == true) { //will change for user
       m_subsystem.Intake(0.1); //Pull out
     } else {
       m_subsystem.Intake(0); //Don't move
     }
+
+      if(m_cjoystick.getJoystickThrottle() > .8 && gripPlace == true){
+        m_subsystem.GripMove(-.2);
+        gripPlace = false;
+      } else if (m_cjoystick.getJoystickThrottle() < -.8 && gripPlace == false){
+        m_subsystem.GripMove(.2);
+        gripPlace = false;
+      } else {
+        m_subsystem.GripMove(0);
+      }
   } //I have no idea what to put here for PID values and such
 
   // Called once the command ends or is interrupted.
