@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
 import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
+import javax.swing.GrayFilter;
 import javax.swing.text.Position;
 import edu.wpi.first.math.MathUtil;
 
@@ -36,16 +37,18 @@ public class ArmCommand extends CommandBase {
   private double LeftStartingPos;
   private double RightStartingPos;
   private final CXbox m_cxbox;
-  private final CJoystick ArmCJoystick;
+  private final CJoystick m_cjoystick;
+  private boolean gripPlace = false;
   /*
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick m_cjoystick) {
+  public ArmCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick ArmCJoystick) {
     m_subsystem = subsystem;
     m_cxbox = ArmCXbox;
-    ArmCJoystick = m_cjoystick;
+    m_cjoystick = ArmCJoystick;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -89,6 +92,16 @@ public class ArmCommand extends CommandBase {
     } else {
       m_subsystem.Intake(0); //Don't move
     }
+
+      if(m_cjoystick.getJoystickThrottle() > .8 && gripPlace == true){
+        m_subsystem.GripMove(-.2);
+        gripPlace = false;
+      } else if (m_cjoystick.getJoystickThrottle() < -.8 && gripPlace == false){
+        m_subsystem.GripMove(.2);
+        gripPlace = false;
+      } else {
+        m_subsystem.GripMove(0);
+      }
   } //I have no idea what to put here for PID values and such
 
   // Called once the command ends or is interrupted.

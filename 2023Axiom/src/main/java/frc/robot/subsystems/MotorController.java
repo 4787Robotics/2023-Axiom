@@ -165,10 +165,11 @@ public class MotorController extends SubsystemBase{
     Arm.set(Movement);
   }
 
-  public void GripMove(boolean UpDown){ //may switch to pid in the future
-    HandUpDown.set(.2);
-    Timer.delay(1);
-    HandUpDown.set(0);
+  public void GripMove(double UpDown){ //may switch to pid in the future
+    HandUpDown.set(UpDown);
+    if (UpDown != 0){
+      Timer.delay(1);
+      HandUpDown.set(0);
+    } 
   }
-
 }
