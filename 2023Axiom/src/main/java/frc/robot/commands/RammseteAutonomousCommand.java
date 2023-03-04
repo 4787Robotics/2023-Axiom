@@ -52,9 +52,9 @@ public class RammseteAutonomousCommand extends CommandBase{
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-   } catch (IOException ex) {
+    } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-   }
+    }
 
     driveTrain = RobotContainer.m_driveTrain;
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
