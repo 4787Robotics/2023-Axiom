@@ -96,6 +96,10 @@ public class Balance extends SubsystemBase{
         return currentLinearHeading;
     }
  
+    public double getTestHeading() {
+        return Math.IEEEremainder(getYaw(), 360);
+    }
+
     /**
      * Gets the AHRS type gyro being used by this object.
      *

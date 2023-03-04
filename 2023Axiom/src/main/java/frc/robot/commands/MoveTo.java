@@ -12,8 +12,9 @@ public class MoveTo extends CommandBase {
   private final DriveTrain driveTrain;
   private double meters; // positive meters = forward while negative meters = backward
 
-  public MoveTo(DriveTrain m_driveTrain, double meters) {
+  public MoveTo(DriveTrain m_driveTrain, double m_meters) {
     driveTrain = m_driveTrain;
+    meters = m_meters;
         
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveTrain);
