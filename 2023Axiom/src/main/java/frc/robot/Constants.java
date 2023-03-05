@@ -32,10 +32,18 @@ public final class Constants {
     public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
     //Motors
-    public static int MOTOR_ARM = 0; //may need to change the Constant for these three later
-    public static int MOTOR_LEFT_GRIP = 1;
-    public static int MOTOR_RIGHT_GRIP = 2;
+    public static int MOTOR_ARM_1 = 5;
+    public static int MOTOR_ARM_2 = 6; //Copies arm 1
+    public static int MOTOR_LEFT_GRIP = 8;
+    public static int MOTOR_RIGHT_GRIP = 7; //does the opposite of left Grip
+    public static int MOTOR_MOVE_GRIP = 9;
+    
+    //Position of where the arm should be for each grid level. (in rotations)
+    public static double LOW_LEVEL = 0; 
+    public static double MID_LEVEL = 9.1230296517; 
+    public static double HIGH_LEVEL = 11.5361827601; 
 
+    //One motor rotation is 1.1680107% of one full arm rotation. (36.288 degrees per rotation)
     
     public static boolean LEFT_SIDE_INVERTED = true;
     public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
@@ -55,7 +63,7 @@ public final class Constants {
     public static final float LEFT_TRIGGER_DEAD_ZONE = 0.1f;
     //Joystick
     public static final float joystickRotDeadzone = 0.1f;
-    public static final float joystickDeadzone = 0.1f;
+    public static final float joystickDeadzone = 0.2f;
 
     //Constants for Autonomous
     public static final double KS_VOLTS = 0;

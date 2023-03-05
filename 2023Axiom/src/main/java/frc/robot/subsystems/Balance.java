@@ -95,6 +95,10 @@ public class Balance extends SubsystemBase{
         updateLinearHeading();
         return currentLinearHeading;
     }
+ 
+    public double getTestHeading() {
+        return Math.IEEEremainder(getYaw(), 360);
+    }
 
     /**
      * Gets the AHRS type gyro being used by this object.
@@ -176,6 +180,6 @@ public class Balance extends SubsystemBase{
                     System.out.println(headingAdjust);
                 }
             }
-        }
+         }
     }
 }

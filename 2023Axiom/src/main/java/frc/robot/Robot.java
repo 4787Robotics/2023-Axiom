@@ -7,14 +7,30 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.Scorekeeper;
 //import frc.robot.subsystems.Scorekeeper;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.subsystems.ScoringArea;
-
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.CXbox;
+import frc.robot.commands.RammseteAutonomousCommand;
+import frc.robot.commands.TestTurnAngle;
+import frc.robot.commands.TurnAngle;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -22,10 +38,20 @@ import frc.robot.subsystems.ScoringArea;
  * project.
  */
 public class Robot extends TimedRobot {
+  private XboxController m_controller;
   private Command m_autonomousCommand;
-  private Command m_teleopCommand;
+  private Command m_driveCommand;
   private Command m_autoAlignAndPlaceCommand;
+  private Command m_cancelPlaceCommand;
+  private Command m_armCommand;
+  private Command m_teleopCommand;
+  private Command m_pathCommand;
   private RobotContainer m_robotContainer;
+  private boolean debounce = true;
+  String trajectoryJSON = "C:/Users/robotics/Documents/GitHub/2023-Axiom/2023Axiom/PathWeaver/pathweaver.wpilib.json";
+  Trajectory trajectory = new Trajectory();
+
+  //private CXbox cxbox = new CXbox();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,13 +61,17 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    m_controller = new XboxController(1);
     m_robotContainer = new RobotContainer();
-    m_teleopCommand = m_robotContainer.getTeleopCommand();
+    m_driveCommand = m_robotContainer.getDriveCommand();
     //m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
+    m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+    m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
+    m_armCommand = m_robotContainer.getArmCommand();
+    m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
+    m_pathCommand = m_robotContainer.getPathCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
-    m_autonomousCommand = m_robotContainer.getAutoAlignAndPlace();
-
-    Shuffleboard.getTab("New Tab").add(m_robotContainer.getBalance().getGyro());
+    
   }
 
   /**
@@ -77,14 +107,16 @@ public class Robot extends TimedRobot {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+      m_pathCommand.cancel();
     }
 
     assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
+    m_pathCommand.schedule();*/
+    TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
-  
 
   /** This function is called periodically during autonomous. */
   @Override
@@ -100,12 +132,34 @@ public class Robot extends TimedRobot {
     if (m_teleopCommand != null) {
       m_teleopCommand.cancel();
     }
+
     m_teleopCommand.schedule();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (m_controller.getStartButtonPressed()) {
+      if (debounce) {
+        debounce = false;
+        if (m_autoAlignAndPlaceCommand.isScheduled()) {
+          m_autoAlignAndPlaceCommand.cancel();
+        }
+        m_autoAlignAndPlaceCommand.schedule();
+        System.out.println("teleopcancel");
+        if (m_teleopCommand != null) {
+          m_teleopCommand.cancel();
+        }
+      }
+    } else if (m_controller.getStartButtonReleased()) {
+      debounce = true;
+    }
+
+    if (!m_autoAlignAndPlaceCommand.isScheduled()) {
+      m_teleopCommand.schedule();
+    }
+      
+  }
 
   @Override
   public void testInit() {

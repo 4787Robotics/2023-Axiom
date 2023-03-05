@@ -4,10 +4,12 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.commands.TurnAngle;
-
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.CXbox;
 import frc.robot.Constants;
 import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.DriveTrain;
@@ -20,6 +22,7 @@ public class AutoAlignAndPlace extends CommandBase {
   private final Balance balance;
   private final DriveTrain driveTrain;
   private final LimeLight limeLight;
+  private final XboxController xbox;
   private final double fieldOfViewX = 63.3;
   private final double fieldOfViewY = 49.7;
   private long startTime;
@@ -28,21 +31,28 @@ public class AutoAlignAndPlace extends CommandBase {
   private final double[] initialTags = {0,0,0,0};
   private boolean isCheckingForAllAprilTags;
   private volatile boolean isFindingClosestAprilTag;
+  private double distanceToParallelTag = 0;
+  private double distanceToPerpendicularTag = 0;
+  private Command teleopCommand;
+  private double distanceToTag = 0;
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param LL The subsystem used by this command.
+   * @param m_limeLight The subsystem used by this command.
    */
-  public AutoAlignAndPlace(LimeLight LL, DriveTrain DT, Balance B) {
-    driveTrain = DT;
-    balance = B;
-    limeLight = LL;
+  public AutoAlignAndPlace(LimeLight m_limeLight, DriveTrain m_driveTrain, Balance m_balance, Command m_teleopCommand, XboxController m_cXbox) {
+    teleopCommand = m_teleopCommand;
+    xbox = m_cXbox;
+    driveTrain = m_driveTrain;
+    balance = m_balance;
+    limeLight = m_limeLight;
     isCheckingForAllAprilTags = false;
     isFindingClosestAprilTag = false;
     tagsFound = initialTags;
+    limeLight.setTeleopCommand(teleopCommand);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(LL);
+    addRequirements(m_limeLight);
   }
 
   private void restartTimer() {
@@ -95,14 +105,15 @@ public class AutoAlignAndPlace extends CommandBase {
   @Override
   public void initialize() {
     double closestId = findClosestAprilTagId(); //find closest tag
-    double distanceToTag = 0;
+
     double distanceTravelled = 0;
     double heldAngle = 0;
     double heldTurnAngle = 0;
-    double distanceToParallelTag = 0;
-    double distanceToPerpendicularTag = 0;
+
     TurnAngle turnAngle;
     MoveTo moveTo;
+
+    double testLLX = 10;
 
     /*
     - decide which target to choose
@@ -127,34 +138,44 @@ public class AutoAlignAndPlace extends CommandBase {
       cancel();
       System.out.println("No AprilTag Found");
     }
-    SmartDashboard.putNumber("Distance", distanceToTag);
+    System.out.println("balance: " + balance.getHeading());
+
+    double adjustedBalance = balance.getHeading();
+    if (balance.getHeading() > 0) {
+      adjustedBalance = balance.getHeading();
+    } else {
+      adjustedBalance = Math.abs(balance.getHeading()) + 180;
+    }
 
     if (limeLight.getXAngle() > 0) {
-      heldTurnAngle =  balance.getHeading() - 90;
-      heldAngle = (balance.getHeading() + limeLight.getXAngle()) - 90;
-      turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
-      turnAngle.schedule();
+      heldTurnAngle =  adjustedBalance - 90.0;
+      heldAngle = heldTurnAngle + limeLight.getXAngle();
+      //turnAngle = new TurnAngle(driveTrain, balance, -heldTurnAngle);
+      //turnAngle.schedule();
     } else {
-      heldTurnAngle =  (360 - balance.getHeading()) - 90;
-      heldAngle = ((360 - balance.getHeading()) + limeLight.getXAngle()) - 90;
-
-      turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
-      turnAngle.schedule();
+      heldTurnAngle =  adjustedBalance - 270;
+      heldAngle = heldTurnAngle + limeLight.getXAngle();
+      //turnAngle = new TurnAngle(driveTrain, balance, heldTurnAngle);
+      //turnAngle.schedule();
     }
+
+    System.out.println(heldTurnAngle);
+    System.out.println(heldAngle);
 
     distanceToPerpendicularTag = Math.sin(Math.toRadians(heldAngle)) * distanceToTag;
     distanceToParallelTag = Math.cos(Math.toRadians(heldAngle)) * distanceToTag;
-
-    while (!turnAngle.isFinished()) {
-      Thread.onSpinWait();
-    }
     System.out.println("distanceToTag" + distanceToTag);
     System.out.println("distanceToPerpendicularTag" + distanceToPerpendicularTag);
     System.out.println("distanceToParallelTag" + distanceToParallelTag);
 
-    cancel();
-
-    //drive distanceToParallelTag
+    SmartDashboard.putNumber("distanceToTag", distanceToTag);
+    SmartDashboard.putNumber("distanceToParallelTag", distanceToParallelTag);
+    SmartDashboard.putNumber("distanceToPerpendicularTag", distanceToPerpendicularTag);
+    /*while (turnAngle.isScheduled) {
+      Thread.onSpinWait();
+    }*/
+    
+    //drive distanceToParallelTag + 
     /*moveTo = new MoveTo(driveTrain, balance, distanceToParallelTag);
     moveTo.schedule();
     while (!moveTo.isFinished()) {
@@ -164,6 +185,8 @@ public class AutoAlignAndPlace extends CommandBase {
 
     //forward/backward adjust
     //arm command
+
+    cancel();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

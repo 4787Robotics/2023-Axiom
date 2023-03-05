@@ -36,6 +36,7 @@ public class TurnAngle extends CommandBase {
   public void execute() {
     if (balance.getLinearHeading() < headingTo + 1 && balance.getLinearHeading() > headingTo - 1) {
       driveTrain.driveRobot(false, 0, 0);
+      this.cancel();
     }
     else {
       double speed = MathUtil.clamp(balance.calculatePID(balance.getLinearHeading(), headingTo), -0.5, 0.5);

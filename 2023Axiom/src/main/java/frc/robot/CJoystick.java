@@ -130,10 +130,10 @@ public class CJoystick {
     }
     //Joystick Throttle
     public double getJoystickThrottle(){
-            if(joystick.getThrottle() != 1){
+            if(joystick.getThrottle() >= 0.2 || joystick.getThrottle()<= -0.2){
                
             return joystick.getThrottle();
             }
-        return 1;
+        return 0;
     }
 }

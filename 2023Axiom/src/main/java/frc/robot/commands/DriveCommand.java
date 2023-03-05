@@ -20,16 +20,18 @@ import java.util.concurrent.TimeUnit;
 import javax.lang.model.util.ElementScanner6;
 
 public class DriveCommand extends CommandBase {
-  static CXbox Xbox = new CXbox();
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain driveTrain;
+  private final CXbox cxbox;
   /**
    * Creates a new ExampleCommand.
    *
    * @param m_DriveTrain The subsystem used by this command.
    */
-  public DriveCommand(DriveTrain m_DriveTrain) {
+  public DriveCommand(DriveTrain m_DriveTrain, CXbox m_cxbox) {
     driveTrain = m_DriveTrain;
+    cxbox = m_cxbox;
+
         
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_DriveTrain);
@@ -45,7 +47,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive.arcadeDrive(Xbox.getLeftStickYWithDeadzone(), Xbox.getRightStickXWithDeadzone());
+    driveTrain.driveRobot(true, cxbox.getLeftStickYWithDeadzone()/1.3, cxbox.getRightStickXWithDeadzone()/1.3);
     // if(controller.getLeftY()>0.7f || controller.getLeftY()<-0.7f || controller.getRightX() > 0.7f || controller.getRightX() < -0.7f){
     //   driveTrain.drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
     // }

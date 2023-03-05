@@ -6,30 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.Constants;
-import frc.robot.subsystems.Balance;
-
-import javax.lang.model.util.ElementScanner14;
-
-import edu.wpi.first.math.MathUtil;
-
-import edu.wpi.first.wpilibj.RobotController;
 
 public class MoveTo extends CommandBase {
   /** Creates a new TurnAngle. */
   private final DriveTrain driveTrain;
-  private Balance balance;
   private double meters; // positive meters = forward while negative meters = backward
-  private double headingTo;
-  private double millisecondsToRun; // This should run 1000ms = 1 s.
-  private double initTime = RobotController.getFPGATime();
 
-  public MoveTo(DriveTrain m_driveTrain, Balance m_balance, double meters) {
+  public MoveTo(DriveTrain m_driveTrain, double m_meters) {
     driveTrain = m_driveTrain;
-    balance = m_balance;
+    meters = m_meters;
         
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_driveTrain, m_balance);
+    addRequirements(m_driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -41,19 +29,14 @@ public class MoveTo extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    millisecondsToRun = (meters/Constants.KV_VOLT_SECONDS_PER_METER)/1000;
-    while(RobotController.getFPGATime() - initTime <= millisecondsToRun) {
-        if (meters > 0) {
-            driveTrain.driveRobot(false, 0.1, 0);
-        }
-        else if (meters < 0) {
-            driveTrain.driveRobot(false, 0.1, 0);
-        }
-        else {
-            driveTrain.driveRobot(false, 0, 0);
-        }
-      }
+    if (meters < DriveTrain.m_right1.getSelectedSensorPosition()){
+      driveTrain.drive.arcadeDrive(0.5, 0);
     }
+    if (meters > DriveTrain.m_right1.getSelectedSensorPosition()){
+      driveTrain.drive.arcadeDrive(0, 0);
+      driveTrain.resetEncoders();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
