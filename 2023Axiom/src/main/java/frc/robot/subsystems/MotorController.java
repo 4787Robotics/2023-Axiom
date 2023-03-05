@@ -139,8 +139,8 @@ public class MotorController extends SubsystemBase{
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
-      SmartDashboard.putNumber("Arm Angle", LeftEncoder.getPosition());
-      SmartDashboard.putNumber("Arm Angle", RightEncoder.getPosition());
+      SmartDashboard.putNumber("LeftHand Angle", LeftEncoder.getPosition());
+      SmartDashboard.putNumber("RightHand Angle", RightEncoder.getPosition());
   }
   
   public void Intake(double Direction){
@@ -150,14 +150,14 @@ public class MotorController extends SubsystemBase{
 
   public void LeftHandMove(double Direction, boolean resetPOS){
     if (resetPOS && Direction > .025){ //Will slow until reaching starting position
-      Direction = MathUtil.clamp(Direction/5, 0, .8);
+      Direction = MathUtil.clamp(Direction, 0, .75);
     }
     LeftHand.set(Direction);  
   }
 
   public void RightHandMove(double Direction, boolean resetPOS){
     if (resetPOS && Direction > .025){ //Will slow until reaching starting position
-      Direction = MathUtil.clamp(Direction/5, 0, .8);
+      Direction = MathUtil.clamp(Direction, 0, .75);
     }
     RightHand.set(Direction);
   }
@@ -174,10 +174,10 @@ public class MotorController extends SubsystemBase{
   } */
 
   public void ArmMove(double Movement){
-    Arm.set(Movement);
+    Arm.set(Movement/3);
   }
 
-  public void GripMove(double UpDown){ //may switch to pid in the future
+  public void GripMove(double UpDown){
     HandUpDown.set(UpDown);
   }
 }
