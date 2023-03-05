@@ -82,13 +82,13 @@ public class ArmCommand extends CommandBase {
     m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone()*-1);
 
     if(m_cJoystick.joystickButton2Down() == true) { //will change for user
-      m_subsystem.Intake(-0.1); //Ungrab
+      m_subsystem.Intake(-0.25); //Ungrab
     } else if (m_cJoystick.joystickButton1Down() == true) { 
-      m_subsystem.Intake(0.1); //Grab
+      m_subsystem.Intake(0.25); //Grab
     } else if (m_cJoystick.joystickButton3Down()) {
-      m_subsystem.LeftHandMove(-0.1, false);
+      m_subsystem.LeftHandMove(-0.25, false);
     } else if (m_cJoystick.joystickButton4Down()) {
-      m_subsystem.RightHandMove(-0.1, false);
+      m_subsystem.RightHandMove(-0.25, false);
     } else if (m_cJoystick.joystickButton5Down()) {
       m_subsystem.LeftHandMove(Math.abs(LeftEncoderC.getPosition() - LeftStartingPos), true);
     } else if (m_cJoystick.joystickButton6Down()) {

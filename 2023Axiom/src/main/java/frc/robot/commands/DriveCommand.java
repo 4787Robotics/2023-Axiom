@@ -47,7 +47,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.driveRobot(true, cxbox.getLeftStickYWithDeadzone()/1.3, cxbox.getRightStickXWithDeadzone()/1.3);
+    driveTrain.driveRobot(true, cxbox.getLeftStickYWithDeadzone()/1.1, cxbox.getRightStickXWithDeadzone()/1.1);
     // if(controller.getLeftY()>0.7f || controller.getLeftY()<-0.7f || controller.getRightX() > 0.7f || controller.getRightX() < -0.7f){
     //   driveTrain.drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
     // }
