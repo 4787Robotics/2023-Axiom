@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-//import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.CJoystick;
 import frc.robot.CXbox;
@@ -35,7 +35,7 @@ public class Scorekeeper {
         SmartDashboard.putBoolean("B12", Joystick.joystickButton12Down() );
     //*/
 //Xbox Controller\
-    /*
+    //*
     //Movable Stuff
         SmartDashboard.putNumber("LSX", Xbox.getLeftStickXWithDeadzone() );
         SmartDashboard.putNumber("LSY", Xbox.getLeftStickYWithDeadzone() );
@@ -58,7 +58,6 @@ public class Scorekeeper {
     //*/
     //score
         SmartDashboard.putString("Chosen Position", score.goalKeeperPos());
-        SmartDashboard.putBoolean("test val", score.goalKeeperVal());
         
         SmartDashboard.putBoolean("0,0,0", score.goal(0,0,0));
         SmartDashboard.putBoolean("0,0,1", score.goal(0,0,1));

@@ -6,14 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class CJoystick {
     Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
-    QOL qol2 = new QOL();
-    QOL qol3 = new QOL();
-    QOL qol4 = new QOL();
-    QOL qol5 = new QOL();
-    QOL qol6 = new QOL();
-    QOL qol7 = new QOL();
-    QOL qol9 = new QOL();
-    QOL qol11 = new QOL();
+
     public CJoystick() {
 
     }

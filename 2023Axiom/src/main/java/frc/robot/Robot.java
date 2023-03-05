@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.Scorekeeper;
-import frc.robot.subsystems.ScoringArea;
 //import frc.robot.subsystems.Scorekeeper;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import com.kauailabs.navx.frc.AHRS;
@@ -142,7 +141,6 @@ public class Robot extends TimedRobot {
     CXbox.getRightStickXWithDeadzone();
     CXbox.getRightStickYWithDeadzone();
     //*/
-
     /*
     CJoystick.getJoystickPOV();
     CJoystick.getJoystickXWithDeadzone();

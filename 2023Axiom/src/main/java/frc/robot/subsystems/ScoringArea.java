@@ -1,12 +1,11 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Constants;
+import frc.robot.CJoystick;
 import frc.robot.QOL;
 
 
 public class ScoringArea{
-    static Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+    static CJoystick joystick = new CJoystick();
     static QOL qol1 = new QOL();
     static QOL qol7 = new QOL();
     static QOL qol9 = new QOL();
@@ -28,8 +27,8 @@ public class ScoringArea{
 
         boolean currentGoal = goals[column][row][cell];
 
-        if(joystick.getRawButtonPressed(1)){
-            goals[column][row][cell] = !currentGoal;
+        if(joystick.joystickButton1Down()){
+            goals[column][row][cell] = !goals[column][row][cell];
         }
 
         return goals[column][row][cell];
