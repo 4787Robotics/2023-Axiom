@@ -79,9 +79,9 @@ public class ArmCommand extends CommandBase {
     //     m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 ); //High point
     //   } else 
 
-    m_subsystem.ArmMove((m_cJoystick.getJoystickYWithDeadzone()));
+    m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone()*-1);
 
-    if(m_cJoystick.joystickButton1Down() == true && m_cJoystick.joystickButton2Down() == true) { //will change for user
+    if(m_cJoystick.joystickButton2Down() == true) { //will change for user
       m_subsystem.Intake(-0.1); //Ungrab
     } else if (m_cJoystick.joystickButton1Down() == true) { 
       m_subsystem.Intake(0.1); //Grab
@@ -108,7 +108,7 @@ public class ArmCommand extends CommandBase {
     } else {
       m_subsystem.GripMove(0);
     }
-  } //I have no idea what to put here for PID values and such
+  }
 
   // Called once the command ends or is interrupted.
   @Override
