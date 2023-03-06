@@ -28,7 +28,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.RelativeEncoder;
 /** An example command that uses an example subsystem. */
-public class ArmCommand extends CommandBase {
+public class ArmPIDCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
   private RelativeEncoder ArmEncoderC; 
@@ -44,7 +44,7 @@ public class ArmCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick ArmCJoystick) {
+  public ArmPIDCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick ArmCJoystick) {
     m_subsystem = subsystem;
     m_cXbox = ArmCXbox;
     m_cJoystick = ArmCJoystick;
@@ -68,38 +68,18 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
 
-
-    m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone()*-1);
-
-    if(m_cJoystick.joystickButton2Down() == true) { //will change for user
-      m_subsystem.Intake(-0.1); //Ungrab
-    } else if (m_cJoystick.joystickButton1Down() == true) { 
-      m_subsystem.Intake(0.1); //Grab
-    } else if (m_cJoystick.joystickButton3Down()) {
-      m_subsystem.LeftHandMove(-0.1, false);
-    } else if (m_cJoystick.joystickButton4Down()) {
-      m_subsystem.RightHandMove(-0.1, false);
-    } else if (m_cJoystick.joystickButton5Down()) {
-      m_subsystem.LeftHandMove(Math.abs(LeftEncoderC.getPosition() - LeftStartingPos), true);
-    } else if (m_cJoystick.joystickButton6Down()) {
-      m_subsystem.RightHandMove(Math.abs(RightEncoderC.getPosition() - RightStartingPos), true);
-    } else {
-      m_subsystem.Intake(0);
-      m_subsystem.LeftHandMove(0, false); 
-      m_subsystem.RightHandMove(0, false); //Don't move all
-    }
-
-    if(m_cJoystick.getJoystickThrottle() > .8 && gripPlace == true){
-      m_subsystem.GripMove(-.2);
-      gripPlace = false;
-    } else if (m_cJoystick.getJoystickThrottle() < -.8 && gripPlace == false){
-      m_subsystem.GripMove(.2);
-      gripPlace = true;
-    } else {
-      m_subsystem.GripMove(0);
+    if (ArmEncoderC.getPosition() > 4) {
+        m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
+        } else {
+        if( m_cJoystick.joystickButton12Down()) { 
+            m_subsystem.ArmPID(Constants.LOW_LEVEL, 0); //Low Point AKA Grounded
+        } else if ( m_cJoystick.joystickButton10Down()) {
+            m_subsystem.ArmPID(Constants.MID_LEVEL, 1); //Mid point
+        } else if ( m_cJoystick.joystickButton8Down()) {
+            m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 ); //High point
+        }
     }
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
