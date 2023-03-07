@@ -20,6 +20,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -32,6 +33,7 @@ public class MotorController extends SubsystemBase{
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
   public WPI_TalonFX HandUpDown;
+  public WPI_VictorSPX ArmHolder;
   public RelativeEncoder ArmEncoder; 
   public RelativeEncoder LeftEncoder; 
   public RelativeEncoder RightEncoder; 
@@ -132,8 +134,14 @@ public class MotorController extends SubsystemBase{
 
   HandUpDown = new WPI_TalonFX(Constants.MOTOR_MOVE_GRIP);
   HandUpDown.enableVoltageCompensation(true);
-  HandUpDown.setInverted(TalonFXInvertType.Clockwise); 
+  HandUpDown.setInverted(true); 
   HandUpDown.setNeutralMode(NeutralMode.Brake);
+
+
+  ArmHolder = new WPI_VictorSPX(Constants.MOTOR_ARM_HOLD);
+  ArmHolder.enableVoltageCompensation(true);
+  ArmHolder.setInverted(false);
+  ArmHolder.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -180,4 +188,8 @@ public class MotorController extends SubsystemBase{
   public void GripMove(double UpDown){
     HandUpDown.set(UpDown);
   }
+  /* may never use
+  public void ArmHolderStart(){
+      ArmHolder.set(.2);
+  } */
 }

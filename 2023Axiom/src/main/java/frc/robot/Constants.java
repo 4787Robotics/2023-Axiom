@@ -36,7 +36,8 @@ public final class Constants {
     public static int MOTOR_ARM_2 = 6; //Copies arm 1
     public static int MOTOR_LEFT_GRIP = 8;
     public static int MOTOR_RIGHT_GRIP = 7; //does the opposite of left Grip
-    public static int MOTOR_MOVE_GRIP = 9;
+    public static int MOTOR_MOVE_GRIP = 10; //Snow Blower
+    public static int MOTOR_ARM_HOLD = 9; //Starting motor
     
     //Position of where the arm should be for each grid level. (in rotations)
     public static double LOW_LEVEL = 0; 
