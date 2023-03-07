@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
   private Command m_cancelPlaceCommand;
   private Command m_armCommand;
   private Command m_teleopCommand;
+  private Command m_armPIDCommand;
   private Command m_pathCommand;
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
     m_armCommand = m_robotContainer.getArmCommand();
     m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
     m_pathCommand = m_robotContainer.getPathCommand();
+    m_armPIDCommand = m_robotContainer.getArmPIDCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     
   }

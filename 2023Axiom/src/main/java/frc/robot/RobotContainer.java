@@ -19,7 +19,7 @@ import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
 import frc.robot.commands.ArmCommand;
-
+import frc.robot.commands.ArmPIDCommand;
 import frc.robot.subsystems.Balance;
 
 /**
@@ -43,6 +43,7 @@ public class RobotContainer {
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_driveCommand, m_xboxController);
   private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
+  private final static ArmPIDCommand m_armPIDCommand = new ArmPIDCommand(m_motorController, m_cxbox, m_joystick);
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
 
   /**
@@ -92,6 +93,10 @@ public class RobotContainer {
 
   public Command getArmCommand() {
     return m_armCommand;
+  }
+
+  public Command getArmPIDCommand() {
+    return m_armPIDCommand;
   }
 
   public MotorController getMotorController() {
