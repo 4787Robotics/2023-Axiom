@@ -30,6 +30,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.CXbox;
 import frc.robot.commands.RammseteAutonomousCommand;
+import frc.robot.commands.TestTurnAngle;
+import frc.robot.commands.TurnAngle;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -70,7 +72,6 @@ public class Robot extends TimedRobot {
     m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
     m_pathCommand = m_robotContainer.getPathCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
-
     
   }
 
@@ -107,14 +108,15 @@ public class Robot extends TimedRobot {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
       m_pathCommand.cancel();
     }
 
     assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
-    m_pathCommand.schedule();
+    m_pathCommand.schedule();*/
+    TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
 
   /** This function is called periodically during autonomous. */

@@ -72,25 +72,31 @@ public class ArmCommand extends CommandBase {
     //   m_subsystem.ArmPID(Constants.HIGH_LEVEL, 2);
     // } else {
     //   if( ArmCJoystick.joystickButton12Down()) { 
-    //     m_subsystem.ArmPID(Constants.LOW_LEVEL, 0);//Low Point AKA Grounded
+    //     m_subsystem.ArmPID(Constants.LOW_LEVEL, 0); //Low Point AKA Grounded
     //   } else if ( ArmCJoystick.joystickButton10Down()) {
-    //     m_subsystem.ArmPID(Constants.MID_LEVEL, 1);//Mid point
+    //     m_subsystem.ArmPID(Constants.MID_LEVEL, 1); //Mid point
     //   } else if ( ArmCJoystick.joystickButton8Down()) {
-    //     m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 );//High point
+    //     m_subsystem.ArmPID(Constants.HIGH_LEVEL,2 ); //High point
     //   } else 
 
-    m_subsystem.ArmMove((m_cJoystick.getJoystickYWithDeadzone()));
+    m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone()*-1);
 
-    if(m_cJoystick.joystickButton1Down() == true && m_cJoystick.joystickButton2Down() == true) { //will change for user
-      m_subsystem.Intake(-0.1); //Pull out
+    if(m_cJoystick.joystickButton2Down() == true) { //will change for user
+      m_subsystem.Intake(-0.1); //Ungrab
     } else if (m_cJoystick.joystickButton1Down() == true) { 
-      m_subsystem.Intake(0.1); //Pull in
+      m_subsystem.Intake(0.1); //Grab
     } else if (m_cJoystick.joystickButton3Down()) {
-      m_subsystem.LeftHandMove(-0.1);
+      m_subsystem.LeftHandMove(-0.1, false);
     } else if (m_cJoystick.joystickButton4Down()) {
-      m_subsystem.RightHandMove(-0.1);
+      m_subsystem.RightHandMove(-0.1, false);
+    } else if (m_cJoystick.joystickButton5Down()) {
+      m_subsystem.LeftHandMove(Math.abs(LeftEncoderC.getPosition() - LeftStartingPos), true);
+    } else if (m_cJoystick.joystickButton6Down()) {
+      m_subsystem.RightHandMove(Math.abs(RightEncoderC.getPosition() - RightStartingPos), true);
     } else {
-      m_subsystem.Intake(0); //Don't move
+      m_subsystem.Intake(0);
+      m_subsystem.LeftHandMove(0, false); 
+      m_subsystem.RightHandMove(0, false); //Don't move all
     }
 
     if(m_cJoystick.getJoystickThrottle() > .8 && gripPlace == true){
@@ -98,11 +104,11 @@ public class ArmCommand extends CommandBase {
       gripPlace = false;
     } else if (m_cJoystick.getJoystickThrottle() < -.8 && gripPlace == false){
       m_subsystem.GripMove(.2);
-      gripPlace = false;
+      gripPlace = true;
     } else {
       m_subsystem.GripMove(0);
     }
-  } //I have no idea what to put here for PID values and such
+  }
 
   // Called once the command ends or is interrupted.
   @Override

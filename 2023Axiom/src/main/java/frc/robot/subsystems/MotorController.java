@@ -35,6 +35,8 @@ public class MotorController extends SubsystemBase{
   public RelativeEncoder ArmEncoder; 
   public RelativeEncoder LeftEncoder; 
   public RelativeEncoder RightEncoder; 
+  private double LeftStartingPos;
+  private double RightStartingPos;
   private SparkMaxPIDController PID; 
   private static double AkP;
   private static double AkI;
@@ -109,9 +111,11 @@ public class MotorController extends SubsystemBase{
   LeftHand = new CANSparkMax(Constants.MOTOR_LEFT_GRIP, MotorType.kBrushless);
   LeftHand.setInverted(true);
   LeftEncoder = LeftHand.getEncoder();
+  LeftStartingPos = LeftEncoder.getPosition();
   RightHand = new CANSparkMax(Constants.MOTOR_RIGHT_GRIP, MotorType.kBrushless);
   RightHand.setInverted(false);
   RightEncoder = RightHand.getEncoder();
+  RightStartingPos = RightEncoder.getPosition();
 
   Arm.setIdleMode(IdleMode.kBrake);
   Arm2.setIdleMode(IdleMode.kBrake);
@@ -120,8 +124,8 @@ public class MotorController extends SubsystemBase{
 
 
     // limits acceleration, takes 0.2 seconds to accelerate from 0 to 100%
-  Arm.setOpenLoopRampRate(0); 
-  Arm2.setOpenLoopRampRate(0); 
+  Arm.setOpenLoopRampRate(0.25); 
+  Arm2.setOpenLoopRampRate(0.25); 
   LeftHand.setOpenLoopRampRate(0.2); 
   RightHand.setOpenLoopRampRate(0.2); 
   
@@ -135,6 +139,8 @@ public class MotorController extends SubsystemBase{
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
+      SmartDashboard.putNumber("LeftHand Angle", LeftEncoder.getPosition());
+      SmartDashboard.putNumber("RightHand Angle", RightEncoder.getPosition());
   }
   
   public void Intake(double Direction){
@@ -142,34 +148,36 @@ public class MotorController extends SubsystemBase{
     RightHand.set(Direction);
   }
 
-  public void LeftHandMove(double Direction){
+  public void LeftHandMove(double Direction, boolean resetPOS){
+    if (resetPOS && Direction > .025){ //Will slow until reaching starting position
+      Direction = MathUtil.clamp(Direction, 0, .75);
+    }
     LeftHand.set(Direction);  
   }
 
-  public void RightHandMove(double Direction){
+  public void RightHandMove(double Direction, boolean resetPOS){
+    if (resetPOS && Direction > .025){ //Will slow until reaching starting position
+      Direction = MathUtil.clamp(Direction, 0, .75);
+    }
     RightHand.set(Direction);
   }
-
-  // public SparkMaxPIDController getArmPID() {
-  //   return PID;
-  // }
-  // public void ArmPID(double goalPoint, int newPointNum) {
-  //   if (currentPointNum != newPointNum){
-  //     currentPointNum = newPointNum;
-  //     Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
-  //   }
-  //   Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
-  // } 
+  /*
+  public SparkMaxPIDController getArmPID() {
+    return PID;
+  }
+  public void ArmPID(double goalPoint, int newPointNum) {
+    if (currentPointNum != newPointNum){
+     currentPointNum = newPointNum;
+      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
+    }
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
+  } */
 
   public void ArmMove(double Movement){
-    Arm.set(Movement);
+    Arm.set(Movement/3);
   }
 
-  public void GripMove(double UpDown){ //may switch to pid in the future
+  public void GripMove(double UpDown){
     HandUpDown.set(UpDown);
-    if (UpDown != 0){
-      Timer.delay(1);
-      HandUpDown.set(0);
-    } 
   }
 }
