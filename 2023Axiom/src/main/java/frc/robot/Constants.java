@@ -92,4 +92,29 @@ public final class Constants {
     public static final double K_GEAR_RATIO = 0;
     public static final double K_ENCODER_COUNTS_PER_FULL_WHEEL_TURN = K_GEAR_RATIO*K_ENCODER_CPR;
     public static final double K_DISTANCE_PER_ENCODER_COUNT = (K_WHEEL_DIAMETER_METERS * Math.PI) / K_ENCODER_COUNTS_PER_FULL_WHEEL_TURN;
+
+    public final int path1 = 1;
+    public final int path2 = 2;
+    public final int path3 = 3;
+    public final int path4 = 4;
+    public final int path5 = 5;
+    public final int path6 = 6;
+    public final int path7 = 7;
+    public final int path8 = 8;
+    public final int path9 = 9;
+    public final int path10 = 10;
+    public final int path11 = 11;
+    /*
+    1 = getCone2a
+    2 = getCone2b
+    3 = getCone2a
+    4 = getCone2b
+    5 = placeCone2a
+    6 = placeCone2b
+    7 = placeCone2a
+    8 = placeCone2b
+    9 = preloadedCone2a
+    10 = preloadedCone2b
+    11 = Unnamed
+    */
 }

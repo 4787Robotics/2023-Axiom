@@ -4,6 +4,8 @@ package frc.robot.commands;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Robot;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,23 +41,49 @@ public class RammseteAutonomousCommand extends CommandBase{
   public DriveTrain driveTrain;
   Pose2d initialPose;
   public TrajectoryConfig config;
-  String trajectoryJSON = "C:/Users/robotics/Documents/GitHub/2023-Axiom/2023Axiom/PathWeaver/pathweaver.wpilib.json";
   Trajectory trajectory = new Trajectory();
 
   /**
   * Creates a new RammseteAutonomousCommand.
   *
   * @param subsystem The subsystem used by this command.
-   * @return 
+  * @param pathNumber The number that decides the path the robot is going to follow
+   * @return the path and then stops the robot
   */
-  public RammseteAutonomousCommand(DriveTrain subsystem) {
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+  public Command RammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
+    if (pathNumber == 1) {
+      trajectory = Robot.trajectoryArray.get(0);
     }
-
+    if (pathNumber == 2) {
+      trajectory = Robot.trajectoryArray.get(1);
+    }
+    if (pathNumber == 3) {
+      trajectory = Robot.trajectoryArray.get(2);
+    }
+    if (pathNumber == 4) {
+      trajectory = Robot.trajectoryArray.get(3);
+    }
+    if (pathNumber == 5) {
+      trajectory = Robot.trajectoryArray.get(4);
+    }
+    if (pathNumber == 6) {
+      trajectory = Robot.trajectoryArray.get(5);
+    }
+    if (pathNumber == 7) {
+      trajectory = Robot.trajectoryArray.get(6);
+    }
+    if (pathNumber == 8) {
+      trajectory = Robot.trajectoryArray.get(7);
+    }
+    if (pathNumber == 9) {
+      trajectory = Robot.trajectoryArray.get(8);
+    }
+    if (pathNumber == 10) {
+      trajectory = Robot.trajectoryArray.get(9);
+    }
+    if (pathNumber == 11) {
+      trajectory = Robot.trajectoryArray.get(10);
+    }
     driveTrain = RobotContainer.m_driveTrain;
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(Constants.KS_VOLTS,
@@ -69,21 +97,7 @@ public class RammseteAutonomousCommand extends CommandBase{
         .setKinematics(Constants.K_DRIVE_KINEMATICS) //ensures max speed is actually obeyed
         .addConstraint(autoVoltageConstraint)
         .setReversed(false); //voltage constraint
-}
-public void resetOdometryInitialPose() {
-  driveTrain.resetOdometry(initialPose);
-}
 
-
-    // An ExampleCommand will run in autonomous  
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     initialPose = trajectory.getInitialPose();
 
     RamseteCommand autonomousCommand = new RamseteCommand(
@@ -101,9 +115,20 @@ public void resetOdometryInitialPose() {
       driveTrain::tankDriveVolts,
       driveTrain
     );
-      driveTrain.resetOdometry(trajectory.getInitialPose());
-      //wpiLIB has it as a return function because they're not using a void function to call the autonomous command
-      autonomousCommand.andThen(() -> driveTrain.tankDriveVolts(0,0));
+    driveTrain.resetOdometry(trajectory.getInitialPose());
+    return autonomousCommand.andThen(() -> driveTrain.tankDriveVolts(0,0));
+}
+public void resetOdometryInitialPose() {
+  driveTrain.resetOdometry(initialPose);
+}
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
   }
 
   // Called once the command ends or is interrupted.
@@ -116,3 +141,9 @@ public void resetOdometryInitialPose() {
     return false;
   }
 }
+
+/*
+put all the paths in constants
+assign a number
+create if statements of 
+*/
