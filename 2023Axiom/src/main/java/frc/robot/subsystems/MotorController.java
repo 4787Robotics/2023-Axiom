@@ -51,7 +51,7 @@ public class MotorController extends SubsystemBase{
     // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
-  /* PID = Arm.getPIDController();
+  PID = Arm.getPIDController();
 
   // PID coefficients
   AkP = 0.05; 
@@ -81,8 +81,8 @@ public class MotorController extends SubsystemBase{
   SmartDashboard.putNumber("Set Rotations", 0);
 
   // read PID coefficients from SmartDashboard
-  double p = SmartDashboard.getNumber("P Gain", 0);
-  double i = SmartDashboard.getNumber("I Gain", 0);
+  double p = SmartDashboard.getNumber("P Gain", .05);
+  double i = SmartDashboard.getNumber("I Gain", .02);
   double d = SmartDashboard.getNumber("D Gain", 0);
   double iz = SmartDashboard.getNumber("I Zone", 0);
   double ff = SmartDashboard.getNumber("Feed Forward", 0);
@@ -102,7 +102,7 @@ public class MotorController extends SubsystemBase{
   }
 
   PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
-  */
+  
 
   Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
   Arm2.follow(Arm);
@@ -139,8 +139,8 @@ public class MotorController extends SubsystemBase{
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
-      SmartDashboard.putNumber("LeftHand Angle", LeftEncoder.getPosition());
-      SmartDashboard.putNumber("RightHand Angle", RightEncoder.getPosition());
+      SmartDashboard.putNumber("LeftArm Angle", LeftEncoder.getPosition());
+      SmartDashboard.putNumber("RightArm Angle", RightEncoder.getPosition());
   }
   
   public void Intake(double Direction){
@@ -150,31 +150,31 @@ public class MotorController extends SubsystemBase{
 
   public void LeftHandMove(double Direction, boolean resetPOS){
     if (resetPOS && Direction > .025){ //Will slow until reaching starting position
-      Direction = MathUtil.clamp(Direction, 0, .75);
+      Direction = MathUtil.clamp(Direction, 0, .65);
     }
     LeftHand.set(Direction);  
   }
 
   public void RightHandMove(double Direction, boolean resetPOS){
     if (resetPOS && Direction > .025){ //Will slow until reaching starting position
-      Direction = MathUtil.clamp(Direction, 0, .75);
+      Direction = MathUtil.clamp(Direction, 0, .65);
     }
     RightHand.set(Direction);
   }
-  /*
+  
   public SparkMaxPIDController getArmPID() {
     return PID;
   }
   public void ArmPID(double goalPoint, int newPointNum) {
     if (currentPointNum != newPointNum){
-     currentPointNum = newPointNum;
+      currentPointNum = newPointNum;
       Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
     }
-    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
-  } */
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.25));
+  }
 
   public void ArmMove(double Movement){
-    Arm.set(Movement/3);
+    Arm.set(Movement/2.5); //Change this for more motor power
   }
 
   public void GripMove(double UpDown){
