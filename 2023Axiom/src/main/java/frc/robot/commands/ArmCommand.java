@@ -93,15 +93,15 @@ public class ArmCommand extends CommandBase {
       m_subsystem.Intake(0); //Don't move
     }
 
-      if(m_cJoystick.getJoystickThrottle() > .8 && gripPlace == true){
-        m_subsystem.GripMove(-.2);
-        gripPlace = false;
-      } else if (m_cJoystick.getJoystickThrottle() < -.8 && gripPlace == false){
-        m_subsystem.GripMove(.2);
-        gripPlace = false;
-      } else {
-        m_subsystem.GripMove(0);
-      }
+    if(m_cJoystick.getJoystickThrottle() > .8 && gripPlace == true){
+      m_subsystem.GripMove(-.2);
+      gripPlace = false;
+    } else if (m_cJoystick.getJoystickThrottle() < -.8 && gripPlace == false){
+      m_subsystem.GripMove(.2);
+      gripPlace = false;
+    } else {
+      m_subsystem.GripMove(0);
+    }
   } //I have no idea what to put here for PID values and such
 
   // Called once the command ends or is interrupted.
