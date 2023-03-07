@@ -81,9 +81,9 @@ public final class Constants {
     public static final double K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0;
 
     // Ramsete Parameters
-    public static final double K_RAMSETE_B = 0;
+    public static final double K_RAMSETE_B = 2;
     public static final double K_RAMSETE_A = 0;
-
+    public static final double K_RAMSETE_ZETA = 0.7;
     
     public static final double K_WHEEL_DIAMETER_METERS = 0;
     public static final int K_ENCODER_CPR = 0;
