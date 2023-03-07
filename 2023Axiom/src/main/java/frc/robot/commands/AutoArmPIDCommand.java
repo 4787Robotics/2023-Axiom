@@ -32,18 +32,14 @@ public class AutoArmPIDCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final MotorController m_subsystem;
   private RelativeEncoder ArmEncoderC; 
-  private final CXbox m_cXbox;
-  private final CJoystick m_cJoystick;
   public int level;
   /*
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoArmPIDCommand(MotorController subsystem, CXbox ArmCXbox, CJoystick ArmCJoystick) {
+  public AutoArmPIDCommand(MotorController subsystem) {
     m_subsystem = subsystem;
-    m_cXbox = ArmCXbox;
-    m_cJoystick = ArmCJoystick;
       
     
 
