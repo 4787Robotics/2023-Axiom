@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
   private Command m_autoAlignAndPlaceCommand;
   private Command m_cancelPlaceCommand;
   private Command m_armCommand;
+  private Command m_armPIDCommand;
   private Command m_teleopCommand;
   private Command m_pathCommand;
   private RobotContainer m_robotContainer;
@@ -151,7 +152,8 @@ public class Robot extends TimedRobot {
     assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
     m_pathCommand.schedule();*/
-    TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
+    TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle();
+    m_testTurnAngleCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */

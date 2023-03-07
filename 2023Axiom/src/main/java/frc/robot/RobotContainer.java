@@ -20,7 +20,6 @@ import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
 import frc.robot.commands.ArmCommand;
-import frc.robot.commands.AutoArmPIDCommand;
 import frc.robot.subsystems.Balance;
 
 /**
