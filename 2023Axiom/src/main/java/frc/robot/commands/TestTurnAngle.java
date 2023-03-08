@@ -63,7 +63,18 @@ public class TestTurnAngle extends CommandBase {
     private Trajectory trajectory;
     private RamseteCommand ramseteCommand;
 
-    public TestTurnAngle(DriveTrain m_driveTrain, RamseteCommand m_ramseteCommand, TrajectoryConfig m_config) {
+    public TestTurnAngle() {
+        addRequirements(RobotContainer.m_driveTrain);
+    }
+
+    /**
+     * Changes the RamseteCommand
+     * @param m_driveTrain
+     * @param m_config
+     * @param TurnTo
+     */
+
+    public void changeRamseteCommand(DriveTrain m_driveTrain, TrajectoryConfig m_config, double TurnTo) {
         driveTrain = m_driveTrain;
         addRequirements(driveTrain);
 
@@ -73,26 +84,49 @@ public class TestTurnAngle extends CommandBase {
                 //turn
                 List.of(new Translation2d(0,0)),
                 //end
-                new Pose2d(0, 0, new Rotation2d(90)),
+                new Pose2d(0, 0, new Rotation2d(TurnTo)),
                 // Pass config
-                m_config);
+                m_config
+        );
 
-        ramseteCommand = m_ramseteCommand;
+        driveTrain.resetOdometry(trajectory.getInitialPose());
+
+        ramseteCommand = new RamseteCommand(trajectory, 
+            driveTrain::getPose,
+            new RamseteController(Constants.K_RAMSETE_B, Constants.K_RAMSETE_A),
+            new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                                    Constants.KV_VOLT_SECONDS_PER_METER,
+                                    Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+            Constants.K_DRIVE_KINEMATICS,
+            driveTrain::getWheelSpeeds,
+            new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+            new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+                // RamseteCommand passes volts to the callback
+            driveTrain::tankDriveVolts,
+            driveTrain
+        );
+
+        ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
+    }
+
+    /**
+     * Returns the RamseteCommand
+     * @return RamseteCommand
+     */
+    public RamseteCommand getRamseteCommand() {
+        return ramseteCommand;
     }
 
     @Override
     public void initialize() {
-        driveTrain.resetOdometry(trajectory.getInitialPose());
     }
 
     @Override
     public void execute() {
-        ramseteCommand.execute();
     }
 
     @Override
     public void end(boolean interrupted) {
-        driveTrain.tankDriveVolts(0, 0);
     }
 
     @Override
