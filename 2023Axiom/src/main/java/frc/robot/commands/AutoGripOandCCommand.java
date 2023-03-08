@@ -35,10 +35,11 @@ public class AutoGripOandCCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // - is opening, + is closing
     if (opening){
-      m_subsystem.Intake(-.3);
+      m_subsystem.Intake(-.3); //opening
     } else if (!opening){
-      m_subsystem.Intake(.3);
+      m_subsystem.Intake(.3); //closing
     }
     Timer.delay(1);
     m_subsystem.Intake(0);

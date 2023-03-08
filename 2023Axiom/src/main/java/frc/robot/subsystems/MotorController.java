@@ -188,8 +188,7 @@ public class MotorController extends SubsystemBase{
   public void GripMove(double UpDown){
     HandUpDown.set(UpDown);
   }
-  /* may never use
   public void ArmHolderStart(){
       ArmHolder.set(.2);
-  } */
+  }
 }

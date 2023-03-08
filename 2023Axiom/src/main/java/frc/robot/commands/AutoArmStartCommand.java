@@ -11,7 +11,7 @@ import frc.robot.subsystems.MotorController;
 public class AutoArmStartCommand extends CommandBase {
   private final MotorController m_subsystem; 
   public boolean finished2= false;
-  public AutoGripCommand(MotorController subsystem) {
+  public AutoArmStartCommand(MotorController subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -23,7 +23,7 @@ public class AutoArmStartCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.ArmHolderStart()
+    m_subsystem.ArmHolderStart();
   }
 
   // Called once the command ends or is interrupted.
@@ -33,6 +33,6 @@ public class AutoArmStartCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished2
+    return finished2;
   }
 }

@@ -57,7 +57,7 @@ public class RobotContainer {
   private final static AutoGripCommand m_autoGripCommand = new AutoGripCommand(m_motorController);
   private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static AutoArmStartCommand m_autoArmStartCommand = new AutoArmStartCommand(m_motorController);
-  private final static AutoGripOandCCommand m_autoGripOandCCommand = new AutoGripOandCCommand(m_motorController, isOpening, m_autoGripCommand);
+  private final static AutoGripOandCCommand m_autoGripOandCCommand = new AutoGripOandCCommand(m_motorController, false, m_autoGripCommand);
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
 
   /**
@@ -112,7 +112,7 @@ public class RobotContainer {
     return m_autoGripCommand;
   }
   
-  public Command getAutoGripOandCComand() {
+  public Command getAutoGripOandCCommand() {
     return m_autoGripOandCCommand;
   }
   
