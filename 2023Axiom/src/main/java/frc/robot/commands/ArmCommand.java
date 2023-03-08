@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -67,10 +68,17 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-
+    //PID
+    if(m_cJoystick.joystickButton8Down()) { 
+      m_subsystem.ArmPID(Constants.LOW_LEVEL, 0); //Low Point AKA Grounded
+    } else if (m_cJoystick.joystickButton10Down()) {
+      m_subsystem.ArmPID(Constants.MID_LEVEL, 1); //Mid point
+    } else if (m_cJoystick.joystickButton12Down()) {
+      m_subsystem.ArmPID(Constants.HIGH_LEVEL,2); //High point
+    }
+    //Simple Arm
     m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone()*-1);
-
+    //Intake
     if(m_cJoystick.joystickButton2Down() == true) { //will change for user
       m_subsystem.Intake(-0.1); //Ungrab
     } else if (m_cJoystick.joystickButton1Down() == true) { 
@@ -88,7 +96,7 @@ public class ArmCommand extends CommandBase {
       m_subsystem.LeftHandMove(0, false); 
       m_subsystem.RightHandMove(0, false); //Don't move all
     }
-
+/* 
     if(m_cJoystick.getJoystickThrottle() > .8 && gripPlace == true){
       m_subsystem.GripMove(-.2);
       gripPlace = false;
@@ -97,7 +105,7 @@ public class ArmCommand extends CommandBase {
       gripPlace = true;
     } else {
       m_subsystem.GripMove(0);
-    }
+    } */
   }
 
   // Called once the command ends or is interrupted.
