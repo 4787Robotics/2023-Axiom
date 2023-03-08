@@ -15,6 +15,8 @@ import frc.robot.commands.AutoGripCommand;
 import frc.robot.commands.AutoGripOandCCommand;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.RammseteAutonomousCommand;
 // import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveCommand;
@@ -22,6 +24,8 @@ import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
 import frc.robot.commands.ArmCommand;
+import frc.robot.commands.AutoArmPIDCommand;
+import frc.robot.commands.AutoGripCommand;
 import frc.robot.subsystems.Balance;
 
 /**
@@ -45,11 +49,9 @@ public class RobotContainer {
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
   private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_driveCommand, m_xboxController);
   private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
-  private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static AutoGripCommand m_autoGripCommand = new AutoGripCommand(m_motorController);
-  private final static AutoGripOandCCommand m_autoGripOandCCommand = new AutoGripOandCCommand(m_motorController, m_autoGripCommand);
-
-  private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
+  private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController, m_cxbox, m_joystick);
+  private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -87,11 +89,6 @@ public class RobotContainer {
     return m_NavXAutoCommand;
   }
 
-  public Command getPathCommand() {
-    // I'LL FIGURE THIS OUT AT SOME POINT
-    return m_pathCommand;
-  }
-
   public Command getDriveCommand() {
     return m_driveCommand;
   }
@@ -122,6 +119,10 @@ public class RobotContainer {
 
   public DriveTrain getDriveTrain() {
     return m_driveTrain;
+  }
+
+  public Command getAutoCommand1() {
+    return new SequentialCommandGroup(new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1), m_autoGripCommand));
   }
 
   public AutoAlignAndPlace getAutoAlignAndPlace() {

@@ -50,7 +50,7 @@ public class RammseteAutonomousCommand extends CommandBase{
   * @param pathNumber The number that decides the path the robot is going to follow
    * @return the path and then stops the robot
   */
-  public Command RammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
+  public Command getRammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
     if (pathNumber == 1) {
       trajectory = Robot.trajectoryArray.get(0);
     }
