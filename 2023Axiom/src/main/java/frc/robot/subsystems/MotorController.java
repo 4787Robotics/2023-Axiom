@@ -131,17 +131,26 @@ public class MotorController extends SubsystemBase{
   LeftHand.setOpenLoopRampRate(0.2); 
   RightHand.setOpenLoopRampRate(0.2); 
   
-
+/* 
   HandUpDown = new WPI_TalonFX(Constants.MOTOR_MOVE_GRIP);
   HandUpDown.enableVoltageCompensation(true);
   HandUpDown.setInverted(true); 
-  HandUpDown.setNeutralMode(NeutralMode.Brake);
+  HandUpDown.setNeutralMode(NeutralMode.Brake); */
 
 
   ArmHolder = new CANSparkMax(Constants.MOTOR_ARM_HOLD, MotorType.kBrushless);
   ArmHolder.setOpenLoopRampRate(1);
   ArmHolder.setInverted(false);
   ArmHolder.setIdleMode(IdleMode.kBrake);
+
+  Arm.setSmartCurrentLimit(35);
+  Arm2.setSmartCurrentLimit(35);
+  LeftHand.setSmartCurrentLimit(20);
+  RightHand.setSmartCurrentLimit(20);
+  ArmHolder.setSmartCurrentLimit(15);
+  //Add Snowblower limit soon
+  
+  
   }
 
   @Override
@@ -184,10 +193,11 @@ public class MotorController extends SubsystemBase{
   public void ArmMove(double Movement){
     Arm.set(Movement/2.5); //Change this for more motor power
   }
-
+/* 
   public void GripMove(double UpDown){
     HandUpDown.set(UpDown);
   }
+  */
   public void ArmHolderStart(){
       ArmHolder.set(.2);
   }
