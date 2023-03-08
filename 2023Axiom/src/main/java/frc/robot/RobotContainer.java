@@ -28,6 +28,7 @@ import frc.robot.subsystems.MotorController;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoArmPIDCommand;
 import frc.robot.commands.AutoGripCommand;
+import frc.robot.commands.AutoArmStartCommand;
 import frc.robot.subsystems.Balance;
 import frc.robot.commands.ChangeArmLevel;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -55,6 +56,8 @@ public class RobotContainer {
   private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
   private final static AutoGripCommand m_autoGripCommand = new AutoGripCommand(m_motorController);
   private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController);
+  private final static AutoArmStartCommand m_autoArmStartCommand = new AutoArmStartCommand(m_motorController);
+  private final static AutoGripOandCCommand m_autoGripOandCCommand = new AutoGripOandCCommand(m_motorController, isOpening, m_autoGripCommand);
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
 
   /**
@@ -106,6 +109,14 @@ public class RobotContainer {
   }
 
   public Command getAutoGripCommand() {
+    return m_autoGripCommand;
+  }
+  
+  public Command getAutoGripOandCComand() {
+    return m_autoGripOandCCommand;
+  }
+  
+  public Command getAutoArmStartCommand() {
     return m_autoGripCommand;
   }
 
