@@ -33,7 +33,7 @@ public class MotorController extends SubsystemBase{
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
   public WPI_TalonFX HandUpDown;
-  public WPI_VictorSPX ArmHolder;
+  public CANSparkMax ArmHolder;
   public RelativeEncoder ArmEncoder; 
   public RelativeEncoder LeftEncoder; 
   public RelativeEncoder RightEncoder; 
@@ -138,10 +138,10 @@ public class MotorController extends SubsystemBase{
   HandUpDown.setNeutralMode(NeutralMode.Brake);
 
 
-  ArmHolder = new WPI_VictorSPX(Constants.MOTOR_ARM_HOLD);
-  ArmHolder.enableVoltageCompensation(true);
+  ArmHolder = new CANSparkMax(Constants.MOTOR_ARM_HOLD, MotorType.kBrushless);
+  ArmHolder.setOpenLoopRampRate(1);
   ArmHolder.setInverted(false);
-  ArmHolder.setNeutralMode(NeutralMode.Brake);
+  ArmHolder.setIdleMode(IdleMode.kBrake);
   }
 
   @Override

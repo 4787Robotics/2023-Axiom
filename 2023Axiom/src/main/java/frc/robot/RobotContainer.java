@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoAlignAndPlace;
 import frc.robot.commands.AutoArmPIDCommand;
 import frc.robot.commands.AutoGripCommand;
+import frc.robot.commands.AutoGripOandCCommand;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.RammseteAutonomousCommand;
@@ -46,6 +47,7 @@ public class RobotContainer {
   private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
   private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static AutoGripCommand m_autoGripCommand = new AutoGripCommand(m_motorController);
+  private final static AutoGripOandCCommand m_autoGripOandCCommand = new AutoGripOandCCommand(m_motorController, m_autoGripCommand);
 
   private final static RammseteAutonomousCommand m_pathCommand = new RammseteAutonomousCommand(m_driveTrain);
 
@@ -104,6 +106,10 @@ public class RobotContainer {
 
   public Command getAutoGripCommand() {
     return m_autoGripCommand;
+  }
+
+  public Command getAutoGripOandCCommand() {
+    return m_autoGripOandCCommand;
   }
 
   public MotorController getMotorController() {
