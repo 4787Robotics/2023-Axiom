@@ -9,30 +9,36 @@ import frc.robot.Constants;
 import frc.robot.subsystems.MotorController;
 import frc.robot.commands.AutoGripOandCCommand;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoGripOandCCommand extends CommandBase {
   /** Creates a new AutoArmCommnd. */
   private final MotorController m_subsystem; 
-  private final AutoGripCommand m_AutoGripCommand;
-  public boolean AutoGrabbing;
+  public boolean opening;
   public boolean finished = false;
-  public AutoGripOandCCommand(MotorController subsystem, AutoGripCommand AutoGripCommand) {
+  private Command autoGripCommand;
+  public AutoGripOandCCommand(MotorController subsystem, boolean isOpening, Command m_autoGripCommand) {
     m_subsystem = subsystem;
-    m_AutoGripCommand = AutoGripCommand;
+    opening = isOpening;
+    autoGripCommand = m_autoGripCommand;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (autoGripCommand != null) {
+      autoGripCommand.cancel();
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (AutoGrabbing){
-      m_subsystem.Intake(.1);
-    } else if (!AutoGrabbing){
-      m_subsystem.Intake(-.1);
+    if (opening){
+      m_subsystem.Intake(-.3);
+    } else if (!opening){
+      m_subsystem.Intake(.3);
     }
     Timer.delay(1);
     m_subsystem.Intake(0);
@@ -46,6 +52,6 @@ public class AutoGripOandCCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return finished;
   }
 }

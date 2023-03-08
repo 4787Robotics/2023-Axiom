@@ -8,11 +8,13 @@ import javax.print.attribute.standard.PrinterURI;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoAlignAndPlace;
 import frc.robot.commands.AutoArmPIDCommand;
 import frc.robot.commands.AutoGripCommand;
 import frc.robot.commands.AutoGripOandCCommand;
+import frc.robot.commands.ChangeArmLevel;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -27,6 +29,8 @@ import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoArmPIDCommand;
 import frc.robot.commands.AutoGripCommand;
 import frc.robot.subsystems.Balance;
+import frc.robot.commands.ChangeArmLevel;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -50,7 +54,7 @@ public class RobotContainer {
   private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_driveCommand, m_xboxController);
   private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
   private final static AutoGripCommand m_autoGripCommand = new AutoGripCommand(m_motorController);
-  private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController, m_cxbox, m_joystick);
+  private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
 
   /**
@@ -105,10 +109,6 @@ public class RobotContainer {
     return m_autoGripCommand;
   }
 
-  public Command getAutoGripOandCCommand() {
-    return m_autoGripOandCCommand;
-  }
-
   public MotorController getMotorController() {
     return m_motorController;
   }
@@ -121,8 +121,18 @@ public class RobotContainer {
     return m_driveTrain;
   }
 
-  public Command getAutoCommand1() {
-    return new SequentialCommandGroup(new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1), m_autoGripCommand));
+  public Command getAutoCommand2a() {
+    //Robot needs to: Back up, than lift arm, than drive forward (with arm still up), than open thingy, than drive backwards, than drop arm
+    Command placeStartingCone = new SequentialCommandGroup(new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand), new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand));
+    Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
+    Command pickUpCube;
+    Command goBackToScoreCube = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 2), m_autoGripCommand);
+    Command placeCube;
+    Command backOutToFaceCone = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 3);
+    Command pickUpCone;
+    Command goBackToScoreCone = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain,43), m_autoGripCommand);
+    Command scoreCone;
+    return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
   }
 
   public AutoAlignAndPlace getAutoAlignAndPlace() {

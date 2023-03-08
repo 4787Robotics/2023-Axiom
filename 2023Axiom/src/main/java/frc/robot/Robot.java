@@ -98,10 +98,8 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     m_armCommand = m_robotContainer.getArmCommand();
     m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
-    m_pathCommand = m_robotContainer.getPathCommand();
     m_autoArmPIDCommand = m_robotContainer.getAutoArmPIDCommand();
     m_autoGripCommand = m_robotContainer.getAutoGripCommand();
-    m_autoGripOandCCommand = m_robotContainer.getAutoGripOandCCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     readTrajectory(trajectoryJSON_1);
     readTrajectory(trajectoryJSON_2);
