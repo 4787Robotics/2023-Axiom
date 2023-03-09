@@ -136,6 +136,15 @@ public class RobotContainer {
     return m_testArmPIDCommand;
   }
 
+  public Command getAutoCommand1() {
+    // working on it DISREGARD IT -- DO NOT USE IT
+    // need to find the right pathNumber for each rammsete command
+    Command placeStartingCube;
+    Command backOut = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 0);
+    Command engageChargeStation = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 0);
+    return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
+  }
+
   public Command getAutoCommand2a() {
     //Robot needs to: Back up, than lift arm, than drive forward (with arm still up), than open thingy, than drive backwards, than drop arm
     Command placeStartingCone = new SequentialCommandGroup(new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand), new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand));
