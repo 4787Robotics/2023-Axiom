@@ -28,7 +28,7 @@ public final class Constants {
     public static double LIMELIGHT_REFLECTIVETAPE_LOW_HEIGHT = 61; //cm
     public static double LIMELIGHT_REFLECTIVETAPE_HIGH_HEIGHT = 111; //cm
     public static double LIMELIGHT_MOUNT_ANGLE = 0; //degrees
-    public static double LIMELIGHT_LENS_HEIGHT = 7.25; //cm
+    public static double LIMELIGHT_LENS_HEIGHT = 33.02; //cm
     public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
     //Motors

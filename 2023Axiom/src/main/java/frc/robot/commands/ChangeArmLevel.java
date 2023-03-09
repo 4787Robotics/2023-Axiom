@@ -33,15 +33,15 @@ public class ChangeArmLevel extends CommandBase {
   @Override
   public void execute() {
     if (levelToCheck == 0) {
-      if (m_MotorController.ArmEncoder.getPosition() < Constants.LOW_LEVEL + 0.5 && m_MotorController.ArmEncoder.getPosition() > Constants.LOW_LEVEL - 0.5) {
+      if (m_MotorController.ArmEncoder.getPosition() < Constants.LOW_LEVEL + 10 && m_MotorController.ArmEncoder.getPosition() > Constants.LOW_LEVEL - 10) {
         finished = true;
       }
     } else if (levelToCheck == 1) {
-      if (m_MotorController.ArmEncoder.getPosition() < Constants.MID_LEVEL + 0.5 && m_MotorController.ArmEncoder.getPosition() > Constants.MID_LEVEL - 0.5) {
+      if (m_MotorController.ArmEncoder.getPosition() < Constants.MID_LEVEL + 10 && m_MotorController.ArmEncoder.getPosition() > Constants.MID_LEVEL - 10) {
         finished = true;
       }
     } else if (levelToCheck == 2) {
-      if (m_MotorController.ArmEncoder.getPosition() < Constants.HIGH_LEVEL + 0.5 && m_MotorController.ArmEncoder.getPosition() > Constants.HIGH_LEVEL - 0.5) {
+      if (m_MotorController.ArmEncoder.getPosition() < Constants.HIGH_LEVEL + 10 && m_MotorController.ArmEncoder.getPosition() > Constants.HIGH_LEVEL - 10) {
         finished = true;
       }
     }

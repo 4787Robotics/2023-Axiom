@@ -24,6 +24,12 @@ public class AutoGripOandCCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
+
+  public AutoGripOandCCommand(MotorController subsystem, boolean isOpening) {
+    m_subsystem = subsystem;
+    opening = isOpening;
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

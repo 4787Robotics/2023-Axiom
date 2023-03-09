@@ -57,7 +57,6 @@ public class RobotContainer {
   private final static AutoGripCommand m_autoGripCommand = new AutoGripCommand(m_motorController);
   private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static AutoArmStartCommand m_autoArmStartCommand = new AutoArmStartCommand(m_motorController);
-  private final static AutoGripOandCCommand m_autoGripOandCCommand = new AutoGripOandCCommand(m_motorController, false, m_autoGripCommand);
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   /**
@@ -112,10 +111,6 @@ public class RobotContainer {
     return m_autoGripCommand;
   }
   
-  public Command getAutoGripOandCCommand() {
-    return m_autoGripOandCCommand;
-  }
-  
   public Command getAutoArmStartCommand() {
     return m_autoArmStartCommand;
   }
@@ -148,16 +143,18 @@ public class RobotContainer {
 
   public Command getAutoCommand2a() {
     //Robot needs to: Back up, than lift arm, than drive forward (with arm still up), than open thingy, than drive backwards, than drop arm
-    Command setUp = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 11);
-    Command placeStartingCone = new SequentialCommandGroup(new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand), new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand));
+    Command raiseArm = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand);
+    Command moveToScore = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 11);
+    Command scoreCone1 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand);
     Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 4);
-    Command pickUpCube;
-    Command goBackToScoreCube = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 9), m_autoGripCommand);
-    Command placeCube;
+    Command pickUpCube = new AutoGripOandCCommand(m_motorController, true);
+      Command m_autoGripCommand2 = new AutoGripCommand(m_motorController);
+    Command goBackToScoreCube = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 9), m_autoGripCommand2);
+    Command placeCube = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand2);
     Command backOutToFaceCone = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 2);
-    Command pickUpCone;
+    Command pickUpCone = new AutoGripOandCCommand(m_motorController, true);
     Command goBackToScoreCone = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain,7), m_autoGripCommand);
-    Command scoreCone;
+    Command scoreCone2;
     return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
   }
 
@@ -174,7 +171,7 @@ public class RobotContainer {
     Command goBackToScoreCone = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 8), m_autoGripCommand);
     Command scoreCone;
     return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
-  }
+  } 
 
   public AutoAlignAndPlace getAutoAlignAndPlace() {
     return autoAlignAndPlace;

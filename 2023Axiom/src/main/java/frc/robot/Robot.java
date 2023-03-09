@@ -105,7 +105,6 @@ public class Robot extends TimedRobot {
     m_autoArmPIDCommand = m_robotContainer.getAutoArmPIDCommand();
     m_autoGripCommand = m_robotContainer.getAutoGripCommand();
     m_autoArmStartCommand = m_robotContainer.getAutoArmStartCommand();
-    m_autoGripOandCCommand = m_robotContainer.getAutoGripOandCCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     readTrajectory(trajectoryJSON_1);
     readTrajectory(trajectoryJSON_2);
