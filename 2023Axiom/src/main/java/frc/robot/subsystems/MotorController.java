@@ -39,7 +39,7 @@ public class MotorController extends SubsystemBase{
   public RelativeEncoder RightEncoder; 
   private double LeftStartingPos;
   private double RightStartingPos;
-  private SparkMaxPIDController PID; 
+  //private SparkMaxPIDController PID; 
   private static double AkP;
   private static double AkI;
   private static double AkD;
@@ -53,18 +53,18 @@ public class MotorController extends SubsystemBase{
     // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
-  PID = Arm.getPIDController();
+  //PID = Arm.getPIDController();
 
   // PID coefficients
   AkP = 0.05; 
-  AkI = .02;
-  AkD = 0; 
+  AkI = 0;
+  AkD = 0.0; 
   AkIz = 0; 
   AkFF = 0; 
   AkMaxOutput = 1; 
   AkMinOutput = -1;
 
-  // set PID coefficients
+  /*  set PID coefficients
   PID.setP(AkP);
   PID.setI(AkI);
   PID.setD(AkD);
@@ -84,8 +84,8 @@ public class MotorController extends SubsystemBase{
 
   // read PID coefficients from SmartDashboard
   double p = SmartDashboard.getNumber("P Gain", .05);
-  double i = SmartDashboard.getNumber("I Gain", .02);
-  double d = SmartDashboard.getNumber("D Gain", 0);
+  double i = SmartDashboard.getNumber("I Gain", 0);
+  double d = SmartDashboard.getNumber("D Gain", 0.0);
   double iz = SmartDashboard.getNumber("I Zone", 0);
   double ff = SmartDashboard.getNumber("Feed Forward", 0);
   double max = SmartDashboard.getNumber("Max Output", 0);
@@ -101,9 +101,9 @@ public class MotorController extends SubsystemBase{
   if((max != AkMaxOutput) || (min != AkMinOutput)) { 
    PID.setOutputRange(min, max); 
    AkMinOutput = min; AkMaxOutput = max; 
-  }
+  } */
 
-  PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
+  //PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
   
 
   Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
@@ -158,7 +158,7 @@ public class MotorController extends SubsystemBase{
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
       SmartDashboard.putNumber("LeftArm Angle", LeftEncoder.getPosition());
       SmartDashboard.putNumber("RightArm Angle", RightEncoder.getPosition());
-  }
+    }
   
   public void Intake(double Direction){
     LeftHand.set(Direction);
@@ -179,15 +179,16 @@ public class MotorController extends SubsystemBase{
     RightHand.set(Direction);
   }
   
-  public SparkMaxPIDController getArmPID() {
+  /*public SparkMaxPIDController getArmPID() {
     return PID;
-  }
+  } */
   public void ArmPID(double goalPoint, int newPointNum) {
     if (currentPointNum != newPointNum){
       currentPointNum = newPointNum;
-      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
+      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(205, 110));
+      Equation.reset(ArmEncoder.getPosition());
     }
-    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.2, 0.5));
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), 0, .4));
   }
 
   public void ArmMove(double Movement){

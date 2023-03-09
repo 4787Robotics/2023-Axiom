@@ -73,9 +73,9 @@ public class ArmCommand extends CommandBase {
     m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone());
 
     if(m_cJoystick.joystickButton2Down() == true) { //will change for user
-      m_subsystem.Intake(-0.4); //Grab
+      m_subsystem.Intake(-1); //Grab
     } else if (m_cJoystick.joystickButton1Down() == true) { 
-      m_subsystem.Intake(0.1); //Not Grab
+      m_subsystem.Intake(0.15); //Not Grab
     } else if (m_cJoystick.joystickButton3Down()) {
       m_subsystem.LeftHandMove(-0.1, false);
     } else if (m_cJoystick.joystickButton4Down()) {
@@ -100,7 +100,7 @@ public class ArmCommand extends CommandBase {
       m_subsystem.GripMove(0);
     } */
 
-    if(m_cJoystick.joystickButton8Down()) { 
+    if (m_cJoystick.joystickButton8Down()) { 
       m_subsystem.ArmPID(Constants.LOW_LEVEL, 0); //Low Point AKA Grounded
     } else if (m_cJoystick.joystickButton10Down()) {
       m_subsystem.ArmPID(Constants.MID_LEVEL, 1); //Mid point
