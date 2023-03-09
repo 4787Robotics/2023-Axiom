@@ -84,6 +84,12 @@ public class RammseteAutonomousCommand extends CommandBase{
     if (pathNumber == 11) {
       trajectory = Robot.trajectoryArray.get(10);
     }
+    if (pathNumber == 12) {
+      trajectory = Robot.trajectoryArray.get(11);
+    }
+    if (pathNumber == 13) {
+      trajectory = Robot.trajectoryArray.get(12);
+    }
     driveTrain = RobotContainer.m_driveTrain;
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(Constants.KS_VOLTS,
