@@ -51,9 +51,10 @@ public class RammseteAutonomousCommand extends CommandBase{
    * @return the path and then stops the robot
   */
   public Command getRammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
-    for(int i=1;i<=13;i++) {
+    for(int i=1;i<=15;i++) {
       if (pathNumber == i) {
         trajectory = Robot.trajectoryArray.get(i-0);
+        break;
       }
     }
     driveTrain = RobotContainer.m_driveTrain;
