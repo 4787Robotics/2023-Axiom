@@ -51,44 +51,10 @@ public class RammseteAutonomousCommand extends CommandBase{
    * @return the path and then stops the robot
   */
   public Command getRammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
-    if (pathNumber == 1) {
-      trajectory = Robot.trajectoryArray.get(0);
-    }
-    if (pathNumber == 2) {
-      trajectory = Robot.trajectoryArray.get(1);
-    }
-    if (pathNumber == 3) {
-      trajectory = Robot.trajectoryArray.get(2);
-    }
-    if (pathNumber == 4) {
-      trajectory = Robot.trajectoryArray.get(3);
-    }
-    if (pathNumber == 5) {
-      trajectory = Robot.trajectoryArray.get(4);
-    }
-    if (pathNumber == 6) {
-      trajectory = Robot.trajectoryArray.get(5);
-    }
-    if (pathNumber == 7) {
-      trajectory = Robot.trajectoryArray.get(6);
-    }
-    if (pathNumber == 8) {
-      trajectory = Robot.trajectoryArray.get(7);
-    }
-    if (pathNumber == 9) {
-      trajectory = Robot.trajectoryArray.get(8);
-    }
-    if (pathNumber == 10) {
-      trajectory = Robot.trajectoryArray.get(9);
-    }
-    if (pathNumber == 11) {
-      trajectory = Robot.trajectoryArray.get(10);
-    }
-    if (pathNumber == 12) {
-      trajectory = Robot.trajectoryArray.get(11);
-    }
-    if (pathNumber == 13) {
-      trajectory = Robot.trajectoryArray.get(12);
+    for(int i=1;i<=13;i++) {
+      if (pathNumber == i) {
+        trajectory = Robot.trajectoryArray.get(i-0);
+      }
     }
     driveTrain = RobotContainer.m_driveTrain;
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
