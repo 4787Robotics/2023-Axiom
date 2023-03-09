@@ -41,8 +41,8 @@ public final class Constants {
     
     //Position of where the arm should be for each grid level. (in rotations)
     public static double LOW_LEVEL = 0; 
-    public static double MID_LEVEL = 9.1230296517; 
-    public static double HIGH_LEVEL = 50.5361827601; //was 11.5361827601
+    public static double MID_LEVEL = 58; 
+    public static double HIGH_LEVEL = 82.5; //was 11.5361827601
 
     //One motor rotation is 1.1680107% of one full arm rotation. (36.288 degrees per rotation)
     
