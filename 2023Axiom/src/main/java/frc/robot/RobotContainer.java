@@ -117,7 +117,7 @@ public class RobotContainer {
   }
   
   public Command getAutoArmStartCommand() {
-    return m_autoGripCommand;
+    return m_autoArmStartCommand;
   }
 
   public MotorController getMotorController() {

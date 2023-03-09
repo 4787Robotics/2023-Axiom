@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
     m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
     m_autoArmPIDCommand = m_robotContainer.getAutoArmPIDCommand();
     m_autoGripCommand = m_robotContainer.getAutoGripCommand();
-    m_autoArmStartCommand = m_robotContainer.getAutoGripCommand();
+    m_autoArmStartCommand = m_robotContainer.getAutoArmStartCommand();
     m_autoGripOandCCommand = m_robotContainer.getAutoGripOandCCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     readTrajectory(trajectoryJSON_1);
@@ -151,18 +151,20 @@ public class Robot extends TimedRobot {
   
   public void autonomousInit() {
     m_robotContainer.getBalance().setHeadingAdjust();
+   
+    m_autonomousCommand = m_robotContainer.getAutoCommand2a();
+    m_autoArmStartCommand.schedule();
 
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    /*if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-      m_pathCommand.cancel();
+      // m_pathCommand.cancel();
     }
 
     assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
-    m_pathCommand.schedule();*/
+    // m_pathCommand.schedule();
     //TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
 
