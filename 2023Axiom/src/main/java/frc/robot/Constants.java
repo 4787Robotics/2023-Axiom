@@ -42,7 +42,7 @@ public final class Constants {
     //Position of where the arm should be for each grid level. (in rotations)
     public static double LOW_LEVEL = 0; 
     public static double MID_LEVEL = 9.1230296517; 
-    public static double HIGH_LEVEL = 45.5361827601; 
+    public static double HIGH_LEVEL = 50.5361827601; //was 11.5361827601
 
     //One motor rotation is 1.1680107% of one full arm rotation. (36.288 degrees per rotation)
     
@@ -104,17 +104,21 @@ public final class Constants {
     public final int path9 = 9;
     public final int path10 = 10;
     public final int path11 = 11;
+    public final int path12 = 12;
+    public final int path13 = 13;
     /*
-    1 = getCone2a
-    2 = getCone2b
-    3 = getCone2a
-    4 = getCone2b
-    5 = placeCone2a
-    6 = placeCone2b
+    1 = chargeStation
+    2 = getCone2a
+    3 = getCone2b
+    4 = getCone2a
+    5 = getCone2b
+    6 = moveBackv1
     7 = placeCone2a
     8 = placeCone2b
-    9 = preloadedCone2a
-    10 = preloadedCone2b
-    11 = Unnamed
+    9 = placeCone2a
+    10 = placeCone2b
+    11 = preloadedCone2a
+    12 = preloadedCone2b
+    13 = preloadedCubev1
     */
 }
