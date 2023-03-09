@@ -172,7 +172,7 @@ public class DriveTrain extends SubsystemBase{
   //separate joysticks
   public void driveRobot(boolean squareInputs, double throttle, double turn){
     if (squareInputs) {
-      drive.arcadeDrive(throttle * Math.abs(throttle), turn * Math.abs(turn) * Math.abs(turn) * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
+      drive.arcadeDrive(throttle * Math.abs(throttle), turn * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
     }
     else {
       drive.arcadeDrive(throttle, turn);

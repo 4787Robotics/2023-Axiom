@@ -147,7 +147,7 @@ public class MotorController extends SubsystemBase{
   Arm2.setSmartCurrentLimit(35);
   LeftHand.setSmartCurrentLimit(20);
   RightHand.setSmartCurrentLimit(20);
-  ArmHolder.setSmartCurrentLimit(15);
+  ArmHolder.setSmartCurrentLimit(20);
   //Add Snowblower limit soon
   
   
@@ -187,7 +187,7 @@ public class MotorController extends SubsystemBase{
       currentPointNum = newPointNum;
       Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
     }
-    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.25));
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.2, 0.5));
   }
 
   public void ArmMove(double Movement){

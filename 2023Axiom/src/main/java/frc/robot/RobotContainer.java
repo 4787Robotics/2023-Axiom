@@ -59,7 +59,7 @@ public class RobotContainer {
   private final static AutoArmStartCommand m_autoArmStartCommand = new AutoArmStartCommand(m_motorController);
   private final static AutoGripOandCCommand m_autoGripOandCCommand = new AutoGripOandCCommand(m_motorController, false, m_autoGripCommand);
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
-
+  private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -130,6 +130,10 @@ public class RobotContainer {
 
   public DriveTrain getDriveTrain() {
     return m_driveTrain;
+  }
+
+  public Command getArmPIDCommand() {
+    return m_testArmPIDCommand;
   }
 
   public Command getAutoCommand2a() {
