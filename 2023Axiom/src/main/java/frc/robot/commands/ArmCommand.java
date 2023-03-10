@@ -73,15 +73,9 @@ public class ArmCommand extends CommandBase {
     m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone());
 
     if(m_cJoystick.joystickButton2Down() == true) { //will change for user
-<<<<<<< HEAD
-      m_subsystem.Intake(-0.25); //Ungrab
+      m_subsystem.Intake(-1); //Grab. MUST BE NEGATIVE
     } else if (m_cJoystick.joystickButton1Down() == true) { 
-      m_subsystem.Intake(0.25); //Grab
-=======
-      m_subsystem.Intake(-1); //Grab
-    } else if (m_cJoystick.joystickButton1Down() == true) { 
-      m_subsystem.Intake(1); //Not Grab
->>>>>>> main
+      m_subsystem.Intake(0.2); //Open. MUST BE POSITIVE
     } else if (m_cJoystick.joystickButton3Down()) {
       m_subsystem.LeftHandMove(-0.25, false);
     } else if (m_cJoystick.joystickButton4Down()) {
