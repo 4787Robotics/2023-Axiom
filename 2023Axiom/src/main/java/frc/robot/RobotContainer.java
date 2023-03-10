@@ -148,7 +148,7 @@ public class RobotContainer {
     Command scoreCone1 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand);
     Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 4);
     Command pickUpCube = new AutoGripOandCCommand(m_motorController, true);
-      Command m_autoGripCommand2 = new AutoGripCommand(m_motorController);
+    Command m_autoGripCommand2 = new AutoGripCommand(m_motorController);
     Command goBackToScoreCube = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 9), m_autoGripCommand2);
     Command placeCube = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand2);
     Command backOutToFaceCone = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 2);

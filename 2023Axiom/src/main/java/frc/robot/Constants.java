@@ -67,26 +67,26 @@ public final class Constants {
     public static final float joystickDeadzone = 0.2f;
 
     //Constants for Autonomous
-    public static final double KS_VOLTS = 0;
-    public static final double KV_VOLT_SECONDS_PER_METER = 0;
-    public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0;
+    public static final double KS_VOLTS = 0.21878;
+    public static final double KV_VOLT_SECONDS_PER_METER = 1.0966;
+    public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.27491;
 
-    public static final double KP_DRIVE_VEL = 0;
+    public static final double KP_DRIVE_VEL = 1.5588;
 
     //Differential Drive Kinematics
-    public static final double K_TRACK_WIDTH_METERS = 0;
+    public static final double K_TRACK_WIDTH_METERS = 0.5760466; //22.679 inch
     public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new DifferentialDriveKinematics(K_TRACK_WIDTH_METERS);
 
     // Max Trajectory Velocity/Acceleration
-    public static final double K_MAX_SPEED_METERS_PER_SECOND = 0;
-    public static final double K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0;
+    public static final double K_MAX_SPEED_METERS_PER_SECOND = 4;
+    public static final double K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 2; // limits max acceleration during autonomous
 
     // Ramsete Parameters
     public static final double K_RAMSETE_B = 2;
     public static final double K_RAMSETE_A = 0;
     public static final double K_RAMSETE_ZETA = 0.7;
     
-    public static final double K_WHEEL_DIAMETER_METERS = 0;
+    public static final double K_WHEEL_DIAMETER_METERS = 0.1524; //6 inches
     public static final int K_ENCODER_CPR = 0;
 
     public static final double K_GEAR_RATIO = 0;
