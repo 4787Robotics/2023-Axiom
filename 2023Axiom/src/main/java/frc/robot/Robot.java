@@ -63,13 +63,17 @@ public class Robot extends TimedRobot {
   String trajectoryJSON_4 = "output/getCone2a.wpilib.json";
   String trajectoryJSON_5 = "output/getCone2b.wpilib.json";
   String trajectoryJSON_6 = "output/moveBackv1.wpilib.json";
-  String trajectoryJSON_7 = "output/placeCone2a.wpilib.json";
-  String trajectoryJSON_8 = "output/placeCone2b.wpilib.json";
-  String trajectoryJSON_9 = "output/placeCone2a.wpilib.json";
-  String trajectoryJSON_10 = "output/placeCone2b.wpilib.json";
-  String trajectoryJSON_11 = "output/preloadedCone2a.wpilib.json";
-  String trajectoryJSON_12 = "output/preloadedCone2b.wpilib.json";
-  String trajectoryJSON_13 = "output/preloadedCubev1.wpilib.json";
+  String trajectoryJSON_7 = "output/placeCone2aPart1.wpilib.json";
+  String trajectoryJSON_8 = "output/placeCone2aPart2.wpilib.json";
+  String trajectoryJSON_9 = "output/placeCone2bPart1.wpilib.json";
+  String trajectoryJSON_10 = "output/placeCone2bPart2.wpilib.json";
+  String trajectoryJSON_11 = "output/placeCube2aPart1.wpilib.json";
+  String trajectoryJSON_12 = "output/placeCube2aPart2.wpilib.json";
+  String trajectoryJSON_13 = "output/placeCube2bPart1.wpilib.json";
+  String trajectoryJSON_14 = "output/placeCube2bPart2.wpilib.json";
+  String trajectoryJSON_15 = "output/preloadedCone2a.wpilib.json";
+  String trajectoryJSON_16 = "output/preloadedCone2b.wpilib.json";
+  String trajectoryJSON_17 = "output/preloadedCubev1.wpilib.json";
 
   Trajectory trajectory = new Trajectory();
   public static List<Trajectory> trajectoryArray = new ArrayList<Trajectory>();
