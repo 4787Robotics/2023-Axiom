@@ -125,6 +125,10 @@ public class Robot extends TimedRobot {
     readTrajectory(trajectoryJSON_11);
     readTrajectory(trajectoryJSON_12);
     readTrajectory(trajectoryJSON_13);
+    readTrajectory(trajectoryJSON_14);
+    readTrajectory(trajectoryJSON_15);
+    readTrajectory(trajectoryJSON_16);
+    readTrajectory(trajectoryJSON_17);
   }
 
   /**
