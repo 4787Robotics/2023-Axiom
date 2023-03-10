@@ -51,12 +51,15 @@ public class RammseteAutonomousCommand extends CommandBase{
    * @return the path and then stops the robot
   */
   public Command getRammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
-    for(int i=1;i<=17;i++) {
+    /*for(int i=1;i<=17;i++) {
       if (pathNumber == i) {
-        trajectory = Robot.trajectoryArray.get(i-0);
+        trajectory = Robot.trajectoryArray[i-1];
         break;
       }
-    }
+    }*/
+
+    trajectory = Robot.trajectoryArray[pathNumber-1];
+
     driveTrain = RobotContainer.m_driveTrain;
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(Constants.KS_VOLTS,

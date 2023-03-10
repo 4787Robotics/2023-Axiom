@@ -43,12 +43,12 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final static Balance m_balance = new Balance();
+  public static DriveTrain m_driveTrain = new DriveTrain();
   private final LimeLight limeLight = new LimeLight(this);
   private final static CXbox m_cxbox = new CXbox();
   private final static CJoystick m_joystick = new CJoystick();
-  private final static Balance m_balance = new Balance();
   private final static XboxController m_xboxController = new XboxController(1);
-  public static DriveTrain m_driveTrain = new DriveTrain();
   public static MotorController m_motorController = new MotorController();
   private final static DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, m_cxbox);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
@@ -143,23 +143,23 @@ public class RobotContainer {
 
   public Command getAutoCommand2a() {
     //Robot needs to: Back up, than lift arm, than drive forward (with arm still up), than open thingy, than drive backwards, than drop arm
-    Command raiseArm = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand);
-    Command moveToScore = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
+    Command raiseArm = new ParallelRaceGroup(new ChangeArmLevel(1, m_autoArmPIDCommand, m_motorController), m_autoGripCommand);
+    //Command moveToScore = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
     Command scoreCone1 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand);
-    Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 2);
-    Command pickUpCube = new AutoGripOandCCommand(m_motorController, false);
-      Command m_autoGripCommand2 = new AutoGripCommand(m_motorController);
-    Command goBackToScoreCube1 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 3), m_autoGripCommand2);
-    Command raiseArm2 = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand2);
-    Command goBackToScoreCube2 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 4), m_autoGripCommand2);
-    Command scoreCube = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand2);
-    Command backOutToFaceCone = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 5);
-    Command pickUpCone = new AutoGripOandCCommand(m_motorController, false);
-      Command m_autoGripCommand3 = new AutoGripCommand(m_motorController);
-    Command goBackToScoreCone1 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain,6), m_autoGripCommand3);
-    Command raiseArm3 = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand3);
-    Command goBackToScoreCone2 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 7), m_autoGripCommand3);
-    Command scoreCone2 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand3);
+    //Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 2);
+    //Command pickUpCube = new AutoGripOandCCommand(m_motorController, false);
+      //Command m_autoGripCommand2 = new AutoGripCommand(m_motorController);
+    //Command goBackToScoreCube1 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 3), m_autoGripCommand2);
+    //Command raiseArm2 = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand2);
+    //Command goBackToScoreCube2 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 4), m_autoGripCommand2);
+    //Command scoreCube = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand2);
+    //Command backOutToFaceCone = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 5);
+    //Command pickUpCone = new AutoGripOandCCommand(m_motorController, false);
+      //Command m_autoGripCommand3 = new AutoGripCommand(m_motorController);
+    //Command goBackToScoreCone1 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain,6), m_autoGripCommand3);
+    //Command raiseArm3 = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand3);
+    //Command goBackToScoreCone2 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 7), m_autoGripCommand3);
+    //Command scoreCone2 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand3);
     return new ParallelCommandGroup(new SequentialCommandGroup(raiseArm, scoreCone1), m_autoArmPIDCommand);
 //    return new ParallelCommandGroup (new SequentialCommandGroup(raiseArm, moveToScore, scoreCone1,
 //                                    backOutToFaceCube, pickUpCube, goBackToScoreCube1, raiseArm2, goBackToScoreCube2, scoreCube,

@@ -185,7 +185,7 @@ public class MotorController extends SubsystemBase{
   public void ArmPID(double goalPoint, int newPointNum) {
     if (currentPointNum != newPointNum){
       currentPointNum = newPointNum;
-      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(205, 110));
+      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(185, 80));
       Equation.reset(ArmEncoder.getPosition());
     }
     Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), 0, .4));

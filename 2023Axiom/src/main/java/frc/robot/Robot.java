@@ -57,34 +57,37 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
 
-  String trajectoryJSON_1 = "output/preloadedCone2a.wpilib.json";
-  String trajectoryJSON_2 = "output/getCube2a.wpilib.json";
-  String trajectoryJSON_3 = "output/placeCube2aPart1.wpilib.json";
-  String trajectoryJSON_4 = "output/placeCube2aPart2.wpilib.json";
-  String trajectoryJSON_5 = "output/getCone2a.wpilib.json";
-  String trajectoryJSON_6 = "output/placeCone2aPart1.wpilib.json";
-  String trajectoryJSON_7 = "output/placeCone2aPart2.wpilib.json";
+  String trajectoryJSON_1 = "paths/preloadedCone2a.wpilib.json";
+  String trajectoryJSON_2 = "paths/getCube2a.wpilib.json";
+  String trajectoryJSON_3 = "paths/placeCube2aPart1.wpilib.json";
+  String trajectoryJSON_4 = "paths/placeCube2aPart2.wpilib.json";
+  String trajectoryJSON_5 = "paths/getCone2a.wpilib.json";
+  String trajectoryJSON_6 = "paths/placeCone2aPart1.wpilib.json";
+  String trajectoryJSON_7 = "paths/placeCone2aPart2.wpilib.json";
 
-  String trajectoryJSON_8 = "output/preloadedCone2b.wpilib.json";
-  String trajectoryJSON_9 = "output/getCube2b.wpilib.json";
-  String trajectoryJSON_10 = "output/placeCube2bPart1.wpilib.json";
-  String trajectoryJSON_11 = "output/placeCube2bPart2.wpilib.json";
-  String trajectoryJSON_12 = "output/getCone2b.wpilib.json";
-  String trajectoryJSON_13 = "output/placeCone2bPart1.wpilib.json";
-  String trajectoryJSON_14 = "output/placeCone2bPart2.wpilib.json";
+  String trajectoryJSON_8 = "paths/preloadedCone2b.wpilib.json";
+  String trajectoryJSON_9 = "paths/getCube2b.wpilib.json";
+  String trajectoryJSON_10 = "paths/placeCube2bPart1.wpilib.json";
+  String trajectoryJSON_11 = "paths/placeCube2bPart2.wpilib.json";
+  String trajectoryJSON_12 = "paths/getCone2b.wpilib.json";
+  String trajectoryJSON_13 = "paths/placeCone2bPart1.wpilib.json";
+  String trajectoryJSON_14 = "paths/placeCone2bPart2.wpilib.json";
 
-  String trajectoryJSON_15 = "output/preloadedCubev1.wpilib.json";
-  String trajectoryJSON_16 = "output/moveBackv1.wpilib.json";
-  String trajectoryJSON_17 = "output/chargeStation.wpilib.json";
+  String trajectoryJSON_15 = "paths/preloadedCubev1.wpilib.json";
+  String trajectoryJSON_16 = "paths/moveBackv1.wpilib.json";
+  String trajectoryJSON_17 = "paths/chargeStation.wpilib.json";
 
-  Trajectory trajectory = new Trajectory();
-  public static List<Trajectory> trajectoryArray = new ArrayList<Trajectory>();
+  
+  public static Trajectory[] trajectoryArray = new Trajectory[17];
 
+  int i = 0;
   public void readTrajectory(String trajectoryJSON){
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      Trajectory trajectory = new Trajectory();
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      trajectoryArray.add(trajectory);
+      trajectoryArray[i] = trajectory;
+      i++;
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
@@ -159,10 +162,9 @@ public class Robot extends TimedRobot {
   @Override
   
   public void autonomousInit() {
-    m_robotContainer.getBalance().setHeadingAdjust();
    
-    m_autonomousCommand = m_robotContainer.getAutoCommand2a();
-    m_autoArmStartCommand.schedule();
+    //m_autonomousCommand = m_robotContainer.getAutoCommand2a();
+    // m_autoArmStartCommand.schedule();
 
 
     // schedule the autonomous command (example)
@@ -171,8 +173,8 @@ public class Robot extends TimedRobot {
       // m_pathCommand.cancel();
     }
 
-    assert m_autonomousCommand != null;
-    m_autonomousCommand.schedule();
+    // assert m_autonomousCommand != null;
+    // m_autonomousCommand.schedule();
     // m_pathCommand.schedule();
     //TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
