@@ -48,11 +48,6 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
     driveTrain.driveRobot(false, -cxbox.getLeftStickYWithDeadzone(), cxbox.getRightStickXWithDeadzone());
-    if (cxbox.getXboxDpad() == 0){
-      driveTrain.driveRobot(false, 0.04, 0);
-    } else if (cxbox.getXboxDpad() == 180) {
-      driveTrain.driveRobot(false, -.02, 0);
-    }
     // if(controller.getLeftY()>0.7f || controller.getLeftY()<-0.7f || controller.getRightX() > 0.7f || controller.getRightX() < -0.7f){
     //   driveTrain.drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
     // }
