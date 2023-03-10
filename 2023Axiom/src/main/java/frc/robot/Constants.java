@@ -46,8 +46,8 @@ public final class Constants {
 
     //One motor rotation is 1.1680107% of one full arm rotation. (36.288 degrees per rotation)
     
-    public static boolean LEFT_SIDE_INVERTED = true;
-    public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
+    //public static boolean LEFT_SIDE_INVERTED = true;
+    //public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
 
     //The constants below will need to be changed later - Talk to electrical
     public static int LEFT_MOTOR_1_ID = 2; //Front Left

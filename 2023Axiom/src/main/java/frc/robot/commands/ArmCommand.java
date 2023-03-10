@@ -75,7 +75,7 @@ public class ArmCommand extends CommandBase {
     if(m_cJoystick.joystickButton2Down() == true) { //will change for user
       m_subsystem.Intake(-1); //Grab
     } else if (m_cJoystick.joystickButton1Down() == true) { 
-      m_subsystem.Intake(0.15); //Not Grab
+      m_subsystem.Intake(1); //Not Grab
     } else if (m_cJoystick.joystickButton3Down()) {
       m_subsystem.LeftHandMove(-0.1, false);
     } else if (m_cJoystick.joystickButton4Down()) {
