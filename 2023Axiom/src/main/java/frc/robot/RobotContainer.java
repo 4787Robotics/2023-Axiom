@@ -32,6 +32,7 @@ import frc.robot.commands.AutoArmStartCommand;
 import frc.robot.subsystems.Balance;
 import frc.robot.commands.ChangeArmLevel;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import frc.robot.commands.DriveBackwards;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,6 +60,7 @@ public class RobotContainer {
   private final static AutoArmStartCommand m_autoArmStartCommand = new AutoArmStartCommand(m_motorController);
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
+  private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -129,6 +131,10 @@ public class RobotContainer {
 
   public Command getArmPIDCommand() {
     return m_testArmPIDCommand;
+  }
+
+  public Command getDriveBackwards() {
+    return m_driveBackwards;
   }
 
   public Command getAutoCommand1() {
