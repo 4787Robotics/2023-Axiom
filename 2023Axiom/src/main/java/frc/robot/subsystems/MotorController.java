@@ -19,9 +19,11 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -49,11 +51,16 @@ public class MotorController extends SubsystemBase{
   private double AkMinOutput;
   private int currentPointNum = 0; //doesn't matter what this is as long as it is more than 2
   
+  private TalonSRX electro_test = new TalonSRX(9);
+
+
   public MotorController() {
     // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
   //PID = Arm.getPIDController();
+
+  
 
   // PID coefficients
   AkP = 0.05; 
@@ -153,9 +160,16 @@ public class MotorController extends SubsystemBase{
   
   }
 
+  
+
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
+<<<<<<< HEAD
+      SmartDashboard.putNumber("LeftHand Angle", LeftEncoder.getPosition());
+      SmartDashboard.putNumber("RightHand Angle", RightEncoder.getPosition());
+  }
+=======
       SmartDashboard.putNumber("LeftArm Angle", LeftEncoder.getPosition());
       SmartDashboard.putNumber("RightArm Angle", RightEncoder.getPosition());
     }
