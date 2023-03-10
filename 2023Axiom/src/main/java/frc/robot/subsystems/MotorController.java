@@ -145,8 +145,8 @@ public class MotorController extends SubsystemBase{
 
   Arm.setSmartCurrentLimit(35);
   Arm2.setSmartCurrentLimit(35);
-  LeftHand.setSmartCurrentLimit(20);
-  RightHand.setSmartCurrentLimit(20);
+  LeftHand.setSmartCurrentLimit(35);
+  RightHand.setSmartCurrentLimit(35);
   ArmHolder.setSmartCurrentLimit(20);
   //Add Snowblower limit soon
   
