@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -34,12 +35,13 @@ public class MotorController extends SubsystemBase{
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
   public WPI_TalonFX HandUpDown;
+  public CANSparkMax ArmHolder;
   public RelativeEncoder ArmEncoder; 
   public RelativeEncoder LeftEncoder; 
   public RelativeEncoder RightEncoder; 
   private double LeftStartingPos;
   private double RightStartingPos;
-  private SparkMaxPIDController PID; 
+  //private SparkMaxPIDController PID; 
   private static double AkP;
   private static double AkI;
   private static double AkD;
@@ -56,24 +58,20 @@ public class MotorController extends SubsystemBase{
     // Big Arm Motor
   Arm = new CANSparkMax(Constants.MOTOR_ARM_1, MotorType.kBrushless);
   ArmEncoder = Arm.getEncoder();
-
-  electro_test.configPeakCurrentLimit(5); // so we don't kill the $900 solenoid :)
-
-
-  /* PID = Arm.getPIDController();
+  //PID = Arm.getPIDController();
 
   
 
   // PID coefficients
   AkP = 0.05; 
-  AkI = .02;
-  AkD = 0; 
+  AkI = 0;
+  AkD = 0.0; 
   AkIz = 0; 
   AkFF = 0; 
   AkMaxOutput = 1; 
   AkMinOutput = -1;
 
-  // set PID coefficients
+  /*  set PID coefficients
   PID.setP(AkP);
   PID.setI(AkI);
   PID.setD(AkD);
@@ -92,9 +90,9 @@ public class MotorController extends SubsystemBase{
   SmartDashboard.putNumber("Set Rotations", 0);
 
   // read PID coefficients from SmartDashboard
-  double p = SmartDashboard.getNumber("P Gain", 0);
+  double p = SmartDashboard.getNumber("P Gain", .05);
   double i = SmartDashboard.getNumber("I Gain", 0);
-  double d = SmartDashboard.getNumber("D Gain", 0);
+  double d = SmartDashboard.getNumber("D Gain", 0.0);
   double iz = SmartDashboard.getNumber("I Zone", 0);
   double ff = SmartDashboard.getNumber("Feed Forward", 0);
   double max = SmartDashboard.getNumber("Max Output", 0);
@@ -110,10 +108,10 @@ public class MotorController extends SubsystemBase{
   if((max != AkMaxOutput) || (min != AkMinOutput)) { 
    PID.setOutputRange(min, max); 
    AkMinOutput = min; AkMaxOutput = max; 
-  }
+  } */
 
-  PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
-  */
+  //PID.setReference(rotations, CANSparkMax.ControlType.kPosition);
+  
 
   Arm2 = new CANSparkMax(Constants.MOTOR_ARM_2, MotorType.kBrushless);
   Arm2.follow(Arm);
@@ -140,11 +138,26 @@ public class MotorController extends SubsystemBase{
   LeftHand.setOpenLoopRampRate(0.2); 
   RightHand.setOpenLoopRampRate(0.2); 
   
-
+/* 
   HandUpDown = new WPI_TalonFX(Constants.MOTOR_MOVE_GRIP);
   HandUpDown.enableVoltageCompensation(true);
-  HandUpDown.setInverted(TalonFXInvertType.Clockwise); 
-  HandUpDown.setNeutralMode(NeutralMode.Brake);
+  HandUpDown.setInverted(true); 
+  HandUpDown.setNeutralMode(NeutralMode.Brake); */
+
+
+  ArmHolder = new CANSparkMax(Constants.MOTOR_ARM_HOLD, MotorType.kBrushless);
+  ArmHolder.setOpenLoopRampRate(1);
+  ArmHolder.setInverted(false);
+  ArmHolder.setIdleMode(IdleMode.kBrake);
+
+  Arm.setSmartCurrentLimit(35);
+  Arm2.setSmartCurrentLimit(35);
+  LeftHand.setSmartCurrentLimit(35);
+  RightHand.setSmartCurrentLimit(35);
+  ArmHolder.setSmartCurrentLimit(20);
+  //Add Snowblower limit soon
+  
+  
   }
 
   
@@ -152,12 +165,9 @@ public class MotorController extends SubsystemBase{
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
-      SmartDashboard.putNumber("LeftHand Angle", LeftEncoder.getPosition());
-      SmartDashboard.putNumber("RightHand Angle", RightEncoder.getPosition());
-
-      //electro magnet test
-      electro_test.set(TalonSRXControlMode.PercentOutput, 1.0);
-  }
+      SmartDashboard.putNumber("LeftArm Angle", LeftEncoder.getPosition());
+      SmartDashboard.putNumber("RightArm Angle", RightEncoder.getPosition());
+    }
   
   public void Intake(double Direction){
     LeftHand.set(Direction);
@@ -166,34 +176,39 @@ public class MotorController extends SubsystemBase{
 
   public void LeftHandMove(double Direction, boolean resetPOS){
     if (resetPOS && Direction > .025){ //Will slow until reaching starting position
-      Direction = MathUtil.clamp(Direction, 0, .75);
+      Direction = MathUtil.clamp(Direction, 0, .65);
     }
     LeftHand.set(Direction);  
   }
 
   public void RightHandMove(double Direction, boolean resetPOS){
     if (resetPOS && Direction > .025){ //Will slow until reaching starting position
-      Direction = MathUtil.clamp(Direction, 0, .75);
+      Direction = MathUtil.clamp(Direction, 0, .65);
     }
     RightHand.set(Direction);
   }
-  /*
-  public SparkMaxPIDController getArmPID() {
+  
+  /*public SparkMaxPIDController getArmPID() {
     return PID;
-  }
+  } */
   public void ArmPID(double goalPoint, int newPointNum) {
     if (currentPointNum != newPointNum){
-     currentPointNum = newPointNum;
-      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(300, 150));
+      currentPointNum = newPointNum;
+      Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(185, 80));
+      Equation.reset(ArmEncoder.getPosition());
     }
-    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.1, 0.1));
-  } */
-
-  public void ArmMove(double Movement){
-    Arm.set(Movement/3);
+    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), 0, .4));
   }
 
+  public void ArmMove(double Movement){
+    Arm.set(Movement/2.5); //Change this for more motor power
+  }
+/* 
   public void GripMove(double UpDown){
     HandUpDown.set(UpDown);
+  }
+  */
+  public void ArmHolderStart(){
+      ArmHolder.set(.2);
   }
 }

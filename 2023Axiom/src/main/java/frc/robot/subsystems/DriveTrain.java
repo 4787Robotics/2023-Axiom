@@ -81,13 +81,13 @@ public class DriveTrain extends SubsystemBase{
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
     int window_size = 100;
 
-    AHRS gyro = Balance.getGyro();
+    gyro = Balance.getGyro();
     m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters);
     //makes sure that the wheels on the side are going the same way
-    m_left1.setInverted(TalonFXInvertType.CounterClockwise);
-    m_left2.setInverted(TalonFXInvertType.CounterClockwise);
-    m_right1.setInverted(TalonFXInvertType.Clockwise);
-    m_right2.setInverted(TalonFXInvertType.Clockwise);
+    m_left1.setInverted(TalonFXInvertType.Clockwise);
+    m_left2.setInverted(TalonFXInvertType.Clockwise);
+    m_right1.setInverted(TalonFXInvertType.CounterClockwise);
+    m_right2.setInverted(TalonFXInvertType.CounterClockwise);
 
     m_left2.setNeutralMode(NeutralMode.Brake);
     m_left1.setNeutralMode(NeutralMode.Coast);
@@ -172,7 +172,7 @@ public class DriveTrain extends SubsystemBase{
   //separate joysticks
   public void driveRobot(boolean squareInputs, double throttle, double turn){
     if (squareInputs) {
-      drive.arcadeDrive(throttle * Math.abs(throttle), turn * Math.abs(turn) * Math.abs(turn) * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
+      drive.arcadeDrive(throttle * Math.abs(throttle), turn * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
     }
     else {
       drive.arcadeDrive(throttle, turn);

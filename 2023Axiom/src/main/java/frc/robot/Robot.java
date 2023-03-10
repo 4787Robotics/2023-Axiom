@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -42,14 +44,53 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_driveCommand;
   private Command m_autoAlignAndPlaceCommand;
+  private Command m_autoArmPIDCommand;
+  private Command m_autoGripCommand;
+  private Command m_autoGripOandCCommand;
+  private Command m_autoArmStartCommand;
   private Command m_cancelPlaceCommand;
   private Command m_armCommand;
   private Command m_teleopCommand;
+  private Command m_armPIDCommand;
   private Command m_pathCommand;
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
-  String trajectoryJSON = "C:/Users/robotics/Documents/GitHub/2023-Axiom/2023Axiom/PathWeaver/pathweaver.wpilib.json";
-  Trajectory trajectory = new Trajectory();
+
+  String trajectoryJSON_1 = "paths/preloadedCone2a.wpilib.json";
+  String trajectoryJSON_2 = "paths/getCube2a.wpilib.json";
+  String trajectoryJSON_3 = "paths/placeCube2aPart1.wpilib.json";
+  String trajectoryJSON_4 = "paths/placeCube2aPart2.wpilib.json";
+  String trajectoryJSON_5 = "paths/getCone2a.wpilib.json";
+  String trajectoryJSON_6 = "paths/placeCone2aPart1.wpilib.json";
+  String trajectoryJSON_7 = "paths/placeCone2aPart2.wpilib.json";
+
+  String trajectoryJSON_8 = "paths/preloadedCone2b.wpilib.json";
+  String trajectoryJSON_9 = "paths/getCube2b.wpilib.json";
+  String trajectoryJSON_10 = "paths/placeCube2bPart1.wpilib.json";
+  String trajectoryJSON_11 = "paths/placeCube2bPart2.wpilib.json";
+  String trajectoryJSON_12 = "paths/getCone2b.wpilib.json";
+  String trajectoryJSON_13 = "paths/placeCone2bPart1.wpilib.json";
+  String trajectoryJSON_14 = "paths/placeCone2bPart2.wpilib.json";
+
+  String trajectoryJSON_15 = "paths/preloadedCubev1.wpilib.json";
+  String trajectoryJSON_16 = "paths/moveBackv1.wpilib.json";
+  String trajectoryJSON_17 = "paths/chargeStation.wpilib.json";
+
+  
+  public static Trajectory[] trajectoryArray = new Trajectory[17];
+
+  int i = 0;
+  public void readTrajectory(String trajectoryJSON){
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      Trajectory trajectory = new Trajectory();
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      trajectoryArray[i] = trajectory;
+      i++;
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    }
+  }
 
   //private CXbox cxbox = new CXbox();
 
@@ -69,9 +110,27 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getNavXAutoCommand();
     m_armCommand = m_robotContainer.getArmCommand();
     m_teleopCommand = new ParallelCommandGroup(m_driveCommand, m_armCommand);
-    m_pathCommand = m_robotContainer.getPathCommand();
+    m_autoArmPIDCommand = m_robotContainer.getAutoArmPIDCommand();
+    m_autoGripCommand = m_robotContainer.getAutoGripCommand();
+    m_autoArmStartCommand = m_robotContainer.getAutoArmStartCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
-    
+    readTrajectory(trajectoryJSON_1);
+    readTrajectory(trajectoryJSON_2);
+    readTrajectory(trajectoryJSON_3);
+    readTrajectory(trajectoryJSON_4);
+    readTrajectory(trajectoryJSON_5);
+    readTrajectory(trajectoryJSON_6);
+    readTrajectory(trajectoryJSON_7);
+    readTrajectory(trajectoryJSON_8);
+    readTrajectory(trajectoryJSON_9);
+    readTrajectory(trajectoryJSON_10);
+    readTrajectory(trajectoryJSON_11);
+    readTrajectory(trajectoryJSON_12);
+    readTrajectory(trajectoryJSON_13);
+    readTrajectory(trajectoryJSON_14);
+    readTrajectory(trajectoryJSON_15);
+    readTrajectory(trajectoryJSON_16);
+    readTrajectory(trajectoryJSON_17);
   }
 
   /**
@@ -102,20 +161,22 @@ public class Robot extends TimedRobot {
   @Override
   
   public void autonomousInit() {
-    m_robotContainer.getBalance().setHeadingAdjust();
+   
+    m_autonomousCommand = m_robotContainer.getDriveBackwards();
+    //m_autonomousCommand = m_robotContainer.getAutoCommand2a();
+    // m_autoArmStartCommand.schedule();
 
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    /*if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-      m_pathCommand.cancel();
+      // m_pathCommand.cancel();
     }
 
-    assert m_autonomousCommand != null;
+    // assert m_autonomousCommand != null;
     m_autonomousCommand.schedule();
-    m_pathCommand.schedule();*/
-    TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
+    // m_pathCommand.schedule();
+    //TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
 
   /** This function is called periodically during autonomous. */
