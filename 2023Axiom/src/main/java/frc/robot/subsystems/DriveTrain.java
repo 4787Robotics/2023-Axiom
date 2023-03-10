@@ -81,7 +81,7 @@ public class DriveTrain extends SubsystemBase{
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
     int window_size = 100;
 
-    AHRS gyro = Balance.getGyro();
+    gyro = Balance.getGyro();
     m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters);
     //makes sure that the wheels on the side are going the same way
     m_left1.setInverted(TalonFXInvertType.CounterClockwise);
