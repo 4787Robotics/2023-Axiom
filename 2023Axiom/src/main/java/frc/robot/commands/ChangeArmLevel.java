@@ -35,14 +35,17 @@ public class ChangeArmLevel extends CommandBase {
     if (levelToCheck == 0) {
       if (m_MotorController.ArmEncoder.getPosition() < Constants.LOW_LEVEL + 10 && m_MotorController.ArmEncoder.getPosition() > Constants.LOW_LEVEL - 10) {
         finished = true;
+        this.cancel();
       }
     } else if (levelToCheck == 1) {
       if (m_MotorController.ArmEncoder.getPosition() < Constants.MID_LEVEL + 10 && m_MotorController.ArmEncoder.getPosition() > Constants.MID_LEVEL - 10) {
         finished = true;
+        this.cancel();
       }
     } else if (levelToCheck == 2) {
       if (m_MotorController.ArmEncoder.getPosition() < Constants.HIGH_LEVEL + 10 && m_MotorController.ArmEncoder.getPosition() > Constants.HIGH_LEVEL - 10) {
         finished = true;
+        this.cancel();
       }
     }
   }

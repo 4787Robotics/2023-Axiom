@@ -43,11 +43,11 @@ public class AutoGripOandCCommand extends CommandBase {
   public void execute() {
     // - is opening, + is closing
     if (opening){
-      m_subsystem.Intake(-.3); //opening
+      m_subsystem.Intake(0.3); //opening. MUST BE POSITIVE
     } else if (!opening){
-      m_subsystem.Intake(.3); //closing
+      m_subsystem.Intake(-1); //closing. MUST BE NEGATIVE
     }
-    Timer.delay(1);
+    Timer.delay(0.3);
     m_subsystem.Intake(0);
     finished = true;
   }

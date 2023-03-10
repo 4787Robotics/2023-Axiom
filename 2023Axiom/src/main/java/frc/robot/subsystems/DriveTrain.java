@@ -84,10 +84,10 @@ public class DriveTrain extends SubsystemBase{
     gyro = Balance.getGyro();
     m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters);
     //makes sure that the wheels on the side are going the same way
-    m_left1.setInverted(TalonFXInvertType.CounterClockwise);
-    m_left2.setInverted(TalonFXInvertType.CounterClockwise);
-    m_right1.setInverted(TalonFXInvertType.Clockwise);
-    m_right2.setInverted(TalonFXInvertType.Clockwise);
+    m_left1.setInverted(TalonFXInvertType.Clockwise);
+    m_left2.setInverted(TalonFXInvertType.Clockwise);
+    m_right1.setInverted(TalonFXInvertType.CounterClockwise);
+    m_right2.setInverted(TalonFXInvertType.CounterClockwise);
 
     m_left2.setNeutralMode(NeutralMode.Brake);
     m_left1.setNeutralMode(NeutralMode.Coast);

@@ -58,8 +58,8 @@ public final class Constants {
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
-    public static final float RIGHT_STICK_DEAD_ZONE = 0.02f;
-    public static final float LEFT_STICK_DEAD_ZONE = 0.05f;
+    public static final float RIGHT_STICK_DEAD_ZONE = 0.1f;
+    public static final float LEFT_STICK_DEAD_ZONE = 0.1f;
     public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.1f;
     public static final float LEFT_TRIGGER_DEAD_ZONE = 0.1f;
     //Joystick

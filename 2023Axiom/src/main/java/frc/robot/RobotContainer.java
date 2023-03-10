@@ -143,10 +143,10 @@ public class RobotContainer {
 
   public Command getAutoCommand2a() {
     //Robot needs to: Back up, than lift arm, than drive forward (with arm still up), than open thingy, than drive backwards, than drop arm
-    Command raiseArm = new ParallelRaceGroup(new ChangeArmLevel(1, m_autoArmPIDCommand, m_motorController), m_autoGripCommand);
+    //Command raiseArm = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand);
     //Command moveToScore = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
-    Command scoreCone1 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand);
-    //Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 2);
+    //Command scoreCone1 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand);
+    Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 16);
     //Command pickUpCube = new AutoGripOandCCommand(m_motorController, false);
       //Command m_autoGripCommand2 = new AutoGripCommand(m_motorController);
     //Command goBackToScoreCube1 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 3), m_autoGripCommand2);
@@ -160,7 +160,7 @@ public class RobotContainer {
     //Command raiseArm3 = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand3);
     //Command goBackToScoreCone2 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 7), m_autoGripCommand3);
     //Command scoreCone2 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand3);
-    return new ParallelCommandGroup(new SequentialCommandGroup(raiseArm, scoreCone1), m_autoArmPIDCommand);
+    return new ParallelCommandGroup(new SequentialCommandGroup(backOutToFaceCube), m_autoArmPIDCommand);
 //    return new ParallelCommandGroup (new SequentialCommandGroup(raiseArm, moveToScore, scoreCone1,
 //                                    backOutToFaceCube, pickUpCube, goBackToScoreCube1, raiseArm2, goBackToScoreCube2, scoreCube,
 //                                    backOutToFaceCone, pickUpCone, goBackToScoreCone1, raiseArm3, goBackToScoreCone2, scoreCone2),
