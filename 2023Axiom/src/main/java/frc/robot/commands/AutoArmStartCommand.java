@@ -24,11 +24,11 @@ public class AutoArmStartCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (i < 10) {
+    if (i < 8) {
       m_subsystem.ArmHolderStart();
     }
     i++;
-    if (i == 10) {
+    if (i == 8) {
       finished2 = true;
     }  
   }

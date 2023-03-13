@@ -60,7 +60,7 @@ public class RobotContainer {
   private final static AutoArmStartCommand m_autoArmStartCommand = new AutoArmStartCommand(m_motorController);
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
-  private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain);
+  private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain, m_motorController, m_autoGripCommand);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -159,7 +159,7 @@ public class RobotContainer {
     //Command raiseArm2 = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand2);
     //Command goBackToScoreCube2 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 4), m_autoGripCommand2);
     //Command scoreCube = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand2);
-    //Command backOutToFaceCone = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 5);
+    //Command backOutToFaceCone = m_rammseteAutonomousCommand.(m_driveTrain, 5);
     //Command pickUpCone = new AutoGripOandCCommand(m_motorController, false);
       //Command m_autoGripCommand3 = new AutoGripCommand(m_motorController);
     //Command goBackToScoreCone1 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain,6), m_autoGripCommand3);

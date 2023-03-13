@@ -58,7 +58,7 @@ public class DriveTrain extends SubsystemBase{
 
     m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID); //Front left
     m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID); //Back left
-    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left
+    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXSXXXXX     
     m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
   
     m_left1.enableVoltageCompensation(true);
@@ -66,10 +66,10 @@ public class DriveTrain extends SubsystemBase{
     m_right1.enableVoltageCompensation(true);
     m_right2.enableVoltageCompensation(true);
 
-    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
-    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
-    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
-    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 35, 40, 1));
+    m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
+    m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
+    m_right1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
+    m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
     
     m_left1.configOpenloopRamp(0.2); // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
     m_left2.configOpenloopRamp(0.2); // (helps keep robot from rocking around violently every time driver stops)
@@ -205,6 +205,10 @@ public class DriveTrain extends SubsystemBase{
     
     // m_odometry.update(gyro.getRotation2d(), leftEncoderPosition, rightEncoderPosition);
     SmartDashboard.putNumber("Left Output",m_left1.get());
+    SmartDashboard.putNumber("m_left1", m_left1.getMotorOutputVoltage());
+    SmartDashboard.putNumber("m_left2", m_left2.getMotorOutputVoltage());
+    SmartDashboard.putNumber("m_right1", m_right1.getMotorOutputVoltage());
+    SmartDashboard.putNumber("m_right2", m_right2.getMotorOutputVoltage());
     SmartDashboard.putNumber("Right Output",m_right1.get());
     SmartDashboard.putNumber("Left Position",totalLeftWheelDistanceMeters);
     SmartDashboard.putNumber("Right Position",totalRightWheelDistanceMeters);
