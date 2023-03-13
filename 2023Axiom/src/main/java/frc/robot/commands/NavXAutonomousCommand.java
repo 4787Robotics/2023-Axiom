@@ -34,7 +34,7 @@ public class NavXAutonomousCommand extends CommandBase {
   public void execute() {
     if (i == 0) {
       System.out.println("NavX running");
-      TurnAngle turnAngle = new TurnAngle(driveTrain, balance, 90);
+      ShitTurnAngle turnAngle = new ShitTurnAngle(driveTrain, balance, 90);
       turnAngle.schedule();
       System.out.println("Scheduled");
       i++;

@@ -58,7 +58,7 @@ public class RammseteAutonomousCommand extends CommandBase{
       }
     }*/
 
-    trajectory = Robot.trajectoryArray[pathNumber-1];
+    trajectory = Robot.trajectoryArray.get(pathNumber-1);
 
     driveTrain = RobotContainer.m_driveTrain;
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
