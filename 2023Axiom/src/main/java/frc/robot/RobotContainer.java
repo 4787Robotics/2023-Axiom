@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.RammseteAutonomousCommand;
 // import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.MoveTo;
 import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
@@ -61,6 +62,7 @@ public class RobotContainer {
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain, m_motorController, m_autoGripCommand);
+  private final static MoveTo m_moveTo = new MoveTo(m_driveTrain, 10);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -140,10 +142,10 @@ public class RobotContainer {
   public Command getAutoCommand1() {
     // working on it DISREGARD IT -- DO NOT USE IT
     // need to find the right pathNumber for each rammsete command
-    Command setUp = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 13);
+    Command setUp = RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 13);
     Command placeStartingCube;
-    Command backOut = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 6);
-    Command engageChargeStation = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
+    Command backOut = RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 6);
+    Command engageChargeStation = RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
     return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
   }
 
@@ -152,7 +154,7 @@ public class RobotContainer {
     //Command raiseArm = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand);
     //Command moveToScore = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
     //Command scoreCone1 = new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand);
-    Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 16);
+    Command backOutToFaceCube = RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 16);
     //Command pickUpCube = new AutoGripOandCCommand(m_motorController, false);
       //Command m_autoGripCommand2 = new AutoGripCommand(m_motorController);
     //Command goBackToScoreCube1 = new ParallelRaceGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 3), m_autoGripCommand2);
@@ -175,20 +177,24 @@ public class RobotContainer {
 
   public Command getAutoCommand2b() {
     //Robot needs to: Back up, than lift arm, than drive forward (with arm still up), than open thingy, than drive backwards, than drop arm
-    Command setUp = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 12);
+    Command setUp = RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 12);
     Command placeStartingCone = new SequentialCommandGroup(new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand), new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand));
-    Command backOutToFaceCube = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 5);
+    Command backOutToFaceCube = RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 5);
     Command pickUpCube;
-    Command goBackToScoreCube = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 10), m_autoGripCommand);
+    Command goBackToScoreCube = new ParallelCommandGroup(RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 10), m_autoGripCommand);
     Command placeCube;
-    Command backOutToFaceCone = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 3);
+    Command backOutToFaceCone = RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 3);
     Command pickUpCone;
-    Command goBackToScoreCone = new ParallelCommandGroup(m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 8), m_autoGripCommand);
+    Command goBackToScoreCone = new ParallelCommandGroup(RammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 8), m_autoGripCommand);
     Command scoreCone;
     return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
   } 
 
   public AutoAlignAndPlace getAutoAlignAndPlace() {
     return autoAlignAndPlace;
+  }
+
+  public MoveTo getMoveTo() {
+    return m_moveTo;
   }
 }

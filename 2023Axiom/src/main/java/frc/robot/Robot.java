@@ -160,12 +160,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   
   @Override
-  
   public void autonomousInit() {
    
     //m_autonomousCommand = m_robotContainer.getDriveBackwards();
     //m_autonomousCommand = m_robotContainer.getAutoCommand2a();
     // m_autoArmStartCommand.schedule();
+    m_autonomousCommand = m_robotContainer.getMoveTo();
 
 
     // schedule the autonomous command (example)
@@ -174,9 +174,9 @@ public class Robot extends TimedRobot {
       // m_pathCommand.cancel();
     }
 
-    // assert m_autonomousCommand != null;
+    assert m_autonomousCommand != null;
     //m_autoArmStartCommand.schedule();
-    //m_autonomousCommand.schedule();
+    m_autonomousCommand.schedule();
     // m_pathCommand.schedule();
     //TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
