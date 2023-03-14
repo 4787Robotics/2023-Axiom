@@ -32,11 +32,11 @@ public final class Constants {
     public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
     //Motors
-    public static int MOTOR_ARM_1 = 5;
-    public static int MOTOR_ARM_2 = 6; //Copies arm 1
+    public static int MOTOR_ARM_1 = 10;
+    public static int MOTOR_ARM_2 = 11; //Copies arm 1
     public static int MOTOR_LEFT_GRIP = 8;
     public static int MOTOR_RIGHT_GRIP = 7; //does the opposite of left Grip
-    public static int MOTOR_MOVE_GRIP = 10; //Snow Blower
+    //public static int MOTOR_MOVE_GRIP = 10; //Snow Blower
     public static int MOTOR_ARM_HOLD = 9; //Starting motor
     
     //Position of where the arm should be for each grid level. (in rotations)
@@ -52,9 +52,11 @@ public final class Constants {
     //The constants below will need to be changed later - Talk to electrical
     public static int LEFT_MOTOR_1_ID = 2; //Front Left
     public static int LEFT_MOTOR_2_ID = 1; //Back Left
+    public static int LEFT_MOTOR_3_ID = 5; //Top Left
 
-    public static int RIGHT_MOTOR_1_ID = 3; //Front right
-    public static int RIGHT_MOTOR_2_ID = 4; //Back right
+    public static int RIGHT_MOTOR_1_ID = 3; //Front Right
+    public static int RIGHT_MOTOR_2_ID = 4; //Back Right
+    public static int RIGHT_MOTOR_3_IS = 6; //TOp RIght
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
