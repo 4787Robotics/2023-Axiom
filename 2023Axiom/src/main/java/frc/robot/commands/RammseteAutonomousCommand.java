@@ -38,10 +38,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RammseteAutonomousCommand extends CommandBase{
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  public DriveTrain driveTrain;
-  Pose2d initialPose;
-  public TrajectoryConfig config;
-  Trajectory trajectory = new Trajectory();
+  public static DriveTrain driveTrain;
+  static Pose2d initialPose;
+  public static TrajectoryConfig config;
+  static Trajectory trajectory = new Trajectory();
 
   /**
   * Creates a new RammseteAutonomousCommand.
@@ -50,7 +50,7 @@ public class RammseteAutonomousCommand extends CommandBase{
   * @param pathNumber The number that decides the path the robot is going to follow
    * @return the path and then stops the robot
   */
-  public Command getRammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
+  public static Command getRammseteAutonomousCommand(DriveTrain subsystem, int pathNumber) {
     /*for(int i=1;i<=17;i++) {
       if (pathNumber == i) {
         trajectory = Robot.trajectoryArray[i-1];
