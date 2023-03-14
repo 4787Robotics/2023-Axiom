@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
   
   @Override
   public void autonomousInit() {
-   
+    TestTurnAngle m_testTurnAngleCommand = m_robotContainer.getTestTurnAngle();
     //m_autonomousCommand = m_robotContainer.getDriveBackwards();
     //m_autonomousCommand = m_robotContainer.getAutoCommand2a();
     // m_autoArmStartCommand.schedule();
@@ -174,7 +174,8 @@ public class Robot extends TimedRobot {
       // m_pathCommand.cancel();
     }
 
-    assert m_autonomousCommand != null;
+    m_testTurnAngleCommand.changeRamseteCommand(m_robotContainer.getDriveTrain(), 90);
+
     //m_autoArmStartCommand.schedule();
     m_autonomousCommand.schedule();
     // m_pathCommand.schedule();
