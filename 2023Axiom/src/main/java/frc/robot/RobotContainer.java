@@ -10,29 +10,20 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.AutoAlignAndPlace;
-import frc.robot.commands.AutoArmPIDCommand;
-import frc.robot.commands.AutoGripCommand;
-import frc.robot.commands.AutoGripOandCCommand;
-import frc.robot.commands.ChangeArmLevel;
+import frc.robot.commands.*;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.RammseteAutonomousCommand;
 // import frc.robot.commands.AutonomousCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
-import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoArmPIDCommand;
 import frc.robot.commands.AutoGripCommand;
-import frc.robot.commands.AutoArmStartCommand;
 import frc.robot.subsystems.Balance;
 import frc.robot.commands.ChangeArmLevel;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import frc.robot.commands.DriveBackwards;
+import frc.robot.commands.TestTurnAngle;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -61,6 +52,7 @@ public class RobotContainer {
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain, m_motorController, m_autoGripCommand);
+  private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -136,6 +128,8 @@ public class RobotContainer {
   public Command getDriveBackwards() {
     return m_driveBackwards;
   }
+
+  public TestTurnAngle getTestTurnAngle() {return m_testTurnAngle;}
 
   public Command getAutoCommand1() {
     // working on it DISREGARD IT -- DO NOT USE IT

@@ -67,16 +67,22 @@ public class TestTurnAngle extends CommandBase {
         addRequirements(RobotContainer.m_driveTrain);
     }
 
-    /**
-     * Changes the RamseteCommand
-     * @param m_driveTrain
-     * @param m_config
-     * @param TurnTo
-     */
-
-    public void changeRamseteCommand(DriveTrain m_driveTrain, TrajectoryConfig m_config, double TurnTo) {
+    public void changeRamseteCommand(DriveTrain m_driveTrain, double TurnTo) {
         driveTrain = m_driveTrain;
-        addRequirements(driveTrain);
+        //addRequirements(driveTrain);
+
+        DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+                new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                        Constants.KV_VOLT_SECONDS_PER_METER,
+                        Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+                Constants.K_DRIVE_KINEMATICS,
+                4
+        );
+
+        TrajectoryConfig m_config = new TrajectoryConfig(Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+                .setKinematics(Constants.K_DRIVE_KINEMATICS) //ensures max speed is actually obeyed
+                .addConstraint(autoVoltageConstraint)
+                .setReversed(false); //voltage constraint
 
         trajectory = TrajectoryGenerator.generateTrajectory(
                 //start

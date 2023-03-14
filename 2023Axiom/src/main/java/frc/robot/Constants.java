@@ -23,8 +23,8 @@ public final class Constants {
     public static int XCONTROLLER_PORT= 1;
 
     //Limelight
-    public static double LIMELIGHT_APRILTAG_DOUBLE_STATION_HEIGHT = 36; //cm
-    public static double LIMELIGHT_APRILTAG_GRID_HEIGHT = 59; //cm
+    public static double LIMELIGHT_APRILTAG_DOUBLE_STATION_HEIGHT = 81.5975; //cm
+    public static double LIMELIGHT_APRILTAG_GRID_HEIGHT = 53.0678571429; //cm
     public static double LIMELIGHT_REFLECTIVETAPE_LOW_HEIGHT = 61; //cm
     public static double LIMELIGHT_REFLECTIVETAPE_HIGH_HEIGHT = 111; //cm
     public static double LIMELIGHT_MOUNT_ANGLE = 0; //degrees
@@ -58,8 +58,8 @@ public final class Constants {
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
-    public static final float RIGHT_STICK_DEAD_ZONE = 0.1f;
-    public static final float LEFT_STICK_DEAD_ZONE = 0.1f;
+    public static final float RIGHT_STICK_DEAD_ZONE = 0.02f;
+    public static final float LEFT_STICK_DEAD_ZONE = 0.05f;
     public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.1f;
     public static final float LEFT_TRIGGER_DEAD_ZONE = 0.1f;
     //Joystick
