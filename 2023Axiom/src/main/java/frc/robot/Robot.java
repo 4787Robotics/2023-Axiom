@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
   String trajectoryJSON_17 = "paths/chargeStation.wpilib.json";
 
   
-  public static Trajectory[] trajectoryArray = new Trajectory[17];
+  public static Trajectory[] trajectoryArray = new Trajectory[18];
 
   int i = 0;
   public void readTrajectory(String trajectoryJSON){
