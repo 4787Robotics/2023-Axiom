@@ -56,7 +56,7 @@ public final class Constants {
 
     public static int RIGHT_MOTOR_1_ID = 3; //Front Right
     public static int RIGHT_MOTOR_2_ID = 4; //Back Right
-    public static int RIGHT_MOTOR_3_IS = 6; //TOp RIght
+    public static int RIGHT_MOTOR_3_ID = 6; //TOp RIght
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones

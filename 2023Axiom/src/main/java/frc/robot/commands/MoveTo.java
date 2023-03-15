@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import java.util.List;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,20 +16,24 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 public class MoveTo extends CommandBase {
   /** Creates a new TurnAngle. */
-  private final DriveTrain driveTrain;
-  private double meters; // positive meters = forward, while negative meters = backward
-  public Trajectory moveToTrajectory;
+  private DriveTrain driveTrain;
+  public Trajectory trajectory;
+  private RamseteCommand ramseteCommand;
 
-  public MoveTo(DriveTrain m_driveTrain, double m_meters) {
+  public MoveTo() {addRequirements(RobotContainer.m_driveTrain);}
+
+  public Command changeRamseteCommand(DriveTrain m_driveTrain, double meters) {
     driveTrain = m_driveTrain;
-    meters = m_meters;
+    addRequirements(driveTrain);
 
     // im not sure what .addConstraint is, so we will figure about that.
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
@@ -43,23 +49,35 @@ public class MoveTo extends CommandBase {
         .addConstraint(autoVoltageConstraint)
         .setReversed(false); //voltage constraint
 
-    moveToTrajectory = TrajectoryGenerator.generateTrajectory(
+    trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0,0,new Rotation2d(0)), 
       List.of(new Translation2d(meters-1, 0)), // im not sure about this
       new Pose2d(meters, 0, new Rotation2d(0)),
       config
     );
 
-    Robot.trajectoryArray[17] = moveToTrajectory;
+    ramseteCommand = new RamseteCommand(trajectory, 
+      driveTrain::getPose,
+      new RamseteController(Constants.K_RAMSETE_B, Constants.K_RAMSETE_A),
+      new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                                Constants.KV_VOLT_SECONDS_PER_METER,
+                                Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+      Constants.K_DRIVE_KINEMATICS,
+      driveTrain::getWheelSpeeds,
+      new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+      new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+      // RamseteCommand passes volts to the callback
+      driveTrain::tankDriveVolts,
+      driveTrain
+      );
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_driveTrain);
+    driveTrain.resetOdometry(trajectory.getInitialPose());
+    return ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveTrain.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -74,7 +92,7 @@ public class MoveTo extends CommandBase {
       driveTrain.resetEncoders();
     }
     */
-    RammseteAutonomousCommand.getRammseteAutonomousCommand(driveTrain, 18);
+    // RammseteAutonomousCommand.getRammseteAutonomousCommand(driveTrain, 18);
   }
 
   // Called once the command ends or is interrupted.
