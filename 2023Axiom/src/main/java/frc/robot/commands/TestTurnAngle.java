@@ -63,13 +63,12 @@ public class TestTurnAngle extends CommandBase {
     private Trajectory trajectory;
     private RamseteCommand ramseteCommand;
 
-    public TestTurnAngle() {
-        addRequirements(RobotContainer.m_driveTrain);
-    }
+    public TestTurnAngle() {addRequirements(RobotContainer.m_driveTrain);}
 
-    public void changeRamseteCommand(DriveTrain m_driveTrain, double TurnTo) {
+    public Command changeRamseteCommand(DriveTrain m_driveTrain, double TurnTo) {
+
         driveTrain = m_driveTrain;
-        //addRequirements(driveTrain);
+        addRequirements(driveTrain);
 
         DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(Constants.KS_VOLTS,
@@ -88,14 +87,12 @@ public class TestTurnAngle extends CommandBase {
                 //start
                 new Pose2d(0,0,new Rotation2d(0)),
                 //turn
-                List.of(new Translation2d(0,0)),
+                List.of(new Translation2d(0.001,0.001)),
                 //end
-                new Pose2d(0, 0, new Rotation2d(TurnTo)),
+                new Pose2d(0.002, 0.002, new Rotation2d(TurnTo)),
                 // Pass config
                 m_config
         );
-
-        driveTrain.resetOdometry(trajectory.getInitialPose());
 
         ramseteCommand = new RamseteCommand(trajectory, 
             driveTrain::getPose,
@@ -112,20 +109,18 @@ public class TestTurnAngle extends CommandBase {
             driveTrain
         );
 
-        ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
+        driveTrain.resetOdometry(trajectory.getInitialPose());
+
+        return ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
     }
 
     /**
      * Returns the RamseteCommand
      * @return RamseteCommand
      */
-    public RamseteCommand getRamseteCommand() {
-        return ramseteCommand;
-    }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {

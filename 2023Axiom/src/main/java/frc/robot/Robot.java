@@ -174,7 +174,7 @@ public class Robot extends TimedRobot {
       // m_pathCommand.cancel();
     }
 
-    m_testTurnAngleCommand.changeRamseteCommand(m_robotContainer.getDriveTrain(), 90);
+    //m_testTurnAngleCommand.changeRamseteCommand(m_robotContainer.getDriveTrain(), 90).schedule();
 
     //m_autoArmStartCommand.schedule();
     m_autonomousCommand.schedule();
