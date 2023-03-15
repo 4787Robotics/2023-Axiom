@@ -56,7 +56,8 @@ public class RobotContainer {
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain, m_motorController, m_autoGripCommand);
   private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
-  private final static MoveTo m_moveTo = new MoveTo(m_driveTrain, 10);
+  private final static MoveTo m_moveTo = new MoveTo();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -134,6 +135,7 @@ public class RobotContainer {
   }
 
   public TestTurnAngle getTestTurnAngle() {return m_testTurnAngle;}
+  public MoveTo getMoveTo() {return m_moveTo;}
 
   public Command getAutoCommand1() {
     // working on it DISREGARD IT -- DO NOT USE IT
@@ -188,9 +190,5 @@ public class RobotContainer {
 
   public AutoAlignAndPlace getAutoAlignAndPlace() {
     return autoAlignAndPlace;
-  }
-
-  public MoveTo getMoveTo() {
-    return m_moveTo;
   }
 }

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Balance;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Scorekeeper;
 import frc.robot.subsystems.ScoringArea;
 //import frc.robot.subsystems.Scorekeeper;
@@ -31,6 +32,7 @@ import frc.robot.subsystems.ScoringArea;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.CXbox;
+import frc.robot.commands.MoveTo;
 import frc.robot.commands.RammseteAutonomousCommand;
 import frc.robot.commands.TestTurnAngle;
 import frc.robot.commands.TurnAngle;
@@ -162,6 +164,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     TestTurnAngle m_testTurnAngleCommand = m_robotContainer.getTestTurnAngle();
+    MoveTo m_moveTo = m_robotContainer.getMoveTo();
     //m_autonomousCommand = m_robotContainer.getDriveBackwards();
     m_autonomousCommand = m_robotContainer.getAutoCommand2a();
     // m_autoArmStartCommand.schedule();
@@ -175,9 +178,10 @@ public class Robot extends TimedRobot {
     }
 
     //m_testTurnAngleCommand.changeRamseteCommand(m_robotContainer.getDriveTrain(), 90).schedule();
+    m_moveTo.changeRamseteCommand(RobotContainer.m_driveTrain, 10).schedule();
 
     //m_autoArmStartCommand.schedule();
-    m_autonomousCommand.schedule();
+    // m_autonomousCommand.schedule();
     // m_pathCommand.schedule();
     //TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
