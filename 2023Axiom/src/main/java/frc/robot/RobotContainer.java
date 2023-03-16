@@ -58,6 +58,7 @@ public class RobotContainer {
   private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain, m_motorController, m_autoGripCommand);
   private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
   private final static ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance = new ChangeTurnAngleAndDistance();
+  private final static MoveTo m_moveTo = new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -138,6 +139,10 @@ public class RobotContainer {
     return m_changeTurnAngleAndDistance;
   }
 
+  public MoveTo getMoveTo() {
+    return m_moveTo;
+  }
+
   public TestTurnAngle getTestTurnAngle() {return m_testTurnAngle;}
 
   public Command getAutoCommand1() {
@@ -208,10 +213,11 @@ public class RobotContainer {
 
   public Command getFullAutoPlaceCommand() {
     return new SequentialCommandGroup(
-      autoAlignAndPlace, 
+      m_testTurnAngle.changeRamseteCommand(m_driveTrain, 90)
+      //m_testTurnAngle.changeRamseteCommand(m_driveTrain, m_changeTurnAngleAndDistance.getHeldAngle()).until(() -> autoAlignAndPlace.getIsInterrupted())
+      /*new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldParallelDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()), 
       new TestTurnAngle().until(() -> autoAlignAndPlace.getIsInterrupted()), 
-      new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldParallelDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()), 
-      new TestTurnAngle().until(() -> autoAlignAndPlace.getIsInterrupted()), 
-      new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldPerpendicularDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()));
+      new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldPerpendicularDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted())*/
+    );
   }
 }

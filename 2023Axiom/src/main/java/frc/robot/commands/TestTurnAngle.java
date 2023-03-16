@@ -66,6 +66,7 @@ public class TestTurnAngle extends CommandBase {
     public TestTurnAngle() {addRequirements(RobotContainer.m_driveTrain);}
 
     public Command changeRamseteCommand(DriveTrain m_driveTrain, double TurnTo) {
+        System.out.println("changingturn");
 
         driveTrain = m_driveTrain;
         addRequirements(driveTrain);

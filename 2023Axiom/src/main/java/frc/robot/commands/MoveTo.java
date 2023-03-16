@@ -24,23 +24,29 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 public class MoveTo extends CommandBase {
-  /** Creates a new TurnAngle. */
-  private DriveTrain driveTrain;
-  public Trajectory trajectory;
-  private RamseteCommand ramseteCommand;
+    /** Creates a new TurnAngle. */
+    private DriveTrain driveTrain;
+    public Trajectory trajectory;
+    private RamseteCommand ramseteCommand;
+    private double parallelDistance;
+    private double angle;
+    private ChangeTurnAngleAndDistance changeTurnAngleAndDistance;
 
-  public MoveTo(DriveTrain m_driveTrain, double m_meters, ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance) {
-    double parallelDistance = m_changeTurnAngleAndDistance.getHeldParallelDistance();
-    double angle = m_changeTurnAngleAndDistance.getHeldAngle();
-
-    if (m_meters == parallelDistance) {
-      if (angle < 0) {
-        m_changeTurnAngleAndDistance.setHeldAngle(90);
-      } else {
-        m_changeTurnAngleAndDistance.setHeldAngle(-90);
-      }
+    public MoveTo(DriveTrain m_driveTrain, ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance) {
+        double parallelDistance = m_changeTurnAngleAndDistance.getHeldParallelDistance();
+        double angle = m_changeTurnAngleAndDistance.getHeldAngle();
+        changeTurnAngleAndDistance = m_changeTurnAngleAndDistance;
     }
 
+  public Command changeRamseteCommand(DriveTrain m_driveTrain, double meters) {
+    
+    if (meters == parallelDistance) {
+        if (angle < 0) {
+          changeTurnAngleAndDistance.setHeldAngle(90);
+        } else {
+          changeTurnAngleAndDistance.setHeldAngle(-90);
+        }
+    }
     driveTrain = m_driveTrain;
     addRequirements(driveTrain);
 
@@ -60,8 +66,8 @@ public class MoveTo extends CommandBase {
 
     trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0,0,new Rotation2d(0)), 
-      List.of(new Translation2d(m_meters-1, 0)), // im not sure about this
-      new Pose2d(m_meters, 0, new Rotation2d(0)),
+      List.of(new Translation2d(meters-1, 0)), // im not sure about this
+      new Pose2d(meters, 0, new Rotation2d(0)),
       config
     );
 
