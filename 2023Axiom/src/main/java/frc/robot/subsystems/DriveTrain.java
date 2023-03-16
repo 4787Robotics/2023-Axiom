@@ -133,10 +133,14 @@ public class DriveTrain extends SubsystemBase{
     m_left1.configVelocityMeasurementWindow(window_size);
     m_left2.configVelocityMeasurementPeriod(measurement_period);
     m_left2.configVelocityMeasurementWindow(window_size);
+    m_left3.configVelocityMeasurementPeriod(measurement_period);
+    m_left3.configVelocityMeasurementWindow(window_size);
     m_right1.configVelocityMeasurementPeriod(measurement_period);
     m_right1.configVelocityMeasurementWindow(window_size);
     m_right2.configVelocityMeasurementPeriod(measurement_period);
     m_right2.configVelocityMeasurementWindow(window_size);
+    m_right3.configVelocityMeasurementPeriod(measurement_period);
+    m_right3.configVelocityMeasurementWindow(window_size);
     resetEncoders();
     
   }
@@ -162,6 +166,8 @@ public class DriveTrain extends SubsystemBase{
     m_right1.setVoltage(leftVolts);
     m_left2.setVoltage(leftVolts);
     m_right2.setVoltage(leftVolts);
+    m_left3.setVoltage(leftVolts);
+    m_right3.setVoltage(rightVolts);
     drive.feed();
   }
   
@@ -228,6 +234,7 @@ public class DriveTrain extends SubsystemBase{
     SmartDashboard.putNumber("m_left2", m_left2.getMotorOutputVoltage());
     SmartDashboard.putNumber("m_right1", m_right1.getMotorOutputVoltage());
     SmartDashboard.putNumber("m_right2", m_right2.getMotorOutputVoltage());
+    SmartDashboard.putNumber("m_left3", m_left3.getMotorOutputVoltage());
     SmartDashboard.putNumber("Right Output",m_right1.get());
     SmartDashboard.putNumber("Left Position",totalLeftWheelDistanceMeters);
     SmartDashboard.putNumber("Right Position",totalRightWheelDistanceMeters);

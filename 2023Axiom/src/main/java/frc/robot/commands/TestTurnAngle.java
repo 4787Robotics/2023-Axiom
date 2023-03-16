@@ -85,13 +85,8 @@ public class TestTurnAngle extends CommandBase {
                 .setReversed(false); //voltage constraint
 
         trajectory = TrajectoryGenerator.generateTrajectory(
-                //start
-                new Pose2d(0,0,new Rotation2d(0)),
-                //turn
-                List.of(new Translation2d(0.001,0.001)),
-                //end
-                new Pose2d(0.002, 0.002, new Rotation2d(TurnTo)),
-                // Pass config
+                List.of(new Pose2d(0, 0, new Rotation2d(0)), 
+                        new Pose2d(0.001, 0, new Rotation2d(TurnTo))),
                 m_config
         );
 
