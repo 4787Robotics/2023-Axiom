@@ -6,7 +6,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+<<<<<<< HEAD:2023Axiom/src/main/java/frc/robot/commands/AutoAlignAndPlace.java
 import frc.robot.commands.ShitTurnAngle;
+=======
+>>>>>>> main:2023Axiom/src/main/java/frc/robot/commands/AutoAlignAndPlaceCommand.java
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.CXbox;
@@ -15,14 +18,16 @@ import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.ChangeTurnAngleAndDistance;
 
 /** An example command that uses an example subsystem. */
-public class AutoAlignAndPlace extends CommandBase {
+public class AutoAlignAndPlaceCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Balance balance;
   private final DriveTrain driveTrain;
   private final LimeLight limeLight;
   private final XboxController xbox;
+  private final ChangeTurnAngleAndDistance changeTurnAngleAndDistance;
   private final double fieldOfViewX = 63.3;
   private final double fieldOfViewY = 49.7;
   private long startTime;
@@ -35,14 +40,16 @@ public class AutoAlignAndPlace extends CommandBase {
   private double distanceToPerpendicularTag = 0;
   private Command teleopCommand;
   private double distanceToTag = 0;
+  private boolean isInterrupted = false;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param m_limeLight The subsystem used by this command.
    */
-  public AutoAlignAndPlace(LimeLight m_limeLight, DriveTrain m_driveTrain, Balance m_balance, Command m_teleopCommand, XboxController m_cXbox) {
+  public AutoAlignAndPlaceCommand(LimeLight m_limeLight, DriveTrain m_driveTrain, Balance m_balance, Command m_teleopCommand, XboxController m_cXbox, ChangeTurnAngleAndDistance m_ChangeTurnAngleAndDistance) {
     teleopCommand = m_teleopCommand;
+    changeTurnAngleAndDistance = m_ChangeTurnAngleAndDistance;
     xbox = m_cXbox;
     driveTrain = m_driveTrain;
     balance = m_balance;
@@ -135,8 +142,9 @@ public class AutoAlignAndPlace extends CommandBase {
     if (closestId != 4.0) {
       distanceToTag = limeLight.calculateDistance(Constants.LIMELIGHT_APRILTAG_GRID_HEIGHT);
     } else if (closestId == 0) {
-      cancel();
       System.out.println("No AprilTag Found");
+      isInterrupted = true;
+      cancel();
     }
     System.out.println("balance: " + balance.getHeading());
 
@@ -168,6 +176,10 @@ public class AutoAlignAndPlace extends CommandBase {
     System.out.println("distanceToPerpendicularTag" + distanceToPerpendicularTag);
     System.out.println("distanceToParallelTag" + distanceToParallelTag);
 
+    changeTurnAngleAndDistance.setHeldAngle(heldTurnAngle);
+    changeTurnAngleAndDistance.setHeldParallelDistance(distanceToParallelTag);
+    changeTurnAngleAndDistance.setHeldPerpendicularDistance(distanceToPerpendicularTag);
+
     SmartDashboard.putNumber("distanceToTag", distanceToTag);
     SmartDashboard.putNumber("distanceToParallelTag", distanceToParallelTag);
     SmartDashboard.putNumber("distanceToPerpendicularTag", distanceToPerpendicularTag);
@@ -187,6 +199,10 @@ public class AutoAlignAndPlace extends CommandBase {
     //arm command
 
     cancel();
+  }
+
+  public boolean getIsInterrupted() {
+    return isInterrupted;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

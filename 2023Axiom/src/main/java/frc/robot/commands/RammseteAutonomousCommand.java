@@ -38,10 +38,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RammseteAutonomousCommand extends CommandBase{
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  public DriveTrain driveTrain;
-  Pose2d initialPose;
-  public TrajectoryConfig config;
-  Trajectory trajectory = new Trajectory();
+  public static DriveTrain driveTrain;
+  static Pose2d initialPose;
+  public static TrajectoryConfig config;
+  static Trajectory trajectory = new Trajectory();
 
   /**
   * Creates a new RammseteAutonomousCommand.
@@ -61,6 +61,7 @@ public class RammseteAutonomousCommand extends CommandBase{
     trajectory = Robot.trajectoryArray.get(pathNumber-1);
 
     driveTrain = RobotContainer.m_driveTrain;
+    /*
     DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(Constants.KS_VOLTS,
                                    Constants.KV_VOLT_SECONDS_PER_METER,
@@ -73,6 +74,7 @@ public class RammseteAutonomousCommand extends CommandBase{
         .setKinematics(Constants.K_DRIVE_KINEMATICS) //ensures max speed is actually obeyed
         .addConstraint(autoVoltageConstraint)
         .setReversed(false); //voltage constraint
+    */
 
     initialPose = trajectory.getInitialPose();
 
