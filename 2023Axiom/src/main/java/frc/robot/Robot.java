@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Balance;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Scorekeeper;
 import frc.robot.subsystems.ScoringArea;
 //import frc.robot.subsystems.Scorekeeper;
@@ -32,7 +31,6 @@ import frc.robot.subsystems.ScoringArea;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.CXbox;
-import frc.robot.commands.MoveTo;
 import frc.robot.commands.RammseteAutonomousCommand;
 import frc.robot.commands.TestTurnAngle;
 import frc.robot.commands.ShitTurnAngle;
@@ -56,7 +54,6 @@ public class Robot extends TimedRobot {
   private Command m_teleopCommand;
   private Command m_armPIDCommand;
   private Command m_pathCommand;
-  private Command m_fullAutoPlaceAndAlignCommand;
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
 
@@ -81,7 +78,7 @@ public class Robot extends TimedRobot {
   String trajectoryJSON_17 = "paths/chargeStation.wpilib.json";
 
   
-  public static Trajectory[] trajectoryArray = new Trajectory[18];
+  public static Trajectory[] trajectoryArray = new Trajectory[17];
 
   int i = 0;
   public void readTrajectory(String trajectoryJSON){
@@ -117,7 +114,6 @@ public class Robot extends TimedRobot {
     m_autoArmPIDCommand = m_robotContainer.getAutoArmPIDCommand();
     m_autoGripCommand = m_robotContainer.getAutoGripCommand();
     m_autoArmStartCommand = m_robotContainer.getAutoArmStartCommand();
-    m_fullAutoPlaceAndAlignCommand = m_robotContainer.getFullAutoPlaceCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     readTrajectory(trajectoryJSON_1);
     readTrajectory(trajectoryJSON_2);
@@ -164,13 +160,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   
   @Override
+  
   public void autonomousInit() {
-    TestTurnAngle m_testTurnAngleCommand = m_robotContainer.getTestTurnAngle();
-    MoveTo m_moveTo = m_robotContainer.getMoveTo();
+   
     //m_autonomousCommand = m_robotContainer.getDriveBackwards();
-    m_autonomousCommand = m_robotContainer.getAutoCommand2a();
+    //m_autonomousCommand = m_robotContainer.getAutoCommand2a();
     // m_autoArmStartCommand.schedule();
-    //m_autonomousCommand = m_robotContainer.getMoveTo();
 
 
     // schedule the autonomous command (example)
@@ -179,11 +174,9 @@ public class Robot extends TimedRobot {
       // m_pathCommand.cancel();
     }
 
-    //m_testTurnAngleCommand.changeRamseteCommand(m_robotContainer.getDriveTrain(), 90).schedule();
-    m_moveTo.changeRamseteCommand(RobotContainer.m_driveTrain, 10).schedule();
-
+    // assert m_autonomousCommand != null;
     //m_autoArmStartCommand.schedule();
-    // m_autonomousCommand.schedule();
+    //m_autonomousCommand.schedule();
     // m_pathCommand.schedule();
     //TestTurnAngle m_testTurnAngleCommand = new TestTurnAngle(m_robotContainer.getBalance(), m_robotContainer.getDriveTrain(), 90);
   }
@@ -212,10 +205,10 @@ public class Robot extends TimedRobot {
     if (m_controller.getStartButtonPressed()) {
       if (debounce) {
         debounce = false;
-        if (m_fullAutoPlaceAndAlignCommand.isScheduled()) {
-          m_fullAutoPlaceAndAlignCommand.cancel();
+        if (m_autoAlignAndPlaceCommand.isScheduled()) {
+          m_autoAlignAndPlaceCommand.cancel();
         }
-        m_fullAutoPlaceAndAlignCommand.schedule();
+        m_autoAlignAndPlaceCommand.schedule();
         System.out.println("teleopcancel");
         if (m_teleopCommand != null) {
           m_teleopCommand.cancel();
@@ -225,7 +218,7 @@ public class Robot extends TimedRobot {
       debounce = true;
     }
 
-    if (!m_fullAutoPlaceAndAlignCommand.isScheduled()) {
+    if (!m_autoAlignAndPlaceCommand.isScheduled()) {
       m_teleopCommand.schedule();
     }
       

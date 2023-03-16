@@ -15,7 +15,7 @@ import frc.robot.CXbox;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.AutoAlignAndPlaceCommand;
+import frc.robot.commands.AutoAlignAndPlace;
 
 public class LimeLight extends SubsystemBase {
   //NetworkTable fields
@@ -31,7 +31,7 @@ public class LimeLight extends SubsystemBase {
   //Other fields
   RobotContainer m_robotContainer;
   XboxController m_controller;
-  AutoAlignAndPlaceCommand m_autoPlaceCommand;
+  AutoAlignAndPlace m_autoPlaceCommand;
   Command m_teleopCommand;
 
   //Initialize fields and get NetworkTable for the first limelight
