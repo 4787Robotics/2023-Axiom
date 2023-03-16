@@ -9,14 +9,14 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Balance;
 import edu.wpi.first.math.MathUtil;
 
-public class TurnAngle extends CommandBase {
+public class ShitTurnAngle extends CommandBase {
   /** Creates a new TurnAngle. */
   private DriveTrain driveTrain;
   private Balance balance;
   private double turnTo;
   private double headingTo;
 
-  public TurnAngle(DriveTrain m_driveTrain, Balance m_balance, double TurnTo) {
+  public ShitTurnAngle(DriveTrain m_driveTrain, Balance m_balance, double TurnTo) {
     driveTrain = m_driveTrain;
     balance = m_balance;
     turnTo = TurnTo;
