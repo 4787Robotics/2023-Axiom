@@ -56,6 +56,7 @@ public class Robot extends TimedRobot {
   private Command m_teleopCommand;
   private Command m_armPIDCommand;
   private Command m_pathCommand;
+  private Command m_fullAutoPlaceAndAlignCommand;
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
 
@@ -116,6 +117,7 @@ public class Robot extends TimedRobot {
     m_autoArmPIDCommand = m_robotContainer.getAutoArmPIDCommand();
     m_autoGripCommand = m_robotContainer.getAutoGripCommand();
     m_autoArmStartCommand = m_robotContainer.getAutoArmStartCommand();
+    m_fullAutoPlaceAndAlignCommand = m_robotContainer.getFullAutoPlaceCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
     readTrajectory(trajectoryJSON_1);
     readTrajectory(trajectoryJSON_2);
@@ -210,10 +212,10 @@ public class Robot extends TimedRobot {
     if (m_controller.getStartButtonPressed()) {
       if (debounce) {
         debounce = false;
-        if (m_autoAlignAndPlaceCommand.isScheduled()) {
-          m_autoAlignAndPlaceCommand.cancel();
+        if (m_fullAutoPlaceAndAlignCommand.isScheduled()) {
+          m_fullAutoPlaceAndAlignCommand.cancel();
         }
-        m_autoAlignAndPlaceCommand.schedule();
+        m_fullAutoPlaceAndAlignCommand.schedule();
         System.out.println("teleopcancel");
         if (m_teleopCommand != null) {
           m_teleopCommand.cancel();
@@ -223,7 +225,7 @@ public class Robot extends TimedRobot {
       debounce = true;
     }
 
-    if (!m_autoAlignAndPlaceCommand.isScheduled()) {
+    if (!m_fullAutoPlaceAndAlignCommand.isScheduled()) {
       m_teleopCommand.schedule();
     }
       

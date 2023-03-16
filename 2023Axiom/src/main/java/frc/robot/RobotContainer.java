@@ -23,6 +23,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
 import frc.robot.commands.AutoArmPIDCommand;
 import frc.robot.commands.AutoGripCommand;
+import frc.robot.commands.ChangeTurnAngleAndDistance;
 import frc.robot.subsystems.Balance;
 import frc.robot.commands.ChangeArmLevel;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -47,7 +48,7 @@ public class RobotContainer {
   public static MotorController m_motorController = new MotorController();
   private final static DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, m_cxbox);
   private final static NavXAutonomousCommand m_NavXAutoCommand = new NavXAutonomousCommand(m_driveTrain, m_balance);
-  private final AutoAlignAndPlace autoAlignAndPlace = new AutoAlignAndPlace(limeLight, m_driveTrain, m_balance, m_driveCommand, m_xboxController);
+  private final AutoAlignAndPlaceCommand autoAlignAndPlace = new AutoAlignAndPlaceCommand(limeLight, m_driveTrain, m_balance, m_driveCommand, m_xboxController, m_changeTurnAngleAndDistance);
   private final static ArmCommand m_armCommand = new ArmCommand(m_motorController, m_cxbox, m_joystick);
   private final static AutoGripCommand m_autoGripCommand = new AutoGripCommand(m_motorController);
   private final static AutoArmPIDCommand m_autoArmPIDCommand = new AutoArmPIDCommand(m_motorController);
@@ -56,8 +57,7 @@ public class RobotContainer {
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain, m_motorController, m_autoGripCommand);
   private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
-  private final static MoveTo m_moveTo = new MoveTo();
-
+  private final static ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance = new ChangeTurnAngleAndDistance();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -134,8 +134,11 @@ public class RobotContainer {
     return m_driveBackwards;
   }
 
+  public Command getChangeTurnAngleAndDistanceCommand() {
+    return m_changeTurnAngleAndDistance;
+  }
+
   public TestTurnAngle getTestTurnAngle() {return m_testTurnAngle;}
-  public MoveTo getMoveTo() {return m_moveTo;}
 
   public Command getAutoCommand1() {
     // working on it DISREGARD IT -- DO NOT USE IT
@@ -199,7 +202,16 @@ public class RobotContainer {
     return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
   } 
 
-  public AutoAlignAndPlace getAutoAlignAndPlace() {
+  public AutoAlignAndPlaceCommand getAutoAlignAndPlace() {
     return autoAlignAndPlace;
+  }
+
+  public Command getFullAutoPlaceCommand() {
+    return new SequentialCommandGroup(
+      autoAlignAndPlace, 
+      new TestTurnAngle().until(() -> autoAlignAndPlace.getIsInterrupted()), 
+      new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldParallelDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()), 
+      new TestTurnAngle().until(() -> autoAlignAndPlace.getIsInterrupted()), 
+      new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldPerpendicularDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()));
   }
 }

@@ -29,9 +29,18 @@ public class MoveTo extends CommandBase {
   public Trajectory trajectory;
   private RamseteCommand ramseteCommand;
 
-  public MoveTo() {addRequirements(RobotContainer.m_driveTrain);}
+  public MoveTo(DriveTrain m_driveTrain, double m_meters, ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance) {
+    double parallelDistance = m_changeTurnAngleAndDistance.getHeldParallelDistance();
+    double angle = m_changeTurnAngleAndDistance.getHeldAngle();
 
-  public Command changeRamseteCommand(DriveTrain m_driveTrain, double meters) {
+    if (m_meters == parallelDistance) {
+      if (angle < 0) {
+        m_changeTurnAngleAndDistance.setHeldAngle(90);
+      } else {
+        m_changeTurnAngleAndDistance.setHeldAngle(-90);
+      }
+    }
+
     driveTrain = m_driveTrain;
     addRequirements(driveTrain);
 
@@ -51,8 +60,8 @@ public class MoveTo extends CommandBase {
 
     trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0,0,new Rotation2d(0)), 
-      List.of(new Translation2d(meters-1, 0)), // im not sure about this
-      new Pose2d(meters, 0, new Rotation2d(0)),
+      List.of(new Translation2d(m_meters-1, 0)), // im not sure about this
+      new Pose2d(m_meters, 0, new Rotation2d(0)),
       config
     );
 
