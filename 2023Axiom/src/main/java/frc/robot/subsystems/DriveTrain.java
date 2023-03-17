@@ -65,12 +65,12 @@ public class DriveTrain extends SubsystemBase{
     m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
     m_right3 = new WPI_TalonFX(Constants.RIGHT_MOTOR_3_ID); //Top Right
   
-    m_left1.enableVoltageCompensation(true);
-    m_left2.enableVoltageCompensation(true);
-    m_left3.enableVoltageCompensation(true);
-    m_right1.enableVoltageCompensation(true);
-    m_right2.enableVoltageCompensation(true);
-    m_right3.enableVoltageCompensation(true);
+//    m_left1.enableVoltageCompensation(true);
+//    m_left2.enableVoltageCompensation(true);
+//    m_left3.enableVoltageCompensation(true);
+//    m_right1.enableVoltageCompensation(true);
+//    m_right2.enableVoltageCompensation(true);
+//    m_right3.enableVoltageCompensation(true);
 
     m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
     m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
@@ -109,9 +109,9 @@ public class DriveTrain extends SubsystemBase{
     m_right1.setNeutralMode(NeutralMode.Coast);
 
     m_left2.follow(m_left1);
-    m_left3.follow(m_left1);
+    m_left3.follow(m_left2);
     m_right2.follow(m_right1);
-    m_right3.follow(m_right1);
+    m_right3.follow(m_right2);
 
 
     drive = new DifferentialDrive(m_left1, m_right1);

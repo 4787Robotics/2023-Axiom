@@ -107,7 +107,8 @@ public class TestTurnAngle extends CommandBase {
 
         driveTrain.resetOdometry(trajectory.getInitialPose());
 
-        return ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
+        return ramseteCommand;
+        //return ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
     }
 
     /**

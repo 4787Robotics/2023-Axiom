@@ -213,10 +213,10 @@ public class RobotContainer {
 
   public Command getFullAutoPlaceCommand() {
     return new SequentialCommandGroup(
-      m_testTurnAngle.changeRamseteCommand(m_driveTrain, 90)
+      m_testTurnAngle.changeRamseteCommand(m_driveTrain, 89)
       //m_testTurnAngle.changeRamseteCommand(m_driveTrain, m_changeTurnAngleAndDistance.getHeldAngle()).until(() -> autoAlignAndPlace.getIsInterrupted())
-      /*new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldParallelDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()), 
-      new TestTurnAngle().until(() -> autoAlignAndPlace.getIsInterrupted()), 
+      /*new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldParallelDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()),
+      new TestTurnAngle().until(() -> autoAlignAndPlace.getIsInterrupted()),
       new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldPerpendicularDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted())*/
     );
   }
