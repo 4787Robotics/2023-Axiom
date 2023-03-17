@@ -50,13 +50,13 @@ public final class Constants {
     //public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
 
     //The constants below will need to be changed later - Talk to electrical
-    public static int LEFT_MOTOR_1_ID = 2; //Front Left
-    public static int LEFT_MOTOR_2_ID = 1; //Back Left
+    public static int LEFT_MOTOR_1_ID = 4; //Front Left
     public static int LEFT_MOTOR_3_ID = 5; //Top Left
+    public static int LEFT_MOTOR_2_ID = 6; //Back Left
 
-    public static int RIGHT_MOTOR_1_ID = 3; //Front Right
-    public static int RIGHT_MOTOR_2_ID = 4; //Back Right
-    public static int RIGHT_MOTOR_3_ID = 6; //TOp RIght
+    public static int RIGHT_MOTOR_1_ID = 1; //Front Right
+    public static int RIGHT_MOTOR_3_ID = 2; //TOp RIght
+    public static int RIGHT_MOTOR_2_ID = 3; //Back Right
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
