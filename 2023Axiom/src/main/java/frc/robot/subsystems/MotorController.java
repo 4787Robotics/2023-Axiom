@@ -165,11 +165,8 @@ public class MotorController extends SubsystemBase{
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
-<<<<<<< HEAD
       SmartDashboard.putNumber("LeftHand Angle", LeftEncoder.getPosition());
       SmartDashboard.putNumber("RightHand Angle", RightEncoder.getPosition());
-  }
-=======
       SmartDashboard.putNumber("LeftArm Angle", LeftEncoder.getPosition());
       SmartDashboard.putNumber("RightArm Angle", RightEncoder.getPosition());
     }

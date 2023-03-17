@@ -37,11 +37,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class DriveTrain extends SubsystemBase{
     public static WPI_TalonFX m_left1;
-    public WPI_TalonFX m_left2;
-    public WPI_TalonFX m_left3;
+    public static WPI_TalonFX m_left2;
+    public static WPI_TalonFX m_left3;
     public static WPI_TalonFX m_right1;
-    public WPI_TalonFX m_right2;
-    public WPI_TalonFX m_right3;
+    public static WPI_TalonFX m_right2;
+    public static WPI_TalonFX m_right3;
     public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
@@ -65,12 +65,12 @@ public class DriveTrain extends SubsystemBase{
     m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
     m_right3 = new WPI_TalonFX(Constants.RIGHT_MOTOR_3_ID); //Top Right
   
-//    m_left1.enableVoltageCompensation(true);
-//    m_left2.enableVoltageCompensation(true);
-//    m_left3.enableVoltageCompensation(true);
-//    m_right1.enableVoltageCompensation(true);
-//    m_right2.enableVoltageCompensation(true);
-//    m_right3.enableVoltageCompensation(true);
+    m_left1.enableVoltageCompensation(true);
+    m_left2.enableVoltageCompensation(true);
+    m_left3.enableVoltageCompensation(true);
+    m_right1.enableVoltageCompensation(true);
+    m_right2.enableVoltageCompensation(true);
+    m_right3.enableVoltageCompensation(true);
 
     m_left1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
     m_left2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
@@ -85,8 +85,6 @@ public class DriveTrain extends SubsystemBase{
     m_right1.configOpenloopRamp(0.2);
     m_right2.configOpenloopRamp(0.2);
     m_right3.configOpenloopRamp(0.2);
-
-   
     
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
     int window_size = 100;
@@ -109,9 +107,9 @@ public class DriveTrain extends SubsystemBase{
     m_right1.setNeutralMode(NeutralMode.Coast);
 
     m_left2.follow(m_left1);
-    m_left3.follow(m_left2);
+    m_left3.follow(m_left1);
     m_right2.follow(m_right1);
-    m_right3.follow(m_right2);
+    m_right3.follow(m_right1);
 
 
     drive = new DifferentialDrive(m_left1, m_right1);
@@ -163,11 +161,11 @@ public class DriveTrain extends SubsystemBase{
   
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
-    m_right1.setVoltage(leftVolts);
-    m_left2.setVoltage(leftVolts);
-    m_right2.setVoltage(leftVolts);
-    m_left3.setVoltage(leftVolts);
-    m_right3.setVoltage(rightVolts);
+    m_right1.setVoltage(rightVolts);
+    // m_left2.setVoltage(leftVolts);
+    // m_right2.setVoltage(rightVolts);
+    // m_left3.setVoltage(leftVolts);
+    // m_right3.setVoltage(rightVolts);
     drive.feed();
   }
   
