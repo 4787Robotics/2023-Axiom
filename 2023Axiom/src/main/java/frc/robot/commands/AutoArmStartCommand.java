@@ -25,7 +25,7 @@ public class AutoArmStartCommand extends CommandBase {
   @Override
   public void execute() {
     if (i < 8) {
-      m_subsystem.ArmHolderStart();
+      m_subsystem.ArmHolderStart(.2);
     }
     i++;
     if (i == 8) {

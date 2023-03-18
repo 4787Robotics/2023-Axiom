@@ -82,9 +82,9 @@ public class Balance extends SubsystemBase{
     }
 
     /**
-     * [-180, 180] gets current rotation, tilted to left and and right.
+     * [-180, 180] gets current heading on field, turned to left and and right.
      *
-     * @return currentRotationRoll
+     * @return currentHeading
      */  
     public double getHeading() {
         updateHeading();

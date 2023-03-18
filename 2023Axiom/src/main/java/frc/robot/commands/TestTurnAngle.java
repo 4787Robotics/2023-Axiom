@@ -75,8 +75,7 @@ public class TestTurnAngle extends CommandBase {
                 new SimpleMotorFeedforward(Constants.KS_VOLTS,
                         Constants.KV_VOLT_SECONDS_PER_METER,
                         Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
-                Constants.K_DRIVE_KINEMATICS,
-                4
+                Constants.K_DRIVE_KINEMATICS,4
         );
 
         TrajectoryConfig m_config = new TrajectoryConfig(Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
@@ -86,7 +85,7 @@ public class TestTurnAngle extends CommandBase {
 
         trajectory = TrajectoryGenerator.generateTrajectory(
                 List.of(new Pose2d(0, 0, new Rotation2d(0)), 
-                        new Pose2d(0.001, 0, new Rotation2d(TurnTo))),
+                        new Pose2d(0.0001, 0, new Rotation2d(Math.toRadians(TurnTo)))),
                 m_config
         );
 
@@ -108,7 +107,7 @@ public class TestTurnAngle extends CommandBase {
         driveTrain.resetOdometry(trajectory.getInitialPose());
 
         //return ramseteCommand;
-        return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        return ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
     }
 
     /**
