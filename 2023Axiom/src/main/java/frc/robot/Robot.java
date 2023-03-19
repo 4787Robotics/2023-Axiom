@@ -167,7 +167,7 @@ public class Robot extends TimedRobot {
     TestTurnAngle m_testTurnAngleCommand = m_robotContainer.getTestTurnAngle();
     MoveTo m_moveTo = m_robotContainer.getMoveTo();
     //m_autonomousCommand = m_robotContainer.getDriveBackwards();
-    m_autonomousCommand = m_robotContainer.getAutoCommand2a();
+    m_autonomousCommand = m_robotContainer.getChargePad();
     // m_autoArmStartCommand.schedule();
     //m_autonomousCommand = m_robotContainer.getMoveTo();
 
@@ -178,8 +178,9 @@ public class Robot extends TimedRobot {
       // m_pathCommand.cancel();
     }
 
+    m_autonomousCommand.schedule();
     //m_testTurnAngleCommand.changeRamseteCommand(m_robotContainer.getDriveTrain(), 90).schedule();
-    m_moveTo.changeRamseteCommand(RobotContainer.m_driveTrain, 10).schedule();
+    //m_moveTo.changeRamseteCommand(RobotContainer.m_driveTrain, 10).schedule();
 
     //m_autoArmStartCommand.schedule();
     // m_autonomousCommand.schedule();

@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-/*import frc.robot.subsystems.Balance;
+import frc.robot.subsystems.Balance;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +18,7 @@ public class TestTurnAngle extends PIDCommand {
                 // This should return the measurement
                 () -> -m_balance.getTestHeading(),
                 // This should return the setpoint (can also be a constant)
-                TurnTo,
+                -TurnTo,
                 // This uses the output
                 output -> {
                     m_driveTrain.driveRobot(false, 0, output);
@@ -36,9 +36,9 @@ public class TestTurnAngle extends PIDCommand {
     public boolean isFinished() {
         return balance.getPID().atSetpoint();
     }
-}*/
+}
 
-import java.util.List;
+/*import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -85,7 +85,7 @@ public class TestTurnAngle extends CommandBase {
 
         trajectory = TrajectoryGenerator.generateTrajectory(
                 List.of(new Pose2d(0, 0, new Rotation2d(0)), 
-                        new Pose2d(0.0001, 0, new Rotation2d(Math.toRadians(TurnTo)))),
+                        new Pose2d(0.0001, 0.0001, new Rotation2d(Math.toRadians(-TurnTo)))),
                 m_config
         );
 
@@ -110,11 +110,6 @@ public class TestTurnAngle extends CommandBase {
         return ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
     }
 
-    /**
-     * Returns the RamseteCommand
-     * @return RamseteCommand
-     */
-
     @Override
     public void initialize() {}
 
@@ -128,4 +123,4 @@ public class TestTurnAngle extends CommandBase {
 
     @Override
     public boolean isFinished() {return false;}
-}
+}*/

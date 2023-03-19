@@ -94,12 +94,12 @@ public class DriveTrain extends SubsystemBase{
     gyro = Balance.getGyro();
     m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), totalLeftWheelDistanceMeters, totalRightWheelDistanceMeters);
     //makes sure that the wheels on the side are going the same way
-    m_left1.setInverted(TalonFXInvertType.Clockwise);
-    m_left2.setInverted(TalonFXInvertType.Clockwise);
-    m_left3.setInverted(TalonFXInvertType.Clockwise);
-    m_right1.setInverted(TalonFXInvertType.CounterClockwise);
-    m_right2.setInverted(TalonFXInvertType.CounterClockwise);
-    m_right3.setInverted(TalonFXInvertType.CounterClockwise);
+    m_left1.setInverted(TalonFXInvertType.CounterClockwise);
+    m_left2.setInverted(TalonFXInvertType.CounterClockwise);
+    m_left3.setInverted(TalonFXInvertType.CounterClockwise);
+    m_right1.setInverted(TalonFXInvertType.Clockwise);
+    m_right2.setInverted(TalonFXInvertType.Clockwise);
+    m_right3.setInverted(TalonFXInvertType.Clockwise);
 
     m_left3.setNeutralMode(NeutralMode.Brake);
     m_left2.setNeutralMode(NeutralMode.Brake);
@@ -163,8 +163,8 @@ public class DriveTrain extends SubsystemBase{
   
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
-    m_right1.setVoltage(leftVolts);
-    drive.feed();
+    m_right1.setVoltage(rightVolts);
+    drive.feed();  
   }
   
   private void setWheelPositionZero() {
@@ -193,10 +193,10 @@ public class DriveTrain extends SubsystemBase{
   //separate joysticks
   public void driveRobot(boolean squareInputs, double throttle, double turn){
     if (squareInputs) {
-      drive.arcadeDrive(throttle * Math.abs(throttle), turn * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
+      drive.arcadeDrive(throttle * Math.abs(throttle), -turn * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
     }
     else {
-      drive.arcadeDrive(throttle, turn);
+      drive.arcadeDrive(throttle, -turn);
     }
   }
   
