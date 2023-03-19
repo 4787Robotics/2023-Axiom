@@ -63,9 +63,9 @@ public class MotorController extends SubsystemBase{
   
 
   // PID coefficients
-  AkP = 0.05; 
-  AkI = 0;
-  AkD = 0.0; 
+  AkP = 0.04; 
+  AkI = 0.005;
+  AkD = 0.01; 
   AkIz = 0; 
   AkFF = 0; 
   AkMaxOutput = 1; 
