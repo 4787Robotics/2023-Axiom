@@ -22,8 +22,15 @@ import java.util.List;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
@@ -59,6 +66,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
 
+  
   String trajectoryJSON_1 = "paths/preloadedCone2a.wpilib.json";
   String trajectoryJSON_2 = "paths/getCube2a.wpilib.json";
   String trajectoryJSON_3 = "paths/placeCube2aPart1.wpilib.json";
@@ -78,9 +86,8 @@ public class Robot extends TimedRobot {
   String trajectoryJSON_15 = "paths/preloadedCubev1.wpilib.json";
   String trajectoryJSON_16 = "paths/moveBackv1.wpilib.json";
   String trajectoryJSON_17 = "paths/chargeStation.wpilib.json";
-
   
-  public static Trajectory[] trajectoryArray = new Trajectory[18];
+  public static Trajectory[] trajectoryArray = new Trajectory[17];
 
   int i = 0;
   public void readTrajectory(String trajectoryJSON){
@@ -118,6 +125,7 @@ public class Robot extends TimedRobot {
     m_autoArmStartCommand = m_robotContainer.getAutoArmStartCommand();
     m_fullAutoPlaceAndAlignCommand = m_robotContainer.getFullAutoPlaceCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
+
     readTrajectory(trajectoryJSON_1);
     readTrajectory(trajectoryJSON_2);
     readTrajectory(trajectoryJSON_3);
