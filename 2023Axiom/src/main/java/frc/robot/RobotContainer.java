@@ -56,7 +56,7 @@ public class RobotContainer {
   private final static RammseteAutonomousCommand m_rammseteAutonomousCommand = new RammseteAutonomousCommand();
   private final static AutoArmPIDCommand m_testArmPIDCommand = new AutoArmPIDCommand(m_motorController);
   private final static DriveBackwards m_driveBackwards = new DriveBackwards(m_driveTrain, m_motorController, m_autoGripCommand);
-  //private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
+  private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
   private final static ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance = new ChangeTurnAngleAndDistance();
   private final static MoveTo m_moveTo = new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance);
   private final static ChargePad m_chargePad = new ChargePad(m_driveTrain, m_balance);
@@ -218,8 +218,8 @@ public class RobotContainer {
 
   public Command getFullAutoPlaceCommand() {
     return new SequentialCommandGroup(
-      new TestTurnAngle(m_balance, m_driveTrain, 90)
-      //m_testTurnAngle.changeRamseteCommand(m_driveTrain, 89)
+      //new TestTurnAngle(m_balance, m_driveTrain, 90)
+      m_testTurnAngle.changeRamseteCommand(m_driveTrain, 90)
       //m_testTurnAngle.changeRamseteCommand(m_driveTrain, m_changeTurnAngleAndDistance.getHeldAngle()).until(() -> autoAlignAndPlace.getIsInterrupted())
       /*new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldParallelDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted()),
       new TestTurnAngle().until(() -> autoAlignAndPlace.getIsInterrupted()),

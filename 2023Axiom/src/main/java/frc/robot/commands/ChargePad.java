@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Balance;
+import edu.wpi.first.wpilibj.Timer;
 
 public class ChargePad extends CommandBase {
   /** Creates a new ChargePad. */
@@ -15,6 +17,7 @@ public class ChargePad extends CommandBase {
   private boolean forward;
   private boolean balanceStarted = false;
   private boolean prevDrive = false;
+  private double timeOver = 0;
   private int driveCounter = 0;
   int state;
   public ChargePad(DriveTrain m_driveTrain, Balance m_balance) {
@@ -28,6 +31,7 @@ public class ChargePad extends CommandBase {
   @Override
   public void initialize() {
     state = 0; //IN FRONT OF CHARGE PAD- FRONT FACES CHARGE PAD
+    timeOver = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,30 +44,38 @@ public class ChargePad extends CommandBase {
       state = 2; //On charge pad, already over the flat platform, now moving forwards at an incline
     }
     else if (state == 2 && balance.getPitch() < 3 && balance.getPitch() > -3) {
-      state = 3; //Drove forward all the way off of charge pad, evened out
+      if (timeOver == 0) {
+        timeOver = Timer.getFPGATimestamp();
+      }
+      if (Timer.getFPGATimestamp() > (timeOver + 1.5)) {
+        state = 3; //Drove forward all the way off of charge pad, evened out
+      }
     }
     else if (state == 3 && balance.getPitch() > 10) {
       state = 4; //Starting to get back on charge pad, moving backwards 
     }
-    else if (state == 4 && balance.getPitch() < 6) {
+    else if (state == 4 && balance.getPitch() < 10) {
       state = 5; //On charge pad, autobalance
     }
+
+    SmartDashboard.putNumber("State", state);
+    SmartDashboard.putNumber("ChargePitch", balance.getPitch());
 
     switch (state) {
       case 0:
         driveTrain.driveRobot(false, 0.7, 0);
         break;
       case 1:
-        driveTrain.driveRobot(false, 0.5, 0);
+        driveTrain.driveRobot(false, 0.85, 0);
         break;
       case 2:
-        driveTrain.driveRobot(false, 0.3, 0);
+        driveTrain.driveRobot(false, 0.5, 0);
         break;
       case 3:
         driveTrain.driveRobot(false, -0.7, 0);
         break;
       case 4:
-        driveTrain.driveRobot(false, -0.3, 0);
+        driveTrain.driveRobot(false, -0.6, 0);
         break;
       case 5:
         if (balanceStarted == false){
@@ -87,32 +99,32 @@ public class ChargePad extends CommandBase {
 
   public void autobalance() {
     if (forward) {
-      if (balance.getPitch() < -10) {
-        driveTrain.driveRobot(false, 0.3, 0);
+      if (balance.getPitch() < -8) {
+        driveTrain.driveRobot(false, 0.45, 0);
         checkDirectionChange(true);
-      } else if (balance.getPitch() >= -10 && balance.getPitch() <= 0) {
+      } else if (balance.getPitch() >= -8 && balance.getPitch() <= 0) {
         driveTrain.driveRobot(false, 0, 0);
         checkDirectionChange(true);
-      } else if (balance.getPitch() <= 10 && balance.getPitch() > 0) {
-        driveTrain.driveRobot(false, -0.3, 0);
+      } else if (balance.getPitch() <= 5 && balance.getPitch() > 0) {
+        driveTrain.driveRobot(false, -0.45, 0);
         checkDirectionChange(false);
-      } else if (balance.getPitch() > 10) {
-        driveTrain.driveRobot(false, -0.5, 0);
+      } else if (balance.getPitch() > 5) {
+        driveTrain.driveRobot(false, -0.6, 0);
         checkDirectionChange(false);
       }
     }
     else {
-      if (balance.getPitch() > 10) {
-        driveTrain.driveRobot(false, -0.3, 0);
+      if (balance.getPitch() > 8) {
+        driveTrain.driveRobot(false, -0.45, 0);
         checkDirectionChange(false);
-      } else if (balance.getPitch() <= 10 && balance.getPitch() >= 0) {
+      } else if (balance.getPitch() <= 8 && balance.getPitch() >= 0) {
         driveTrain.driveRobot(false, 0, 0);
         checkDirectionChange(false);
-      } else if (balance.getPitch() >= -10 && balance.getPitch() < 0) {
-        driveTrain.driveRobot(false, 0.3, 0);
+      } else if (balance.getPitch() >= -5 && balance.getPitch() < 0) {
+        driveTrain.driveRobot(false, 0.45, 0);
         checkDirectionChange(true);
-      } else if (balance.getPitch() < -10) {
-        driveTrain.driveRobot(false, 0.5, 0);
+      } else if (balance.getPitch() < -5) {
+        driveTrain.driveRobot(false, 0.6, 0);
         checkDirectionChange(true);
       }
     }
