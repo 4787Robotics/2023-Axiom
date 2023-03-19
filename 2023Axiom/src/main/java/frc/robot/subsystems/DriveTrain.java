@@ -37,11 +37,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class DriveTrain extends SubsystemBase{
     public static WPI_TalonFX m_left1;
-    public static WPI_TalonFX m_left2;
-    public static WPI_TalonFX m_left3;
+    public WPI_TalonFX m_left2;
+    public WPI_TalonFX m_left3;
     public static WPI_TalonFX m_right1;
-    public static WPI_TalonFX m_right2;
-    public static WPI_TalonFX m_right3;
+    public WPI_TalonFX m_right2;
+    public WPI_TalonFX m_right3;
     public DifferentialDrive drive;
     //I have no idea if the motor type is brushed or brushless
     //Subject to change
@@ -79,12 +79,14 @@ public class DriveTrain extends SubsystemBase{
     m_right2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
     m_right3.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
 
-    m_left1.configOpenloopRamp(0.2); // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
-    m_left2.configOpenloopRamp(0.2); // (helps keep robot from rocking around violently every time driver stops)
-    m_left3.configOpenloopRamp(0.2);
-    m_right1.configOpenloopRamp(0.2);
-    m_right2.configOpenloopRamp(0.2);
-    m_right3.configOpenloopRamp(0.2);
+    m_left1.configOpenloopRamp(0.4); // limits acceleration, takes 0.4 seconds to accelerate from 0 to 100%
+    m_left2.configOpenloopRamp(0.4); // (helps keep robot from rocking around violently every time driver stops)
+    m_left3.configOpenloopRamp(0.4);
+    m_right1.configOpenloopRamp(0.4);
+    m_right2.configOpenloopRamp(0.4);
+    m_right3.configOpenloopRamp(0.4);
+
+   
     
     SensorVelocityMeasPeriod measurement_period = SensorVelocityMeasPeriod.Period_1Ms;
     int window_size = 100;
@@ -161,11 +163,7 @@ public class DriveTrain extends SubsystemBase{
   
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
-    m_right1.setVoltage(rightVolts);
-    // m_left2.setVoltage(leftVolts);
-    // m_right2.setVoltage(rightVolts);
-    // m_left3.setVoltage(leftVolts);
-    // m_right3.setVoltage(rightVolts);
+    m_right1.setVoltage(leftVolts);
     drive.feed();
   }
   

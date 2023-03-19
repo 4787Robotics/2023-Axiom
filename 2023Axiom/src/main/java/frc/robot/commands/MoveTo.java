@@ -67,8 +67,8 @@ public class MoveTo extends CommandBase {
 
     trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0,0,new Rotation2d(0)), 
-      List.of(new Translation2d(meters-1, 0)), // im not sure about this
-      new Pose2d(meters, 0, new Rotation2d(0)),
+      List.of(new Translation2d(-(meters-1), 0)), // im not sure about this
+      new Pose2d(-meters, 0, new Rotation2d(0)),
       config
     );
 

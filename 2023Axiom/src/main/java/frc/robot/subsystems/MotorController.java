@@ -210,7 +210,7 @@ public class MotorController extends SubsystemBase{
     HandUpDown.set(UpDown);
   }
   */
-  public void ArmHolderStart(){
-      ArmHolder.set(.2);
+  public void ArmHolderStart(double speed){
+      ArmHolder.set(speed);
   }
 }
