@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Balance;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.commands.AutoArmPIDCommand;
 
 public class ChargePad extends CommandBase {
   /** Creates a new ChargePad. */
@@ -19,18 +20,21 @@ public class ChargePad extends CommandBase {
   private boolean prevDrive = false;
   private double timeOver = 0;
   private int driveCounter = 0;
+  private AutoArmPIDCommand autoArmPIDCommand;
   int state;
-  public ChargePad(DriveTrain m_driveTrain, Balance m_balance) {
+  public ChargePad(DriveTrain m_driveTrain, Balance m_balance, AutoArmPIDCommand m_autoArmPIDCommand) {
     // Use addRequirements() here to declare subsystem dependencies.
     driveTrain = m_driveTrain;
     balance = m_balance;
+    autoArmPIDCommand = m_autoArmPIDCommand;
     addRequirements(m_driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = 0; //IN FRONT OF CHARGE PAD- FRONT FACES CHARGE PAD
+    state = 4; //To use the full command, start at state 0
+    autoArmPIDCommand.level = 0;
     timeOver = 0;
   }
 

@@ -10,24 +10,16 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+// import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.*;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-// import frc.robot.commands.AutonomousCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.MoveTo;
-import frc.robot.commands.NavXAutonomousCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.MotorController;
-import frc.robot.commands.AutoArmPIDCommand;
-import frc.robot.commands.AutoGripCommand;
-import frc.robot.commands.ChangeTurnAngleAndDistance;
 import frc.robot.subsystems.Balance;
-import frc.robot.commands.ChangeArmLevel;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import frc.robot.commands.TestTurnAngle;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,7 +51,6 @@ public class RobotContainer {
   private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
   private final static ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance = new ChangeTurnAngleAndDistance();
   private final static MoveTo m_moveTo = new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance);
-  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -149,20 +140,18 @@ public class RobotContainer {
   
   public Command getChargePad() {
     Command m_autoGripCommand = new AutoGripCommand(m_motorController);
-    final ChargePad m_chargePad = new ChargePad(m_driveTrain, m_balance);
-    Command changeArmLevel = new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController);
-    return new ParallelCommandGroup(new SequentialCommandGroup(), m_autoArmPIDCommand);
+    final ChargePad m_chargePad = new ChargePad(m_driveTrain, m_balance, m_autoArmPIDCommand);
+    return new ParallelCommandGroup(new SequentialCommandGroup(new ParallelRaceGroup(new SequentialCommandGroup(m_autoArmStartCommand, new DriveForwardAuto(m_driveTrain, false), new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), new DriveForwardAuto(m_driveTrain)), m_autoGripCommand), new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand), new DriveForwardAuto(m_driveTrain, false), m_chargePad), m_autoArmPIDCommand);
   }
 
   public Command getAutoCommand1() {
     // working on it DISREGARD IT -- DO NOT USE IT
     // need to find the right pathNumber for each rammsete command
-    Command m_autoGripCommand = new AutoGripCommand(m_motorController);
     Command setUp = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 13);
     Command placeStartingCube;
     Command backOut = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 6);
     Command engageChargeStation = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
-    return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoGripCommand, m_autoArmPIDCommand);
+    return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
   }
 
   public Command getAutoCommand2a() {
@@ -202,6 +191,15 @@ public class RobotContainer {
                                     m_autoArmPIDCommand);
   }
 
+  /* 
+  public Command getPlacePreloadedPiece() {
+    return new SequentialCommandGroup(
+      Command raiseArm = new ParallelRaceGroup(new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), m_autoGripCommand0);
+
+    )
+  }
+  */
+
   public Command getAutoCommand2b() {
     //Robot needs to: Back up, than lift arm, than drive forward (with arm still up), than open thingy, than drive backwards, than drop arm
     Command setUp = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 12);
@@ -223,6 +221,7 @@ public class RobotContainer {
 
   public Command getFullAutoPlaceCommand() {
     return new SequentialCommandGroup(
+      //autoAlignAndPlace,
       //new TestTurnAngle(m_balance, m_driveTrain, 90)
       m_testTurnAngle.changeRamseteCommand(m_driveTrain, 90)
       //m_testTurnAngle.changeRamseteCommand(m_driveTrain, m_changeTurnAngleAndDistance.getHeldAngle()).until(() -> autoAlignAndPlace.getIsInterrupted())

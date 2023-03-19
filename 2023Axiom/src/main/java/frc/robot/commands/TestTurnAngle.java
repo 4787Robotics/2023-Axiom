@@ -66,6 +66,7 @@ public class TestTurnAngle extends CommandBase {
     public TestTurnAngle() {addRequirements(RobotContainer.m_driveTrain);}
 
     public Command changeRamseteCommand(DriveTrain m_driveTrain, double TurnTo) {
+        m_driveTrain.Compensation(false);
         System.out.println("changingturn");
 
         driveTrain = m_driveTrain;
@@ -85,8 +86,8 @@ public class TestTurnAngle extends CommandBase {
 
         trajectory = TrajectoryGenerator.generateTrajectory(
             new Pose2d(0,0,new Rotation2d(0)), 
-            List.of(new Translation2d(0.001, 0.001)), // im not sure about this
-            new Pose2d(0.001, 0.001, new Rotation2d(Math.toRadians(TurnTo))),
+            List.of(new Translation2d(0.001, 0)), // im not sure about this
+            new Pose2d(0.002, 0, new Rotation2d(Math.toRadians(TurnTo))),
             m_config
         );
 

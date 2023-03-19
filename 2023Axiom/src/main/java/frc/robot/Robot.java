@@ -176,7 +176,7 @@ public class Robot extends TimedRobot {
     MoveTo m_moveTo = m_robotContainer.getMoveTo();
     //m_autonomousCommand = m_robotContainer.getDriveBackwards();
     m_autonomousCommand = m_robotContainer.getChargePad();
-    // m_autoArmStartCommand.schedule();
+    //m_autoArmStartCommand.schedule();
     //m_autonomousCommand = m_robotContainer.getMoveTo();
 
 

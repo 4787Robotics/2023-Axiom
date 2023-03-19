@@ -52,6 +52,7 @@ public class AutoArmPIDCommand extends CommandBase {
   @Override
   public void initialize() {
     ArmEncoderC = m_subsystem.ArmEncoder;
+    level = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -17,17 +17,22 @@ public class ChangeArmLevel extends CommandBase {
   private boolean finished = false;
   int levelToCheck;
   MotorController m_MotorController;
+  int levelSent;
+  AutoArmPIDCommand autoArmPIDCommand;
 
-  public ChangeArmLevel(int level, AutoArmPIDCommand autoArmPIDCommand, MotorController subsystem) {
+  public ChangeArmLevel(int level, AutoArmPIDCommand m_autoArmPIDCommand, MotorController subsystem) {
     // Use addRequirements() here to declare subsystem dependencies. 
-    autoArmPIDCommand.level = level;
+    levelSent = level;
     levelToCheck = level;
     m_MotorController = subsystem;
+    autoArmPIDCommand = m_autoArmPIDCommand;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    autoArmPIDCommand.level = levelSent;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

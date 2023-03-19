@@ -172,6 +172,14 @@ public class DriveTrain extends SubsystemBase{
     totalRightWheelDistanceMeters = 0;
   } 
 
+  public void Compensation(Boolean active) {
+    m_left1.enableVoltageCompensation(active);
+    m_left2.enableVoltageCompensation(active);
+    m_left3.enableVoltageCompensation(active);
+    m_right1.enableVoltageCompensation(active);
+    m_right2.enableVoltageCompensation(active);
+    m_right3.enableVoltageCompensation(active);
+  }
   
   public void resetOdometry(Pose2d pose) {
     setWheelPositionZero();

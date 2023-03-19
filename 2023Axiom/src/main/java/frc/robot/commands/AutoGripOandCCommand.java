@@ -17,6 +17,7 @@ public class AutoGripOandCCommand extends CommandBase {
   public boolean opening;
   public boolean finished = false;
   private Command autoGripCommand;
+  private double startTime = 0;
   public AutoGripOandCCommand(MotorController subsystem, boolean isOpening, Command m_autoGripCommand) {
     m_subsystem = subsystem;
     opening = isOpening;
@@ -36,20 +37,27 @@ public class AutoGripOandCCommand extends CommandBase {
     if (autoGripCommand != null) {
       autoGripCommand.cancel();
     }
+    finished = false;
+    startTime = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // - is opening, + is closing
-    if (opening){
-      m_subsystem.Intake(0.3); //opening. MUST BE POSITIVE
-    } else if (!opening){
-      m_subsystem.Intake(-1); //closing. MUST BE NEGATIVE
+    if (startTime == 0) {
+      startTime = Timer.getFPGATimestamp();
     }
-    Timer.delay(0.3);
-    m_subsystem.Intake(0);
-    finished = true;
+    else if (Timer.getFPGATimestamp() < startTime + 0.3) {
+      if (opening){
+        m_subsystem.Intake(0.3); //opening. MUST BE POSITIVE
+      } else if (!opening){
+        m_subsystem.Intake(-1); //closing. MUST BE NEGATIVE
+      }
+    } else {
+      finished = true;
+      this.cancel();
+    }
   }
 
   // Called once the command ends or is interrupted.
