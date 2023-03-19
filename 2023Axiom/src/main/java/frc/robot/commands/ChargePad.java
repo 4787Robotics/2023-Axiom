@@ -51,7 +51,7 @@ public class ChargePad extends CommandBase {
 
     switch (state) {
       case 0:
-        driveTrain.driveRobot(false, 1, 0);
+        driveTrain.driveRobot(false, 0.7, 0);
         break;
       case 1:
         driveTrain.driveRobot(false, 0.5, 0);
@@ -60,7 +60,7 @@ public class ChargePad extends CommandBase {
         driveTrain.driveRobot(false, 0.3, 0);
         break;
       case 3:
-        driveTrain.driveRobot(false, -1, 0);
+        driveTrain.driveRobot(false, -0.7, 0);
         break;
       case 4:
         driveTrain.driveRobot(false, -0.3, 0);

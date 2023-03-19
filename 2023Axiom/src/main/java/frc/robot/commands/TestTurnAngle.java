@@ -18,7 +18,7 @@ public class TestTurnAngle extends PIDCommand {
                 // This should return the measurement
                 () -> -m_balance.getTestHeading(),
                 // This should return the setpoint (can also be a constant)
-                -TurnTo,
+                TurnTo,
                 // This uses the output
                 output -> {
                     m_driveTrain.driveRobot(false, 0, output);

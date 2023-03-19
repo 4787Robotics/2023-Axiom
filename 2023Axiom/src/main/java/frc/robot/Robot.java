@@ -164,7 +164,7 @@ public class Robot extends TimedRobot {
   
   @Override
   public void autonomousInit() {
-    TestTurnAngle m_testTurnAngleCommand = m_robotContainer.getTestTurnAngle();
+    //TestTurnAngle m_testTurnAngleCommand = m_robotContainer.getTestTurnAngle();
     MoveTo m_moveTo = m_robotContainer.getMoveTo();
     //m_autonomousCommand = m_robotContainer.getDriveBackwards();
     m_autonomousCommand = m_robotContainer.getChargePad();
