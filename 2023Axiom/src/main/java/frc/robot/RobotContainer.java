@@ -59,7 +59,7 @@ public class RobotContainer {
   private final static TestTurnAngle m_testTurnAngle = new TestTurnAngle();
   private final static ChangeTurnAngleAndDistance m_changeTurnAngleAndDistance = new ChangeTurnAngleAndDistance();
   private final static MoveTo m_moveTo = new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance);
-  private final static ChargePad m_chargePad = new ChargePad(m_driveTrain, m_balance);
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -116,10 +116,6 @@ public class RobotContainer {
     return m_autoArmStartCommand;
   }
 
-  public Command getChargePad() {
-    return m_chargePad;
-  }
-
   public MotorController getMotorController() {
     return m_motorController;
   }
@@ -150,14 +146,23 @@ public class RobotContainer {
 
   //public TestTurnAngle getTestTurnAngle() {return m_testTurnAngle;}
 
+  
+  public Command getChargePad() {
+    Command m_autoGripCommand = new AutoGripCommand(m_motorController);
+    final ChargePad m_chargePad = new ChargePad(m_driveTrain, m_balance);
+    Command changeArmLevel = new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController);
+    return new ParallelCommandGroup(new SequentialCommandGroup(), m_autoArmPIDCommand);
+  }
+
   public Command getAutoCommand1() {
     // working on it DISREGARD IT -- DO NOT USE IT
     // need to find the right pathNumber for each rammsete command
+    Command m_autoGripCommand = new AutoGripCommand(m_motorController);
     Command setUp = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 13);
     Command placeStartingCube;
     Command backOut = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 6);
     Command engageChargeStation = m_rammseteAutonomousCommand.getRammseteAutonomousCommand(m_driveTrain, 1);
-    return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoArmPIDCommand);
+    return new ParallelCommandGroup (new SequentialCommandGroup(), m_autoGripCommand, m_autoArmPIDCommand);
   }
 
   public Command getAutoCommand2a() {
