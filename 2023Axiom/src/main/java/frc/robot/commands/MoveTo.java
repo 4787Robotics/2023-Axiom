@@ -63,12 +63,12 @@ public class MoveTo extends CommandBase {
       new TrajectoryConfig(Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
         .setKinematics(Constants.K_DRIVE_KINEMATICS) //ensures max speed is actually obeyed
         .addConstraint(autoVoltageConstraint)
-        .setReversed(false); //voltage constraint
+        .setReversed(true); //voltage constraint
 
     trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0,0,new Rotation2d(0)), 
-      List.of(new Translation2d(-(meters-1), 0)), // im not sure about this
-      new Pose2d(-meters, 0, new Rotation2d(0)),
+      List.of(new Translation2d(meters-1, 0)), // im not sure about this
+      new Pose2d(meters, 0, new Rotation2d()),
       config
     );
 
