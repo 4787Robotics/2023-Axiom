@@ -141,7 +141,20 @@ public class RobotContainer {
   public Command getChargePad() {
     Command m_autoGripCommand = new AutoGripCommand(m_motorController);
     final ChargePad m_chargePad = new ChargePad(m_driveTrain, m_balance, m_autoArmPIDCommand);
-    return new ParallelCommandGroup(new SequentialCommandGroup(new ParallelRaceGroup(new SequentialCommandGroup(m_autoArmStartCommand, new DriveForwardAuto(m_driveTrain, false), new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController), new DriveForwardAuto(m_driveTrain)), m_autoGripCommand), new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand), new DriveForwardAuto(m_driveTrain, false), m_chargePad), m_autoArmPIDCommand);
+    return new ParallelCommandGroup(
+      new SequentialCommandGroup(
+        new ParallelRaceGroup(
+          new SequentialCommandGroup(
+            new AutoMovements(m_driveTrain, false),
+            m_autoArmStartCommand, 
+            new AutoMovements(m_driveTrain, false), 
+            new ChangeArmLevel(2, m_autoArmPIDCommand, m_motorController),
+            new AutoMovements(m_driveTrain)), 
+          m_autoGripCommand), 
+        new AutoGripOandCCommand(m_motorController, true, m_autoGripCommand), 
+        new AutoMovements(m_driveTrain, false), 
+        m_chargePad), 
+      m_autoArmPIDCommand);
   }
 
   public Command getAutoCommand1() {

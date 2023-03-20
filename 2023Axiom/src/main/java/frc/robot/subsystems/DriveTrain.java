@@ -61,8 +61,8 @@ public class DriveTrain extends SubsystemBase{
     m_left1 = new WPI_TalonFX(Constants.LEFT_MOTOR_1_ID); //Front left
     m_left2 = new WPI_TalonFX(Constants.LEFT_MOTOR_2_ID); //Back left
     m_left3 = new WPI_TalonFX(Constants.LEFT_MOTOR_3_ID); //Top Left
-    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front left     
-    m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back left
+    m_right1 = new WPI_TalonFX(Constants.RIGHT_MOTOR_1_ID); //Front right     
+    m_right2 = new WPI_TalonFX(Constants.RIGHT_MOTOR_2_ID); //Back right
     m_right3 = new WPI_TalonFX(Constants.RIGHT_MOTOR_3_ID); //Top Right
   
     m_left1.enableVoltageCompensation(true);
@@ -199,9 +199,9 @@ public class DriveTrain extends SubsystemBase{
   //Turning right/left and moving forward/backward 
   //Add if statements for Fidel's class. Turning + moving forward/backward should be 
   //separate joysticks
-  public void driveRobot(boolean squareInputs, double throttle, double turn){
-    if (squareInputs) {
-      drive.arcadeDrive(throttle * Math.abs(throttle), -turn * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
+  public void driveRobot(boolean squareTurn, double throttle, double turn){
+    if (squareTurn) {
+      drive.arcadeDrive(throttle, -turn * Math.abs(turn)); //squaring inputs to make robot not go as hard forward at lower levels, to avoid it stroking out
     }
     else {
       drive.arcadeDrive(throttle, -turn);

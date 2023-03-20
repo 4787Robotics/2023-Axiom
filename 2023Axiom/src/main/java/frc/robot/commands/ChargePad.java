@@ -33,7 +33,7 @@ public class ChargePad extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = 4; //To use the full command, start at state 0
+    state = 3; //To use the full command, start at state 0
     autoArmPIDCommand.level = 0;
     timeOver = 0;
   }
