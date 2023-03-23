@@ -69,11 +69,11 @@ public final class Constants {
     public static final float joystickDeadzone = 0.2f;
 
     //Constants for Autonomous
-    public static final double KS_VOLTS = 0.21878;
-    public static final double KV_VOLT_SECONDS_PER_METER = 1.0966;
-    public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.27491;
+    public static final double KS_VOLTS = 0.20668;
+    public static final double KV_VOLT_SECONDS_PER_METER = 2.3991;
+    public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.73742;
 
-    public static final double KP_DRIVE_VEL = 1.5588;
+    public static final double KP_DRIVE_VEL = 1.0499;
 
     //Differential Drive Kinematics
     public static final double K_TRACK_WIDTH_METERS = 0.5760466; //22.679 inch
