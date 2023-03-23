@@ -42,6 +42,7 @@ import frc.robot.commands.MoveTo;
 import frc.robot.commands.RammseteAutonomousCommand;
 import frc.robot.commands.TestTurnAngle;
 import frc.robot.commands.ShitTurnAngle;
+import frc.robot.commands.ChargePad;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
   private Command m_teleopCommand;
   private Command m_armPIDCommand;
   private Command m_pathCommand;
+  private Command m_teleopChargePad;
   private Command m_fullAutoPlaceAndAlignCommand;
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
@@ -233,7 +235,14 @@ public class Robot extends TimedRobot {
       debounce = true;
     }
 
-    if (!m_fullAutoPlaceAndAlignCommand.isScheduled()) {
+    if (m_controller.getLeftTriggerAxis() > 0) {
+      if (!m_teleopChargePad.isScheduled()) {
+        m_teleopChargePad = m_robotContainer.getNewChargePadCommand();
+        m_teleopCommand.cancel();
+        m_teleopChargePad.schedule();
+      }
+    } else if (!m_fullAutoPlaceAndAlignCommand.isScheduled() && !m_teleopCommand.isScheduled()) {
+      m_teleopChargePad.cancel();
       m_teleopCommand.schedule();
     }
       

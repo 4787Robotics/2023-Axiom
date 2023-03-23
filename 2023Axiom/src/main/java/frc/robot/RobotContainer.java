@@ -243,4 +243,8 @@ public class RobotContainer {
       new MoveTo(m_driveTrain, m_changeTurnAngleAndDistance.getHeldPerpendicularDistance(), m_changeTurnAngleAndDistance).until(() -> autoAlignAndPlace.getIsInterrupted())*/
     );
   }
+
+  public Command getNewChargePadCommand() {
+    return new ChargePad(m_driveTrain, m_balance, m_autoArmPIDCommand);
+  }
 }
