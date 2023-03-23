@@ -76,29 +76,27 @@ public class ArmCommand extends CommandBase {
       m_subsystem.Intake(-1); //Grab. MUST BE NEGATIVE
     } else if (m_cJoystick.joystickButton1Down() == true) { 
       m_subsystem.Intake(0.2); //Open. MUST BE POSITIVE
-    } else if (m_cJoystick.joystickButton3Down()) {
-      m_subsystem.LeftHandMove(-0.25, false);
-    } else if (m_cJoystick.joystickButton4Down()) {
-      m_subsystem.RightHandMove(-0.25, false);
-    } else if (m_cJoystick.joystickButton5Down()) {
-      m_subsystem.LeftHandMove(Math.abs(LeftEncoderC.getPosition() - LeftStartingPos), true);
-    } else if (m_cJoystick.joystickButton6Down()) {
-      m_subsystem.RightHandMove(Math.abs(RightEncoderC.getPosition() - RightStartingPos), true);
+    // } else if (m_cJoystick.joystickButton3Down()) {
+    //   m_subsystem.LeftHandMove(-0.25, false);
+    // } else if (m_cJoystick.joystickButton4Down()) {
+    //   m_subsystem.RightHandMove(-0.25, false);
+    // } else if (m_cJoystick.joystickButton5Down()) {
+    //   m_subsystem.LeftHandMove(Math.abs(LeftEncoderC.getPosition() - LeftStartingPos), true);
+    // } else if (m_cJoystick.joystickButton6Down()) {
+    //   m_subsystem.RightHandMove(Math.abs(RightEncoderC.getPosition() - RightStartingPos), true);
     } else {
       m_subsystem.Intake(0);
       m_subsystem.LeftHandMove(0, false); 
       m_subsystem.RightHandMove(0, false); //Don't move all
     }
-/*
-    if(m_cJoystick.getJoystickThrottle() > .8 && gripPlace == true){
-      m_subsystem.GripMove(-.2);
-      gripPlace = false;
-    } else if (m_cJoystick.getJoystickThrottle() < -.8 && gripPlace == false){
-      m_subsystem.GripMove(.2);
-      gripPlace = true;
+
+    if (m_cJoystick.joystickButton3Down()) {
+      m_subsystem.GripMove(0.8);
+    } else if (m_cJoystick.joystickButton4Down()) {
+      m_subsystem.GripMove(-.8);
     } else {
       m_subsystem.GripMove(0);
-    } */
+    }
 
     if (m_cJoystick.joystickButton8Down()) { 
       m_subsystem.ArmPID(Constants.LOW_LEVEL, 0); //Low Point AKA Grounded
@@ -109,7 +107,7 @@ public class ArmCommand extends CommandBase {
     }
 
     if(m_cXbox.XboxADown()) {
-      m_subsystem.ArmHolderStart(.5);
+      m_subsystem.ArmHolderStart(.4);
     } else {
       m_subsystem.ArmHolderStart(0);
     }

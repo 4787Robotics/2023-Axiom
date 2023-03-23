@@ -21,10 +21,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -34,7 +37,7 @@ public class MotorController extends SubsystemBase{
   public CANSparkMax RightHand;
   public CANSparkMax Arm;
   private CANSparkMax Arm2;
-  public WPI_TalonFX HandUpDown;
+  public WPI_TalonSRX HandUpDown;
   public CANSparkMax ArmHolder;
   public RelativeEncoder ArmEncoder; 
   public RelativeEncoder LeftEncoder; 
@@ -137,13 +140,16 @@ public class MotorController extends SubsystemBase{
   Arm2.setOpenLoopRampRate(0.25); 
   LeftHand.setOpenLoopRampRate(0.2); 
   RightHand.setOpenLoopRampRate(0.2); 
+
   
-/* 
-  HandUpDown = new WPI_TalonFX(Constants.MOTOR_MOVE_GRIP);
+
+  HandUpDown = new WPI_TalonSRX(Constants.MOTOR_MOVE_GRIP);
   HandUpDown.enableVoltageCompensation(true);
   HandUpDown.setInverted(true); 
-  HandUpDown.setNeutralMode(NeutralMode.Brake); */
-
+  HandUpDown.setNeutralMode(NeutralMode.Brake);
+  HandUpDown.configPeakCurrentLimit(15, 10);
+  HandUpDown.configPeakCurrentDuration(100, 10);
+  HandUpDown.configContinuousCurrentLimit(20, 10);
 
   ArmHolder = new CANSparkMax(Constants.MOTOR_ARM_HOLD, MotorType.kBrushless);
   ArmHolder.setOpenLoopRampRate(1);
@@ -155,7 +161,6 @@ public class MotorController extends SubsystemBase{
   LeftHand.setSmartCurrentLimit(35);
   RightHand.setSmartCurrentLimit(35);
   ArmHolder.setSmartCurrentLimit(20);
-  //Add Snowblower limit soon
   
   
   }
@@ -190,9 +195,6 @@ public class MotorController extends SubsystemBase{
     RightHand.set(Direction);
   }
   
-  /*public SparkMaxPIDController getArmPID() {
-    return PID;
-  } */
   public void ArmPID(double goalPoint, int newPointNum) {
     if (currentPointNum != newPointNum){
       currentPointNum = newPointNum;
@@ -209,11 +211,11 @@ public class MotorController extends SubsystemBase{
   public void ArmMove(double Movement){
     Arm.set(Movement/2.5); //Change this for more motor power
   }
-/* 
+
   public void GripMove(double UpDown){
     HandUpDown.set(UpDown);
   }
-  */
+
   public void ArmHolderStart(double speed){
       ArmHolder.set(speed);
   }
