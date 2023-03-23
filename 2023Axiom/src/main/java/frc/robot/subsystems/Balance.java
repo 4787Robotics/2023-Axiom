@@ -29,15 +29,15 @@ public class Balance extends SubsystemBase{
 
     public Balance() {
         gyro = new AHRS(SPI.Port.kMXP);
-        PID = new PIDController(0.03, 0.03, 0.01425);
+        PID = new PIDController(0.03, 0.03, 0.00425); //D - 0.01425
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("Yaw", getYaw()); //Positive is right, 0 is true north **USUALLY**. There isnt any real rhyme or reason to when it is or isnt, so dont fully trust this
-        SmartDashboard.putNumber("Roll", getPitch()); //Positive is tilted right
-        SmartDashboard.putNumber("Pitch", -getRoll()); //Positive is forward
+        SmartDashboard.putNumber("Roll", getRoll()); //Positive is tilted right
+        SmartDashboard.putNumber("Pitch", getPitch()); //Positive is forward
         SmartDashboard.putNumber("Heading Adjust", headingAdjust);
         SmartDashboard.putNumber("LinearHeading", getLinearHeading());
 
@@ -82,9 +82,9 @@ public class Balance extends SubsystemBase{
     }
 
     /**
-     * [-180, 180] gets current rotation, tilted to left and and right.
+     * [-180, 180] gets current heading on field, turned to left and and right.
      *
-     * @return currentRotationRoll
+     * @return currentHeading
      */  
     public double getHeading() {
         updateHeading();
@@ -127,11 +127,11 @@ public class Balance extends SubsystemBase{
     }
 
     private void updatePitch() {
-        currentRotationPitch = -gyro.getRoll(); //Negative and getRoll instead of getPitch because NavX is placed onto the robot 90 degrees off
+        currentRotationPitch = gyro.getRoll();
     }
 
     private void updateRoll() {
-        currentRotationRoll = gyro.getPitch(); //Negative and getRoll instead of getPitch because NavX is placed onto the robot 90 degrees off
+        currentRotationRoll = -gyro.getPitch(); 
     }
 
     private void updateHeading() {

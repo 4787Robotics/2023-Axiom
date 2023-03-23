@@ -18,7 +18,7 @@ public class TestTurnAngle extends PIDCommand {
                 // This should return the measurement
                 () -> -m_balance.getTestHeading(),
                 // This should return the setpoint (can also be a constant)
-                TurnTo,
+                -TurnTo,
                 // This uses the output
                 output -> {
                     m_driveTrain.driveRobot(false, 0, output);
@@ -63,33 +63,33 @@ public class TestTurnAngle extends CommandBase {
     private Trajectory trajectory;
     private RamseteCommand ramseteCommand;
 
-    public TestTurnAngle() {
-        addRequirements(RobotContainer.m_driveTrain);
-    }
+    public TestTurnAngle() {addRequirements(RobotContainer.m_driveTrain);}
 
-    /**
-     * Changes the RamseteCommand
-     * @param m_driveTrain
-     * @param m_config
-     * @param TurnTo
-     */
+    public Command changeRamseteCommand(DriveTrain m_driveTrain, double TurnTo) {
+        m_driveTrain.Compensation(false);
+        System.out.println("changingturn");
 
-    public void changeRamseteCommand(DriveTrain m_driveTrain, TrajectoryConfig m_config, double TurnTo) {
         driveTrain = m_driveTrain;
         addRequirements(driveTrain);
 
-        trajectory = TrajectoryGenerator.generateTrajectory(
-                //start
-                new Pose2d(0,0,new Rotation2d(0)),
-                //turn
-                List.of(new Translation2d(0,0)),
-                //end
-                new Pose2d(0, 0, new Rotation2d(TurnTo)),
-                // Pass config
-                m_config
+        DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+                new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                        Constants.KV_VOLT_SECONDS_PER_METER,
+                        Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+                Constants.K_DRIVE_KINEMATICS,4
         );
 
-        driveTrain.resetOdometry(trajectory.getInitialPose());
+        TrajectoryConfig m_config = new TrajectoryConfig(Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, Constants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+                .setKinematics(Constants.K_DRIVE_KINEMATICS) //ensures max speed is actually obeyed
+                .addConstraint(autoVoltageConstraint)
+                .setReversed(false); //voltage constraint
+
+        trajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0,0,new Rotation2d(0)), 
+            List.of(new Translation2d(0.001, 0)), // im not sure about this
+            new Pose2d(0.002, 0, new Rotation2d(Math.toRadians(TurnTo))),
+            m_config
+        );
 
         ramseteCommand = new RamseteCommand(trajectory, 
             driveTrain::getPose,
@@ -106,20 +106,14 @@ public class TestTurnAngle extends CommandBase {
             driveTrain
         );
 
-        ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
-    }
+        driveTrain.resetOdometry(trajectory.getInitialPose());
 
-    /**
-     * Returns the RamseteCommand
-     * @return RamseteCommand
-     */
-    public RamseteCommand getRamseteCommand() {
-        return ramseteCommand;
+        //return ramseteCommand;
+        return ramseteCommand.andThen(() -> driveTrain.driveRobot(false, 0, 0));
     }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {

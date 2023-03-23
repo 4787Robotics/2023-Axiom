@@ -23,8 +23,8 @@ public final class Constants {
     public static int XCONTROLLER_PORT= 1;
 
     //Limelight
-    public static double LIMELIGHT_APRILTAG_DOUBLE_STATION_HEIGHT = 36; //cm
-    public static double LIMELIGHT_APRILTAG_GRID_HEIGHT = 59; //cm
+    public static double LIMELIGHT_APRILTAG_DOUBLE_STATION_HEIGHT = 81.5975; //cm
+    public static double LIMELIGHT_APRILTAG_GRID_HEIGHT = 53.0678571429; //cm
     public static double LIMELIGHT_REFLECTIVETAPE_LOW_HEIGHT = 61; //cm
     public static double LIMELIGHT_REFLECTIVETAPE_HIGH_HEIGHT = 111; //cm
     public static double LIMELIGHT_MOUNT_ANGLE = 0; //degrees
@@ -32,17 +32,17 @@ public final class Constants {
     public static int ALL_APRILTAG_IDS_PIPELINE = 6;
 
     //Motors
-    public static int MOTOR_ARM_1 = 5;
-    public static int MOTOR_ARM_2 = 6; //Copies arm 1
+    public static int MOTOR_ARM_1 = 10;
+    public static int MOTOR_ARM_2 = 11; //Copies arm 1
     public static int MOTOR_LEFT_GRIP = 8;
     public static int MOTOR_RIGHT_GRIP = 7; //does the opposite of left Grip
-    public static int MOTOR_MOVE_GRIP = 10; //Snow Blower
+    //public static int MOTOR_MOVE_GRIP = 10; //Snow Blower
     public static int MOTOR_ARM_HOLD = 9; //Starting motor
     
     //Position of where the arm should be for each grid level. (in rotations)
     public static double LOW_LEVEL = 0; 
     public static double MID_LEVEL = 58; 
-    public static double HIGH_LEVEL = 82.5; //was 11.5361827601
+    public static double HIGH_LEVEL = 58.5;
 
     //One motor rotation is 1.1680107% of one full arm rotation. (36.288 degrees per rotation)
     
@@ -50,16 +50,18 @@ public final class Constants {
     //public static boolean RIGHT_SIDE_INVERTED = !LEFT_SIDE_INVERTED;
 
     //The constants below will need to be changed later - Talk to electrical
-    public static int LEFT_MOTOR_1_ID = 2; //Front Left
-    public static int LEFT_MOTOR_2_ID = 1; //Back Left
+    public static int LEFT_MOTOR_1_ID = 4; //Front Left
+    public static int LEFT_MOTOR_3_ID = 5; //Top Left
+    public static int LEFT_MOTOR_2_ID = 6; //Back Left
 
-    public static int RIGHT_MOTOR_1_ID = 3; //Front right
-    public static int RIGHT_MOTOR_2_ID = 4; //Back right
+    public static int RIGHT_MOTOR_1_ID = 1; //Front Right
+    public static int RIGHT_MOTOR_3_ID = 2; //TOp RIght
+    public static int RIGHT_MOTOR_2_ID = 3; //Back Right
 
     //Constants for CXbox and CJoystick
     //Controller sticks wont respond inside these zones
-    public static final float RIGHT_STICK_DEAD_ZONE = 0.1f;
-    public static final float LEFT_STICK_DEAD_ZONE = 0.1f;
+    public static final float RIGHT_STICK_DEAD_ZONE = 0.02f;
+    public static final float LEFT_STICK_DEAD_ZONE = 0.05f;
     public static final float RIGHT_TRIGGER_DEAD_ZONE = 0.1f;
     public static final float LEFT_TRIGGER_DEAD_ZONE = 0.1f;
     //Joystick
@@ -67,14 +69,14 @@ public final class Constants {
     public static final float joystickDeadzone = 0.2f;
 
     //Constants for Autonomous
-    public static final double KS_VOLTS = 0.21878;
-    public static final double KV_VOLT_SECONDS_PER_METER = 1.0966;
-    public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.27491;
+    public static final double KS_VOLTS = 0.20668;
+    public static final double KV_VOLT_SECONDS_PER_METER = 2.3991;
+    public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.73742;
 
-    public static final double KP_DRIVE_VEL = 1.5588;
+    public static final double KP_DRIVE_VEL = 1.0499;
 
     //Differential Drive Kinematics
-    public static final double K_TRACK_WIDTH_METERS = 0.5760466; //22.679 inch
+    public static final double K_TRACK_WIDTH_METERS = 0.5760466; // .679 inch
     public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new DifferentialDriveKinematics(K_TRACK_WIDTH_METERS);
 
     // Max Trajectory Velocity/Acceleration

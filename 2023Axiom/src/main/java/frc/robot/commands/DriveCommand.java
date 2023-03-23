@@ -18,6 +18,7 @@ import frc.robot.Constants;
 import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.util.ElementScanner6;
+import javax.swing.JList.DropLocation;
 
 public class DriveCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -47,18 +48,15 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.driveRobot(false, -cxbox.getLeftStickYWithDeadzone(), cxbox.getRightStickXWithDeadzone());
-    // if(controller.getLeftY()>0.7f || controller.getLeftY()<-0.7f || controller.getRightX() > 0.7f || controller.getRightX() < -0.7f){
-    //   driveTrain.drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
-    // }
-    // else {
-    //   driveTrain.drive.arcadeDrive(0, 0);
-    // }                                                                                                                                                                                                                                    
+    driveTrain.Compensation(true);
+    driveTrain.driveRobot(true, -cxbox.getLeftStickYWithDeadzone(), cxbox.getRightStickXWithDeadzone());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    
+  }
 
   // Returns true when the command should end.
   @Override

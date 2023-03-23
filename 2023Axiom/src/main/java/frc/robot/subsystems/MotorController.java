@@ -63,9 +63,9 @@ public class MotorController extends SubsystemBase{
   
 
   // PID coefficients
-  AkP = 0.05; 
-  AkI = 0;
-  AkD = 0.0; 
+  AkP = 0.04; 
+  AkI = 0.005;
+  AkD = 0; 
   AkIz = 0; 
   AkFF = 0; 
   AkMaxOutput = 1; 
@@ -165,6 +165,8 @@ public class MotorController extends SubsystemBase{
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Arm Angle", ArmEncoder.getPosition());
+      SmartDashboard.putNumber("LeftHand Angle", LeftEncoder.getPosition());
+      SmartDashboard.putNumber("RightHand Angle", RightEncoder.getPosition());
       SmartDashboard.putNumber("LeftArm Angle", LeftEncoder.getPosition());
       SmartDashboard.putNumber("RightArm Angle", RightEncoder.getPosition());
     }
@@ -197,7 +199,11 @@ public class MotorController extends SubsystemBase{
       Equation = new ProfiledPIDController(AkP, AkI, AkD, new TrapezoidProfile.Constraints(185, 80));
       Equation.reset(ArmEncoder.getPosition());
     }
-    Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), 0, .4));
+    if (goalPoint == 0 && (ArmEncoder.getPosition() < 8)) {
+      Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.075, .4) - 0.3);
+    } else {
+      Arm.set(MathUtil.clamp(Equation.calculate(ArmEncoder.getPosition(), goalPoint), -0.075, .4));
+    } 
   }
 
   public void ArmMove(double Movement){
@@ -208,7 +214,7 @@ public class MotorController extends SubsystemBase{
     HandUpDown.set(UpDown);
   }
   */
-  public void ArmHolderStart(){
-      ArmHolder.set(.2);
+  public void ArmHolderStart(double speed){
+      ArmHolder.set(speed);
   }
 }
