@@ -109,7 +109,7 @@ public class ArmCommand extends CommandBase {
     }
 
     if(m_cXbox.XboxADown()) {
-      m_subsystem.ArmHolderStart(.2);
+      m_subsystem.ArmHolderStart(.5);
     } else {
       m_subsystem.ArmHolderStart(0);
     }

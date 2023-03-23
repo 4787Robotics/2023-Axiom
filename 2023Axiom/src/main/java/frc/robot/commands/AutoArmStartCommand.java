@@ -30,7 +30,7 @@ public class AutoArmStartCommand extends CommandBase {
   public void execute() {
     
     if (i < 8) {
-      m_subsystem.ArmHolderStart(.2);
+      m_subsystem.ArmHolderStart(.5);
       i++;
     }
     if (i == 8) {

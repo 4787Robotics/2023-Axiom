@@ -21,6 +21,7 @@ public class ChargePad extends CommandBase {
   private double timeOver = 0;
   private int driveCounter = 0;
   private AutoArmPIDCommand autoArmPIDCommand;
+  private double timeBackwardsStarted;
   int state;
   public ChargePad(DriveTrain m_driveTrain, Balance m_balance, AutoArmPIDCommand m_autoArmPIDCommand) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,9 +34,15 @@ public class ChargePad extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = 3; //To use the full command, start at state 0
+    /**
+     * state = 0- ROUTINE 1 (Start facing chargepad, go over chargepad to exit community, go backwards onto chargepad to engage)
+     * state = 3- ROUTINE 2 (Start w/ back facing chargepad, score, and than back onto chargepad)
+     * state = 6- ROUTINE 3 (Start at side area, not in front of chargepad. Score and than exit community)
+     */
+    state = 3;
     autoArmPIDCommand.level = 0;
     timeOver = 0;
+    timeBackwardsStarted = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -88,6 +95,16 @@ public class ChargePad extends CommandBase {
         }
         autobalance();
         break;
+      case 6:
+        if (timeBackwardsStarted == 0) {
+          timeBackwardsStarted = Timer.getFPGATimestamp();
+        }
+        if (Timer.getFPGATimestamp() > (timeBackwardsStarted + 4)) {
+          driveTrain.driveRobot(false, 0, 0);
+        } else {
+          driveTrain.driveRobot(false, -0.6, 0);
+        }
+        break;
     }
   }
 
@@ -104,31 +121,31 @@ public class ChargePad extends CommandBase {
   public void autobalance() {
     if (forward) {
       if (balance.getPitch() < -8) {
-        driveTrain.driveRobot(false, 0.45, 0);
+        driveTrain.driveRobot(false, 0.35, 0);
         checkDirectionChange(true);
       } else if (balance.getPitch() >= -8 && balance.getPitch() <= 0) {
         driveTrain.driveRobot(false, 0, 0);
         checkDirectionChange(true);
       } else if (balance.getPitch() <= 5 && balance.getPitch() > 0) {
-        driveTrain.driveRobot(false, -0.45, 0);
+        driveTrain.driveRobot(false, -0.35, 0);
         checkDirectionChange(false);
       } else if (balance.getPitch() > 5) {
-        driveTrain.driveRobot(false, -0.6, 0);
+        driveTrain.driveRobot(false, -0.4, 0);
         checkDirectionChange(false);
       }
     }
     else {
       if (balance.getPitch() > 8) {
-        driveTrain.driveRobot(false, -0.45, 0);
+        driveTrain.driveRobot(false, -0.3, 0);
         checkDirectionChange(false);
       } else if (balance.getPitch() <= 8 && balance.getPitch() >= 0) {
         driveTrain.driveRobot(false, 0, 0);
         checkDirectionChange(false);
       } else if (balance.getPitch() >= -5 && balance.getPitch() < 0) {
-        driveTrain.driveRobot(false, 0.45, 0);
+        driveTrain.driveRobot(false, 0.3, 0);
         checkDirectionChange(true);
       } else if (balance.getPitch() < -5) {
-        driveTrain.driveRobot(false, 0.6, 0);
+        driveTrain.driveRobot(false, 0.4, 0);
         checkDirectionChange(true);
       }
     }

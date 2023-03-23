@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
   private Command m_armPIDCommand;
   private Command m_pathCommand;
   private Command m_teleopChargePad;
-  private Command m_fullAutoPlaceAndAlignCommand;
+  //private Command m_fullAutoPlaceAndAlignCommand;
   private RobotContainer m_robotContainer;
   private boolean debounce = true;
 
@@ -125,7 +125,7 @@ public class Robot extends TimedRobot {
     m_autoArmPIDCommand = m_robotContainer.getAutoArmPIDCommand();
     m_autoGripCommand = m_robotContainer.getAutoGripCommand();
     m_autoArmStartCommand = m_robotContainer.getAutoArmStartCommand();
-    m_fullAutoPlaceAndAlignCommand = m_robotContainer.getFullAutoPlaceCommand();
+    //m_fullAutoPlaceAndAlignCommand = m_robotContainer.getFullAutoPlaceCommand();
     //m_autoAlignAndPlaceCommand = m_robotContainer.getAutoAlignAndPlace();
 
     readTrajectory(trajectoryJSON_1);
@@ -219,7 +219,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (m_controller.getStartButtonPressed()) {
+    /*if (m_controller.getStartButtonPressed()) {
       if (debounce) {
         debounce = false;
         if (m_fullAutoPlaceAndAlignCommand.isScheduled()) {
@@ -233,7 +233,7 @@ public class Robot extends TimedRobot {
       }
     } else if (m_controller.getStartButtonReleased()) {
       debounce = true;
-    }
+    }*/
 
     if (m_controller.getLeftTriggerAxis() > 0) {
       if (!m_teleopChargePad.isScheduled()) {
@@ -241,7 +241,7 @@ public class Robot extends TimedRobot {
         m_teleopCommand.cancel();
         m_teleopChargePad.schedule();
       }
-    } else if (!m_fullAutoPlaceAndAlignCommand.isScheduled() && !m_teleopCommand.isScheduled()) {
+    } else if (!m_teleopCommand.isScheduled()) {
       m_teleopChargePad.cancel();
       m_teleopCommand.schedule();
     }

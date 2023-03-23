@@ -42,7 +42,7 @@ public final class Constants {
     //Position of where the arm should be for each grid level. (in rotations)
     public static double LOW_LEVEL = 0; 
     public static double MID_LEVEL = 58; 
-    public static double HIGH_LEVEL = 82.5;
+    public static double HIGH_LEVEL = 58.5;
 
     //One motor rotation is 1.1680107% of one full arm rotation. (36.288 degrees per rotation)
     
@@ -76,7 +76,7 @@ public final class Constants {
     public static final double KP_DRIVE_VEL = 1.0499;
 
     //Differential Drive Kinematics
-    public static final double K_TRACK_WIDTH_METERS = 0.5760466; //22.679 inch
+    public static final double K_TRACK_WIDTH_METERS = 0.5760466; // .679 inch
     public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new DifferentialDriveKinematics(K_TRACK_WIDTH_METERS);
 
     // Max Trajectory Velocity/Acceleration

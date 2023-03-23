@@ -49,6 +49,9 @@ public class AutoGripOandCCommand extends CommandBase {
       startTime = Timer.getFPGATimestamp();
     }
     else if (Timer.getFPGATimestamp() < startTime + 0.3) {
+      m_subsystem.Intake(-0.3); //opening. MUST BE POSITIVE
+    }
+    else if (Timer.getFPGATimestamp() < startTime + 1) {
       if (opening){
         m_subsystem.Intake(0.3); //opening. MUST BE POSITIVE
       } else if (!opening){
