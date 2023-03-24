@@ -49,7 +49,7 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
     driveTrain.Compensation(true);
-    driveTrain.driveRobot(true, -cxbox.getLeftStickYWithDeadzone(), cxbox.getRightStickXWithDeadzone());
+    driveTrain.driveRobot(false, -cxbox.getLeftStickYWithDeadzone(), cxbox.getRightStickXWithDeadzone());
   }
 
   // Called once the command ends or is interrupted.

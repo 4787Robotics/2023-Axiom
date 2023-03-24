@@ -19,6 +19,9 @@ import java.util.concurrent.TimeUnit;
 import javax.lang.model.util.ElementScanner6;
 import javax.swing.GrayFilter;
 import javax.swing.text.Position;
+
+import org.opencv.features2d.FlannBasedMatcher;
+
 import edu.wpi.first.math.MathUtil;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -39,7 +42,7 @@ public class ArmCommand extends CommandBase {
   private double RightStartingPos;
   private final CXbox m_cXbox;
   private final CJoystick m_cJoystick;
-  private boolean gripPlace = false;
+  private boolean closed = false;
   /*
    * Creates a new ExampleCommand.
    *
@@ -72,10 +75,12 @@ public class ArmCommand extends CommandBase {
 
     m_subsystem.ArmMove(m_cJoystick.getJoystickYWithDeadzone());
 
-    if(m_cJoystick.joystickButton2Down() == true) { //will change for user
-      m_subsystem.Intake(-1); //Grab. MUST BE NEGATIVE
-    } else if (m_cJoystick.joystickButton1Down() == true) { 
+    if (m_cJoystick.joystickButton1Down() == true) { 
       m_subsystem.Intake(0.2); //Open. MUST BE POSITIVE
+      closed = false;
+    } else if(m_cJoystick.joystickButton2Down() == true || closed == true) { //will change for user
+      m_subsystem.Intake(-.6); //Grab. MUST BE NEGATIVE
+      closed = true;
     // } else if (m_cJoystick.joystickButton3Down()) {
     //   m_subsystem.LeftHandMove(-0.25, false);
     // } else if (m_cJoystick.joystickButton4Down()) {

@@ -38,8 +38,9 @@ public class ChargePad extends CommandBase {
      * state = 0- ROUTINE 1 (Start facing chargepad, go over chargepad to exit community, go backwards onto chargepad to engage)
      * state = 3- ROUTINE 2 (Start w/ back facing chargepad, score, and than back onto chargepad)
      * state = 6- ROUTINE 3 (Start at side area, not in front of chargepad. Score and than exit community)
+     * state = 7- ROUTINE 4 (Start facing scoring area, score, don't move back)
      */
-    state = 3;
+    state = 6;
     autoArmPIDCommand.level = 0;
     timeOver = 0;
     timeBackwardsStarted = 0;
@@ -91,6 +92,7 @@ public class ChargePad extends CommandBase {
       case 5:
         if (balanceStarted == false){
           forward = false;
+
           balanceStarted = true;
         }
         autobalance();
@@ -99,11 +101,14 @@ public class ChargePad extends CommandBase {
         if (timeBackwardsStarted == 0) {
           timeBackwardsStarted = Timer.getFPGATimestamp();
         }
-        if (Timer.getFPGATimestamp() > (timeBackwardsStarted + 4)) {
+        if (Timer.getFPGATimestamp() > (timeBackwardsStarted + 5)) {
           driveTrain.driveRobot(false, 0, 0);
         } else {
-          driveTrain.driveRobot(false, -0.6, 0);
+          driveTrain.driveRobot(false, -0.84, 0);
         }
+        break;
+      case 7:
+        driveTrain.driveRobot(false, 0, 0);
         break;
     }
   }
